@@ -1,0 +1,37 @@
+//version3a.cpp
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Student
+{
+   public:
+      string name;
+      float gpa;
+	  void setValues ()
+      {
+	     cout << "Enter student's name: ";
+	     getline (cin, name);
+	     cout << "Enter GPA: ";
+	     cin >> gpa;
+	     cin.ignore();
+      }
+      void getValues ()
+      {
+	     cout << "Student's name is " << name
+		        << " and GPA is " << gpa << endl;
+      }
+};  //end of class definition 
+
+int main()
+{
+	Student s1;
+	s1.setValues();
+	cout << "Ouputting student's data\n";
+	s1.getValues();
+	return 0;
+}
+
+
+

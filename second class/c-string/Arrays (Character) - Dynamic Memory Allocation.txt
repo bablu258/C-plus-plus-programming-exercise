@@ -1,0 +1,30 @@
+ 
+CSIT 839 
+Intermediate Programming using C/C++
+Instructor: Jeff Kent
+Dynamic Memory Allocation of C-strings
+ 
+This handout shows an example of dynamic memory allocation of a C-string. 
+ 
+//dyncstring.cpp
+ 
+#include <iostream>
+using namespace std;
+
+int main()
+{
+// allocate memory large enough for any potential input; could be different than 80 elements
+// this buffer for input (which I call buffer) is not created by dynamic memory allocation
+char buffer[80];
+cout << "Enter input: ";
+cin >> buffer;
+// need character pointer for dynamic memory allocation
+// following two statements (declaration and assignment) could have been combined into one (initialization)
+char *p;
+// need strlen + 1 for NULL character after user input; size declarator not 80
+p = new char [strlen(buffer) + 1];
+// insert here any code to work with dynamically allocated c-string, whose "name" is p
+// when done free dynamically allocated memory
+delete [] p;
+return 0;
+}

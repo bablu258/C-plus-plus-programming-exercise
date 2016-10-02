@@ -1,0 +1,600 @@
+
+
+Contents
+
+Introduction
+
+Inline Functions
+
+Separating Function Prototype and Definition
+
+Separating the Program into Multiple Files
+
+Class Header File
+
+Class Implementation File
+
+Driver File
+
+Putting the Project Together
+
+ADTs Revisited
+
+Conclusion
+
+Introduction
+
+In this module, you will see how to transform the single file project you created in Module #1 to a multi-file project. This will physically separate the class declaration (what the class is and does) from the class implementation (how the class does what it does). You then will learn how this relates to ADTs and the OOP concept of abstraction.
+
+Back to top
+
+Inline Functions
+
+Textbook resources: (Defining Member Functions) § 7.5  7th or 8th ed; § 7.12 6th ed;
+
+Our final version of the example in Module #,  version3c.cpp, read:
+
+//version3c.cpp
+
+#include <iostream>
+
+#include <string>
+
+using namespace std;
+
+ 
+
+class Student
+
+{
+
+   private:
+
+      string name;
+
+      float gpa;
+
+ 
+
+   public:
+
+      void setValues ()
+
+      {
+
+         cout << "Enter student's name: ";
+
+         getline (cin, name);
+
+         cout << "Enter GPA: ";
+
+         cin >> gpa;
+
+         cin.ignore();
+
+      }
+
+      void getValues ()
+
+      {
+
+         cout << "Student's name is " << name
+
+                << " and GPA is " << gpa << endl;
+
+      }
+
+};  //end of class definition
+
+ 
+
+int main()
+
+{
+
+   Student s1;
+
+   s1.setValues();
+
+   cout << "Ouputting student's data\n";
+
+   s1.getValues();
+
+   return 0;
+
+}
+
+//===
+
+ 
+
+The member functions setValues and getValues are inline functions. That is, the function definition (header and body) of an inline function is inside the class definition. Therefore there is no need for a prototype of the function.
+
+ 
+
+Inline functions are a convenience for functions with one or two statements. However, for function bodies that involve many statements, writing functions inline results in a very long, and not very readable, class body.
+
+ 
+
+Back to top
+
+ 
+Separating Function Prototype and Definition
+
+ 
+
+ 
+
+Textbook resources:
+
+            (Focus on Software Engineering: Separating Class Specification from Implementation) § 7.13, 6th ed; § 7.11, 7th or 8th ed;
+
+ 
+
+In CSIT 839, and maybe even at the end of CSIT 802, you learned to separate the function prototype from its definition so that you did not have to place the function definition above, or before, main.
+
+ 
+
+Similarly, in a class, you can separate the prototype and definition of a class member function, as done in the following program, version4a.cpp:
+
+ 
+
+//version4a.cpp
+
+ 
+
+#include <iostream>
+
+#include <string>
+
+using namespace std;
+
+ 
+
+class Student
+
+{
+
+   private:
+
+      string name;
+
+      float gpa;
+
+   public:
+
+      void setValues();  //prototype for setValues
+
+      void getValues(); //prototype for getValues
+
+}; //end class declaration
+
+ 
+
+void Student::setValues ()
+
+{
+
+   cout << "Enter student's name: ";
+
+   getline (cin, name);
+
+   cout << "Enter GPA: ";
+
+   cin >> gpa;
+
+   cin.ignore();
+
+}
+
+ 
+
+void Student::getValues ()
+
+{
+
+    cout << "Student's name is " << name
+
+           << " and GPA is " << gpa << endl;
+
+}
+
+ 
+
+int main()
+
+{
+
+   Student s1;
+
+    s1.setValues();
+
+   cout << "Ouputting student's data\n";
+
+   s1.getValues();
+
+   return 0;
+
+}
+
+ 
+
+//===
+
+This code runs the same as version3c.cpp. There are only two differences.
+
+First, the class declaration (which begins with an open curly brace and ends with a close curly brace and semicolon) contains only the prototypes, or declarations, of  setValues and getValues. The function headers and bodies (that is, the definitions or implementations) of setValues and getValues now are outside the class declaration.
+
+Second, in the function headers of setValues and getValues, the function name is prefaced by the class name and a double colon (::), which is the scope resolution operator:
+
+void Student::setValues()
+
+void Student::getValues()
+
+The reason the function name is prefaced by the class name and the scope resolution operator is to indicate the function belongs to (is a member function of) the class. Without this, the function would just be a standalone function, such as in version2b.cpp in Module #1.
+
+Back to top
+
+Separating the Program into Multiple Files
+
+ 
+
+Textbook resources:
+
+            (Focus on Software Engineering: Separating Class Specification from Implementation) § 7.13, 6th ed; § 7.11, 7th or 8th ed;
+
+ 
+
+As the following table shows, the code in version4a.cpp can be divided into 3 sections, plus the header files:
+
+ 
+Code 	Purpose
+
+//version4a.cpp
+
+ 
+
+#include <iostream>
+
+#include <string>
+
+using namespace std;
+	Header files
+
+class Student
+
+{
+
+   private:
+
+      string name;
+
+      float gpa;
+
+   public:
+
+      void setValues();
+
+      void getValues();
+
+}; //end class declaration
+	Class body, or declaration
+
+void Student::setValues ()
+
+{
+
+   cout << "Enter student's name: ";
+
+   getline (cin, name);
+
+   cout << "Enter GPA: ";
+
+   cin >> gpa;
+
+   cin.ignore();
+
+}
+
+ 
+
+void Student::getValues ()
+
+{
+
+    cout << "Student's name is " << name
+
+           << " and GPA is " << gpa <<
+
+                  endl;
+
+}
+	
+
+Implementation of
+
+class member functions
+
+int main()
+
+{
+
+   Student s1;
+
+    s1.setValues();
+
+   cout << "Ouputting student's data\n";
+
+   s1.getValues();
+
+   return 0;
+
+}
+
+ 
+	main function
+
+
+
+This code can be physically divided into 3 files (the #include and using statements would go in whichever files need them), that are combined into 1 project:
+
+ 
+
+    The class declaration goes into a header (.h) file which by convention has the same name as the class, though the file name by convention is lower case. Therefore, here the header file is named student.h.
+
+    The implementation of the class member functions goes into a source (.cpp) file which by convention also has the same name as the class, though again the file name by convention is lower case. Therefore, here the source file is named student.cpp.
+
+    The main function, and any other functions not belonging to the class (none in this example), go into a source (.cpp) file which by convention is referred to as the driver or test driver, presumably because the program is "driven" by the main function and is used to test that the class member functions work according to their specifications. This file often is called test.cpp.
+
+Back to top
+
+Class Header File
+
+ 
+
+Here is the student.h file:
+
+//Project: Module2Version4b
+
+// student.h:
+
+ 
+
+#include <string>
+
+using namespace std;
+
+ 
+
+class Student
+
+{
+
+   private:
+
+       string name;
+
+      float gpa;
+
+   public:
+
+      void setValues();
+
+      void getValues();
+
+}; //end class declaration
+
+ 
+
+ 
+
+Often the class header file has no #include statements. Here it must, because of the use of string. In C++, string is not a true data type. Instead, it is a class. To use it, the string standard library must be included with the statement #include <string>. Additionally, the using namespace std statement is necessary because the actual full name of the string class is std::string.
+
+ 
+
+Note:  For the purposes of 840, please include only the prototypes (declarations) for the member functions in your class header file; in the above example, student.h contains only the prototypes for the member functions of the Student class.  The implementations (definitions) for the member functions, even simple member functions, belong in the class implementation file; in this example as shown below, student.cpp contains the implementations (definitions) for the Student class member functions.
+
+ 
+
+Back to top
+Class Implementation File
+
+ 
+
+Here is the student.cpp file:
+
+ 
+
+//Project: Module2Version4b
+
+// student.cpp:
+
+ 
+
+#include <iostream>
+
+using namespace std;
+
+#include "student.h"
+
+ 
+
+void Student::setValues ()
+
+{
+
+   cout << "Enter student's name: ";
+
+   getline (cin, name);
+
+   cout << "Enter GPA: ";
+
+   cin >> gpa;
+
+   cin.ignore();
+
+}
+
+ 
+
+void Student::getValues ()
+
+{
+
+   cout << "Student's name is " << name
+
+          << " and GPA is " << gpa << endl;
+
+}
+
+ 
+
+ 
+
+The iostream standard library must be included because of the use of cout and cin.   Also, the using namespace std statement is necessary because the actual full name of cout is std::cout and cin is std::cin
+
+ 
+
+The student.h file is included so the compiler understands the references to the Student class. This file is included in double quotes rather than angle brackets because it is not a standard header file but instead one you created. This tells the compiler to look for the student.h file in your project folder rather than in the location for the standard header files.
+
+ 
+
+The string standard library file does not have to be included expressly in the student.cpp file. The reason is the student.h file already includes the string standard library file. therefore, including the student.h file also includes the string standard library file in student.cpp. 
+
+ 
+
+Back to top
+
+Driver File
+
+ 
+
+The test driver contains the entire main function and any functions called from main which are not member functions of a class.  Here is the test.cpp file:
+
+ 
+
+//Project: Module2Version4b
+
+// test.cpp:
+
+ 
+
+#include <iostream>
+
+using namespace std;
+
+#include "student.h"
+
+ 
+
+int main()
+
+{
+
+   Student s1;
+
+   s1.setValues();
+
+   cout << "Ouputting student's data\n";
+
+   s1.getValues();
+
+   return 0;
+
+}
+
+ 
+
+ 
+
+As with the student.cpp file, the student.h file is included so the compiler understands the references to the Student class. It is important to include the student.h file, not the student.cpp file.
+
+ 
+
+Back to top
+
+Putting the Project Together
+
+ 
+
+The following link will show you how to create, complie, and run multi-file projects in Visual C++ 2010:
+
+ 
+
+2010 instructions
+
+ 
+
+Back to top
+
+ADTs Revisited
+
+ 
+
+Textbook resources: (Abstract Data Types) § 7.8, 6th ed;  § 7.1, 7th or 8th ed;
+
+ 
+
+In Module # 1 we stated: "ADTs are more than a programmer-defined data type. They also separate the "what" and the "how" of an object. However, this may not make much sense until we have covered more about classes in Module #2."
+
+ 
+
+The student.h file describes what the Student ADT is and does. It is an object with a name and a GPA, and two member functions that evidently get (output) and set (through input) those values.
+
+ 
+
+However, the student.h file does not describe how the Student ADT does it, it being how it gets and sets its name and GPA. Rather, the how is described in the student.cpp file. There you can see the actual function bodies, or definitions, of setValues and getValues.
+
+ 
+
+Finally, the test.cpp file is a consumer or an application of the Student ADT, using its functionality. You could have many different driver files, though of course you could only use one at a time in your project (since you can have only one main function in your project at any one time).
+
+ 
+
+By analogy, think of your car as an ADT. As the driver (literally), you are the test.cpp file. There could be other drivers, but logically only one at a time.
+
+ 
+
+Extending the car analogy further, as a driver you interface with the car as follows:
+
+ 
+
+-You turn it on and off with the ignition key.
+
+-You release the parking break to go and re-engage it when you stop.
+
+-You use the gas pedal to go.
+
+-You use the brake pedal to stop.
+
+-You use the steering wheel to steer the car.
+
+ 
+
+Think of these interfaces as the public member functions of the car. You know what they do. For example, when you turn the ignition key to the on position, the engine starts. But you don't have to know how the engine starts to start your car. You could be completely ignorant of the principles of internal combustion and still drive a car. You just need to know to turn on the ignition key. Similarly, you don't need to know how your brakes work to stop your car.  You just need to know to step on the brake pedal.
+
+ 
+
+In other  words, the car is an abstraction of very complex processes. This abstraction makes the car simpler to use. You don't need to know how the car does what it does. You just need to know what to do to operate it.
+
+ 
+
+Similarly, in Windows, there are dynamic link library (.dll) files used by many different programs to perform common Windows functions such as opening and closing files, drawing and redrawing the screen, and so forth. The programs, such as Word and Excel, that use these .dll files are analogous to the test.cpp file. They call the public member functions of the .dll files. Word and Excel don't need to know how the .dll file opens and closes a file, draws and redraws the screen, and so forth. Rather, Word and Excel only need to know what the .dll file does to call the correct member function, not how the member function does what it does.
+
+ 
+
+Back to top
+
+Conclusion
+
+ 
+
+In this module, you learned how to transform the single file project you created in Module #1 to a multi-file project. This physically separated the class declaration (what the class is) from the class implementation (how the class does what it does). You then learned how this relates to ADTs and the OOP concept of abstraction.
+
+ 
+
+In the next module, you will learn about a special type of class member function, the constructor.
+
+ 
+
+Back to top

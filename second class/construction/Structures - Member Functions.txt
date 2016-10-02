@@ -1,0 +1,562 @@
+
+CSIT 839 
+
+Intermediate Programming using C/C++
+ 
+Instructor: Jeff Kent
+
+Structures - Member Functions
+ 
+
+ 
+
+Structures - Constructor introduced a special type of member function, a constructor.
+
+ 
+
+However, a structure may also have other member functions, such as for input or output. 
+
+ 
+
+Let's take this program, based on Example #5 in the Structures - Constructor handout, but somewhat expanded.
+
+ 
+
+Starting Code
+
+ 
+
+#include <iostream>
+ using namespace std;
+
+ struct Employee {
+    char name [80];
+
+    float hours;
+    float payRate;
+
+ 
+
+    Employee ( )
+
+   { 
+
+       hours = payRate = 0;
+
+     strcpy (name, "\0");
+
+   }
+   
+    Employee (double h, double pr, char s [])
+
+   { 
+
+       hours = h; 
+       payRate = pr; 
+      strcpy (name, s); // not name = s;
+
+   }
+ };
+
+ void input (Employee*); 
+
+ void output(Employee);
+
+
+ int main()
+ {   
+
+    double hrs, prate;
+   char sname [80];
+
+    cout << "Enter first name: ";
+
+    cin >> sname; // assume just first name to avoid cin.ignore() complications
+    cout << "Hours worked: ";
+    cin >> hrs;
+    cout << "Hourly pay rate: $";
+    cin >> prate; 
+
+    Employee emp1 (hrs, prate, sname);
+    Employee emp2;     
+    output(emp1);
+
+    cout << endl;
+   input (&emp2);
+   output (emp2);
+    return 0;   
+ }
+
+ 
+
+void input(Employee * e)
+ {
+    cout << "Enter first name: ";
+
+    cin >> e->name; // assume just first name - see above comment
+
+    cout << "Hours worked: " ;
+
+    cin >> e->hours;
+    cout << "Hourly pay rate: $";
+
+    cin >> e->payRate;     
+ }
+
+ void output(Employee e)
+ {
+    cout << "Name: " << e.name << endl;
+
+    cout << "Hours worked: " << e.hours << endl;
+    cout << "Hourly pay rate: $" << e.payRate << endl;
+    cout << "Gross pay: $" << e.hours * e.payRate << endl;
+ }
+
+ 
+
+Sample input and output (input bolded)
+
+ 
+
+Enter first name: Goofus
+Hours worked: 40
+Hourly pay rate: $.11
+Name: Goofus
+Hours worked: 40
+Hourly pay rate: $0.11
+Gross pay: $4.4
+
+Enter first name: Gallant
+Hours worked: 40
+Hourly pay rate: $7.11
+Name: Gallant
+Hours worked: 40
+ Hourly pay rate: $7.11
+Gross pay: $284.4
+
+ 
+
+Modification to code - Input and Output member functions of Employee structure
+
+ 
+
+Instead of input and output member functions in the driver file, we will add to the Employee structure two member functions, to handle input and output. The added code is bolded:
+
+ 
+
+struct Employee {
+    float hours;
+    float payRate;
+
+ 
+
+    Employee ( )
+
+   { hours = payRate = 0; }
+   
+    Employee (float h, float pr)
+
+   { 
+
+       hours = h; 
+       payRate = pr; 
+
+   }
+
+ 
+
+   void input( )
+
+   {
+    cout << "Enter name: ";     
+
+   cin >> name;      // assume no embedded spaces in name
+
+   cout << "Hours worked: " ;
+
+   cin >> hours;
+    cout << "Hourly pay rate: $";
+
+   cin >> payRate;  
+    }
+
+
+
+   void output()
+    {
+    cout << "Name: " << name << endl;
+   cout << "Hours worked: " << hours << endl;
+    cout << "Hourly pay rate: $" << payRate << endl;
+    cout << "Gross pay: $" << hours * payRate << endl;
+    }
+
+
+ };
+
+ 
+
+Then in main, comment out the calls to the replaced input and output functions in the driver file:
+
+ 
+
+// output(emp1);
+
+// cout << endl;
+// input (&emp2);
+
+// output (emp2);
+
+ 
+
+And add this code just after these commented-out calls:
+
+ 
+
+emp1.output();
+
+cout << endl;
+emp2.input();
+
+emp2.output();
+
+ 
+
+You can (but don't need to) comment out the prototuypes and defnitions of the replaced input and output functions in the driver file as we won't be using them in this version. 
+
+
+Run the code. Same input, same output. The difference is the input and output member functions of the structure now handle input and output. 
+
+
+ 
+
+Comparison
+
+ 
+
+Input/Output functions in driver file Input/Output member functions in structure 
+
+void input(Employee * e)
+ {
+    cout << "Enter first name: ";
+
+    cin >> e->name;
+
+    cout << "Hours worked: " ;
+
+    cin >> e->hours;
+    cout << "Hourly pay rate: $";
+
+    cin >> e->payRate;     
+ }
+ 
+  void input( )
+
+   {
+   cout << "Enter first name: ";     
+
+     cin >> name; 
+
+    cout << "Hours worked: " ;
+
+    cin >> hours;
+   cout << "Hourly pay rate: $";
+
+    cin >> payRate;  
+   }
+ 
+
+
+void output(Employee e)
+ {
+    cout << "Name: " << e.name << endl;
+
+    cout << "Hours worked: " << e.hours << endl;
+    cout << "Hourly pay rate: $" << e.payRate << endl;
+    cout << "Gross pay: $" << e.hours * e.payRate << endl;
+ }
+   void output()
+    {
+     cout << "Hours worked: " << hours << endl;
+     cout << "Hourly pay rate: $" << payRate << endl;
+     cout << "Gross pay: $" << hours * payRate << endl;
+    } 
+
+ 
+
+Note that the input and output functions in the driver file have, as a parameter, the specific Employee instance whose member variables are being accessed. By contrast, the input and output member functions of the Employee structure do not. 
+
+ 
+
+Question: How do the input and output member functions of the Employee structure "know" the the specific Employee instance whose member variables are being accessed?
+
+ 
+
+ 
+
+Input Validation
+
+ 
+
+We now will modify the code to check that the hours worked are at least zero and no more than 168 (the number of hours in a week). If not, the hours will be reset to zero, and there will be a warning message. Sample input and output:
+
+ 
+
+Enter first name: Goofus
+Hours worked: -1
+Hourly pay rate: $.01
+Invalid hours, resetting to zero
+Name: Goofus
+Hours worked: 0
+Hourly pay rate: $0.01
+Gross pay: $0
+
+Enter first name: Gallant
+Hours worked: 169
+Invalid hours, resetting to zero
+Hourly pay rate: $22
+Name: Gallant
+ Hours worked: 0
+Hourly pay rate: $22
+Gross pay: $0
+
+ 
+
+There are alternatives to resetting the hours to zero, but this is just for illustration of the concept of having the structure validate its own data.
+
+ 
+
+Here are the code changes, all in the Employee structure.
+
+ 
+
+First, add this member function:
+
+ 
+
+bool validHours(int h)
+{ return h >= 0 && h <= 168; }
+
+ 
+
+Second, modify the two-argument constructor. Added code is bolded.
+
+ 
+
+Employee(double h, double pr, char s[])
+{
+   bool result = validHours(h);
+   if (result)
+      hours = h;
+   else
+   {
+      cout << "Invalid hours, resetting to zero\n";
+      hours = 0;
+   }
+   payRate = pr;
+   strcpy(name, s); 
+}
+
+ 
+
+Third, modify the input member function. Added code is bolded.
+
+ 
+
+void input()
+{
+   cout << "Enter first name: ";
+   cin >> name;
+   cout << "Hours worked: ";
+   cin >> hours;
+   bool result = validHours(hours);
+   if (result == false)
+   {
+      cout << "Invalid hours, resetting to zero\n";
+      hours = 0;
+   }
+   cout << "Hourly pay rate: $";
+   cin >> payRate;
+}
+
+ 
+
+ 
+
+Exercises
+
+1.Add to the Employee structure code to perform input validation of the pay rate. California's minimum hourly wage is $8.00. 
+
+
+2.Modify the Employee structure code which outputs the gross pay to take into account pay rate must be 1.5 times for all hours over 40.
+
+
+Discussion 
+
+1.What are the advantages/disadvantages to moving input and output from the driver file to the Employee structure?
+
+
+2. What are the advantages/disadvantages to performing input validation in the Employee structure rather than in the driver file?
+
+
+ 
+
+Array of Structure Instances Instead of Single Structure Instance
+
+ 
+
+Change main so it reads:
+
+ 
+
+int main()
+{
+int num;
+Employee * ptr;
+cout << "How many employees: ";
+cin >> num;
+ptr = new Employee[num];
+// call input member function for each employee
+// call output member function for each employee
+delete[] ptr;
+return 0;
+}
+
+ 
+
+How do you call the input member function for each employee? And how do you call the output member function for each employee? Answer: Use a loop.
+
+ 
+
+// call input member function for each employee
+for (int x = 0; x < num; x++)
+ptr[x].input();
+// call output member function for each employee
+for (int y = 0; y < num; y++)
+ptr[y].output();
+
+ 
+
+Question: Since we are using a pointer, ptr, why are we use the dot operator (.) rather than the arrow (->)?
+
+ 
+
+Nested Structures
+
+ 
+
+Examples # 4 and 5 in Structures - Introductory Examples concerned a single instance of a Date structure (birthday) being a member variable of another structure (Employee). So let's add:
+
+ 
+
+struct Date {
+     int month; 
+     int day;
+     int year;
+ };
+
+ 
+
+Also add the following member variable to Employee:
+
+ 
+
+Date birthday; 
+
+ 
+
+Question: How does the addition of this nested member variable change the member functions input and output?
+
+ 
+
+Alternative #1
+
+ 
+
+Add the following code to the end of the member function input:
+
+ 
+
+cout << "Enter month of birth: ";
+cin >> birthday.month;
+cout << "Enter day of birth: ";
+cin >> birthday.day;
+cout << "Enter year of birth: ";
+cin >> birthday.year;
+
+ 
+
+Add the following code to the end of the member function output:
+
+ 
+
+cout << "Birthday: " << birthday.month << " " << birthday.day << " " << birthday.year;
+
+ 
+
+Alternative #2
+
+ 
+
+Create member functions intput and output for Date.
+
+ 
+
+void input()
+{
+cout << "Enter month of birth: $";
+cin >> month;
+cout << "Enter day of birth: $";
+cin >> day;
+cout << "Enter year of birth: $";
+cin >> year;
+}
+
+void output()
+{
+cout << month << " " << day << " " << year;
+}
+
+ 
+
+Add the following code to the end of the Employee member function input:
+
+ 
+
+birthday.input();
+
+ 
+
+Add the following code to the end of the Employee member function output:
+
+ 
+
+cout << "Birthday: ";
+birthday.output();
+cout << endl;
+
+ 
+
+Question: Can you make this statement shorter with:
+
+ 
+
+cout << "Birthday: " << birthday.output() << endl;
+
+ 
+
+Final Questions 
+
+1.For Alternative #2, any problem with two seemingly identical input functions, one for Date, the other for Employee? (Same question for output).
+
+
+2.For Alternative #2, any reason for putting "Birthday: " in output member function of Employee instead of Date?
+
+
+3.Which alternative is better, #1 or #2, and why?
+
+
+ 
+
+ 
+
+ 

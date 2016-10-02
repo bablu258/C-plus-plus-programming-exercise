@@ -1,0 +1,22 @@
+
+CSIT 839 
+Intermediate Programming using C/C++
+Instructor: Jeff Kent
+Study Guide - C-strings
+ 
+You will be tested on will concern character arrays/C-strings (+ functions + File I/O). You should know how to write functions which do the following: 
+Use C-string library functions such as strlen, strcpy, strcmp and strcat.
+Be able to write your own C-string library functions. (See Slides, numbers 28 and 29 on strlen and strcpy - so you should try to do the same with strcat and strcmp).
+Return if a specified character appears in an array. (Similar to numeric arrays, but see last paragraph).
+Return the number of times a specified character appears in an array. (Similar to numeric arrays, but see last paragraph).
+Determining if a specified character in an array is a digit or letter, and if a letter, upper or lower case. See the functions isdigit, isalpha, isupper and islower. You don't need to use those functions -- you instead can test character rangers or use the ASCII table -- but these functions are helpful.
+Returns if a C-string meets designated requirements, such as where the password has to be at least n number of characters, have at least one digit, upper case letter and/or lower case letter, etc. (See Programming challenge (Password)).
+Return if a C-string meets a designated format, such as for a social security number, telephone number, zip code, etc. (See Programming challenge (SSN Validation)).
+Know how to parse a C-string. (See Programming challenge (Name Rearrangement)).
+Know how to dynamically allocate a character array. (See Dynamic Memory Allocation of C-Strings). 
+Know how to how to pass a C-string to a function. (Similar to numeric arrays, but see last paragraph).
+Know how to how to pass an array of C-strings to a function. (See Array of C-Strings). 
+Know how to return a C-string from a function. (See Returning Pointers from Functions).
+You are not responsible for Section 12.5 (character case conversion)
+ 
+Remember: When you pass a C-string to a function, unlike a numeric array, you do not pass the number of elements in the array. Instead, when you loop, you loop through the number of characters up to but not including the null character. And you can use strlen to obtain that number of characters.

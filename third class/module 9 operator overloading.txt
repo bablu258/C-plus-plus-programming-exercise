@@ -1,0 +1,277 @@
+
+
+Contents:
+
+ 
+
+Introduction
+
+Shallow Copy Revisited with Assignment Operator
+
+Need to Overload Assignment Operator
+
+Overloading the Assignment Operator
+
+Syntax of Overloaded Operator
+
+Arithmetic Operators
+
+Relational Operators
+
+Insertion and Extraction Operators
+
+Other Overloaded Operators
+
+Conclusion
+
+ 
+
+ 
+
+Introduction
+
+In Module #7 you saw that the assignment operator works with class instances essentially the same as it works with scalar variables. However, most other operators do not. For example, you can't add two class instances using the + operator. Nor can you use cout and the extraction operator (<<) to output the value of a class instance. This is because the C++ language only supports use of these operators with scalar variables.
+
+Yet, you can add two class instances using the + operator. You also may use cout and the extraction operator (<<) to output the value of a class instance. You do so by using operator overloading. This is the subject of Section 11.6 of the textbook.
+
+Back to top
+
+Shallow Copy Revisited with Assignment Operator
+
+Let's modify the persontest.cpp code we used in Module #8 so it uses the assignment operator rather than the copy constructor:
+
+//persontest.cpp
+
+#include "person.h"
+
+#include <iostream>
+
+using namespace std;
+
+ 
+
+int main(void)
+
+{
+
+   Person p1("Genghis");
+
+   //Person p2 = p1;
+
+   Person p2;
+
+   cout << "Before assignment\n";
+
+   cout << "pl name is ";
+
+   p1.print();
+
+   cout << "p2 name is ";
+
+   p2.print();
+
+   //p2.setName("New Name");
+
+   //cout << "After setName called\n";
+
+   p2 = p1;
+
+   cout << "After assignment\n";
+
+   cout << "pl name is ";
+
+   p1.print();
+
+   cout << "p2 name is ";
+
+   p2.print();
+
+}
+
+ 
+
+The output (followed by a crash of the program) is:
+
+ 
+
+Before assignment
+pl name is Name is Genghis
+p2 name is Name is Godzilla
+After assignment
+pl name is Name is Genghis
+p2 name is Name is Genghis
+Exception error
+
+The reason for the program crash is similar to the explanation for the program crash in Module #8 with the shallow copy of the default copy constructor.
+
+The assignment p2 = p1 copied the value of the pointer name in p1 to the value of the pointer name in p2. Since the value of a pointer is a memory address, the result is that the pointer of instance p2 points to the same area of memory as the pointer of instance p1.
+
+ 
+
+At the end of the program, the class instances p1 and p2 went out of scope, one at a time. It doesn't really matter which went out of scope first; let's assume it was p2.
+
+ 
+
+When p2 went out of scope, its destructor executed. The delete operator in the code inside the destructor deallocated the dynamically-created C-string, as it should.
+
+ 
+
+When p1 next went out of scope, its destructor executed. The delete operator in the code inside the destructor attempted to deallocate the dynamically-created C-string. But that C-string no longer existed, having been deallocated by p2's destructor. Since p1's pointer pointed to a non-existent memory area, the use of the delete operator in p1's destructor resulted in an exception.
+
+ 
+
+Back to top
+
+Need to Overload Assignment Operator
+
+As you may recall, you don't need to write a constructor. Instead, C++ supplies a default no-argument constructor. However, sometimes you need the constructor to do more than the default constructor does. For example, you need the constructor to increment a static variable that keeps track of the number of class instances, or to use a pointer for dynamic memory allocation. Therefore, you write a no-argument constructor. When you do, this programmer-written no-argument constructor overrides the default no-argument constructor.
+
+Similarly, you don't need to write an assignment operator to work with classes. Instead, C++ supplies a default assignment operator that works with classes. However, as discussed in the preceding section, we need the assignment operator to do more than the default assignment operator does. Accordingly, we need to write our own assignment operator to work with the Person class in our example. When you do so, you overload the default assignment operator.
+
+Why the difference in terminology, overriding the the default no-argument constructor but overloading the default assignment operator? The reason is that the constructor is a function whereas = is an operator. But either way, the default operation is replaced by what you write.
+
+Back to top
+
+Overloading the Assignment Operator
+
+Textbook resources: § 11.6 (Operator Overloading)
+
+To overload the assignment operator, add the following statement to the person.h file:
+
+//Overloaded assignment operator:
+
+Person operator= (const Person&);
+
+ 
+
+Next, add the following code to the person.cpp file:
+
+ 
+
+Person Person::operator=(const Person& p)
+
+{
+
+   strcpy(name, p.name);
+
+   return *this;
+
+}
+
+Recompile and then run the project. There no longer is an exception error. The reason is that the statement strcpy(name, p.name) copies the value pointed to by p1's pointer to the separate memory address pointed to by p2's pointer. This is a deep copy. By contrast, with the default assignment operator, the value of  p1's pointer (a memory address) was copied to be the value of p2's pointer. This is a shallow copy.
+
+Back to top
+
+Syntax of Overloaded Operator
+
+Textbook resources: § 11.6 (Operator Overloading)
+
+The overloaded assignment operator solves the exception error. Let's now look at the syntax of writing and calling the overloaded assignment operator, starting with the function header:
+
+Person Person::operator=(const Person& p)
+
+Going from left to right, the function returns a Person object. The textbook explains the reason, which is to support multiple assignment, such as:
+
+p3 = p2 = p1;
+
+The assignment p2 = p1 works even if no value is returned. But for the p3 = p2 part to work, then a Person object would have to be returned from p2 = p1.  Recall that the assignment operator works from right to left.  Thus, in the multiple assignment p3 = p2 = p1, p1 is first "assigned to" p2, then p2 is "assigned to" p3.
+
+Next, operator is a keyword indicating that an operator is being overloaded. The operator keyword is followed by the operator being overloaded, the assignment operator in this case.
+
+The parameter, being passed by reference but with the const keyword, is the same as that of the copy constructor discussed in Module #8, and for the same reason.
+
+Calling an overloaded operator involves a different syntax than the usual instance name followed by a dot operator, such as:
+
+p1.setName("Fred");
+
+Instead, in a statement like p2 = p1, p2 is the instance that calls the overloaded assignment operator, and p1 is the parameter. (Thus, in  p2 = p1, p2 is *this, the "this" pointer to the Person instance, which is returned to p3 in p3 = p2 = p1.)
+
+Back to top
+
+Arithmetic Operators
+
+Textbook resources: § 11.6 (Operator Overloading)
+
+The assignment operator works by default with classes. By contrast, the arithmetic operators do not. A statement like p1 + p2 would result in a compiler error. In other words, the default operation of arithmetic operators does not work with classes.
+
+However, you can overload the arithmetic operators so they do work with classes. The textbook shows you how in the section on Overloading Math Operators. Thus, if adding two persons means adding their ages, the statement p1 + p2 would return the sum of the ages of the two persons.
+
+Back to top
+
+Relational Operators
+
+Textbook resources: § 11.6 (Operator Overloading)
+
+Similar to arithmetic operators, the default operation of relational operators does not work with classes, but you can overload the relational operators so they do work with classes. The textbook shows you how in the section on Overloading Relational Operators. Thus, if comparing two persons means comparing their ages, the statement p1 == p2 would be true if their ages were the same, false otherwise.
+
+Back to top
+
+Insertion and Extraction Operators
+
+Textbook resources: §§ 11.3 (Friends of Classes) and 11.6 (Operator Overloading)
+
+Similar to arithmetic operators, the default operation of the extraction (>>) [for cin] and insertion (<<) [for cout] operators does not work with classes, but you can overloaded these operators so they (and cin and cout) do work with classes. The textbook shows you how in the section on Overloading the << and >> Operators. Now you can do this:
+
+Person p;
+
+cin >> p;
+
+cout << p;
+
+However, insertion and extraction operators present an issue that you do not face with assignment, arithmetic or relational operators. In the following expressions:
+
+p1 = p2;
+
+p1 + p2;
+
+if (p1 == p2)
+
+The instance on the left side of the operator calls the overloaded operator, and the instance on the right side of the operator is the parameter.
+
+However, in the expressions:
+
+cin >> p;
+
+cout << p;
+
+There is no class instance to the left of the operator. Therefore, the overloaded insertion and extraction operators cannot be member functions. This is a problem since they need to access private member variables.
+
+The solution is to make the overloaded insertion and extraction operators friends of the class. Friend functions are discussed in Section 11.3 of the textbook. A friend is a function that is not a member of the class but has access to the private members of the class.
+
+You declare a friend function in the class' .h file using the friend keyword:
+
+friend istream& operator>>(istream&, Person&);
+
+friend ostream &operator<<(ostream&, Person&);
+
+In the class's .cpp file, you omit the class name and scope resolution operator (::) before the operator keyword because these overloaded operators are friends rather than members of the class:
+
+istream& operator>>(istream& strm, Person& p)
+{
+   // this space available, your code here
+}
+
+ostream& operator<<(ostream& strm, Person& p)
+{
+   // this space available, your code here
+}
+
+Back to top
+
+Other Overloaded Operators
+
+Textbook resources: § 11.6 (Operator Overloading)
+
+You also can overload other operators, including (but not limited to) the subscript operator [] and the increment and decrement operators ++ and --. There only are a few operators you can't overload. Table 11-1 lists the operators you can overload, and the following text lists the operators you can't.
+
+You do not have to use an operator for its usual purpose. For example, you could overload the addition operator (+) to instead compare for equality. But as your mother may have told you, "just because you can do something does not mean you should do it." Overloading the addition operator to compare for equality makes your code difficult to understand. When you overload an operator, do so for its usual purpose.
+
+Back to top
+
+Conclusion
+
+The assignment operator by default works with classes. However, sometimes the default assignment operator is not adequate, such as in a shallow vs. deep copy situation. Therefore, you may need to overload the assignment operator. You do so by, in essence, writing another class member function, which uses the keyword operator followed by the operator being overloaded.
+
+While the assignment operator works by default with classes, other operators, such as arithmetic and relational, do not. However, you can overload these operators so they do work with classes.
+
+Back to top

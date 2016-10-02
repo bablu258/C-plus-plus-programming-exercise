@@ -1,0 +1,67 @@
+
+CSIT 839 
+Intermediate PROGRAMMING using C/C++
+Instructor: Jeff Kent
+Functions - PROGRAM 6-13 (revised)
+ 
+PROGRAM6-13 (revised)
+ 
+#include <iostream>
+using namespace std;
+
+bool isEven(int);
+
+int main()
+{
+   int val;
+   cout << ENTER an integer and I will tell you ";
+   cout << "if it is even or odd: ";
+   cin  >> val;
+   // if (isEven(val)) replaced by next two lines
+   bool result = isEven(val);
+   if (result == true)
+      cout << val << " is even.\n";
+   else
+      cout << val << " is odd.\n";
+   return 0;
+}
+
+bool isEven(int NUMBER)
+{
+  if (number % 2 == 1)
+       return false; // The number is odd if there's a remainder.
+   else
+      return true;  // Otherwise, the number is even.
+}
+ 
+Two parameters instead of a Return Value
+ 
+#include <iostream>
+using namespace std;
+
+void isEven(int, bool&);
+
+int main()
+{
+   int val;
+   cout << "Enter an integer and I will tell you ";
+   cout << "if it is even or odd: ";
+   cin  >> val;
+   // bool result = isEven(val); replaced by next two lines
+   bool result;
+   isEven (val, result);
+   if (result == true)
+      cout << val << " is even.\n";
+   else
+      cout << val << " is odd.\n";
+   return 0;
+}
+
+void isEven(int NUMBER, bool &b)
+{
+  if (number % 2 == 1)
+       b = false;  // instead of return false; 
+   else
+      b = true;  // instead of return true;  
+}
+

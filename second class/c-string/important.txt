@@ -1,0 +1,18 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int numChars;
+	cout << "Enter number of characters: ";
+	cin >> numChars;
+	cin.ignore();
+	char *p = new char[numChars + 1];
+	cout << "Enter no more than " << numChars << " characters: ";
+	cin.getline(p, numChars + 1);
+	cout << p << endl;
+	cout << "string length: " << strlen (p) << endl;
+	delete[] p;
+	return 0;
+}
+

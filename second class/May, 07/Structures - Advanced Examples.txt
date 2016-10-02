@@ -1,0 +1,317 @@
+
+CSIT 839 
+
+Intermediate Programming using C/C++
+ 
+Instructor: Jeff Kent
+
+Structures - Advanced Examples
+ 
+
+ 
+
+Examples # 4 and 5 in Structures - Introductory Examples concerned a single instance of a Date structure (birthday) being a member variable of another structure (Employee). This handout will show an array instance of a structure (Section, representing a section of a class) being a member variable of another structure (Teacher), the idea being a Teacher may teach several different sections. 
+
+ 
+
+Example #1 - The array of Section instances is declared by the programmer. 
+
+ 
+
+Example #2 - The array of Section instances is declared dynamically. Accordingly, the contained member variable of the Teacher structure is not an array of Section structure instances, but instead a pointer to a Section structure. This pointer enables dynamic memory allocation of an array of Section structures which can be accessed through the Teacher structure. 
+
+ 
+
+Example #3 - Same as Example #2 except instead of one Teacher instance, there is an array of Teacher instances created by dynamic memory allocation. The Teacher structure also has a no argument constructor that initializes the member variables to default values.
+
+ 
+
+Further Practice - Ways you can ... well, have further practice 
+
+ 
+
+Example #1
+
+ 
+
+#include <iostream>
+ using namespace std;
+ #include <string>
+
+ struct Section {
+    int number;
+    string name;
+ };
+
+ struct Teacher {
+    string name;
+    Section sections[2];
+ };
+
+ void input (Teacher*, int);
+ void output (Teacher, int);
+
+ int main ()
+ {
+    Teacher t;
+    input (&t, 2);
+    output (t, 2);
+    return 0;
+ }
+
+ void input (Teacher* t, int n)
+ {
+    cout << "Teacher name: ";
+    getline (cin, t->name);
+    for (int i = 0; i < n; i++)
+    {
+       cout << "Enter section number: ";
+       cin >> t->sections[i].number;
+       cin.ignore();
+       cout << "Enter section name: ";
+       getline(cin, t->sections[i].name);
+    }
+ }
+
+ void output (Teacher t, int n)
+ {
+    cout << "Teacher name: " << t.name << endl;
+    for (int i = 0; i < n; i++)
+    {
+       cout << "Section number: " << t.sections[i].number << endl;
+       cout << "Section name: " << t.sections[i].name << endl;
+    }
+ }
+
+
+
+
+Sample run
+
+ Teacher name: Genghis Khent
+ Enter section number: 839
+ Enter section name: Intermediate Programming Torture
+ Enter section number: 802
+ Enter section name: Introductory Programming Torture
+ Teacher name: Genghis Khent
+ Section number: 839
+ Section name: Intermediate Programming Torture
+ Section number: 802
+ Section name: Introductory Programming Torture
+
+ 
+
+Back to top
+
+ 
+
+Example #2
+
+ 
+
+#include <iostream>
+ using namespace std;
+ #include <string>
+
+ struct Section {
+    int number;
+    string name;
+ };
+
+ struct Teacher {
+    string name;
+    Section * sectptr;
+ };
+
+ void input (Teacher*, int);
+ void output (Teacher, int);
+
+ int main ()
+ {
+    Teacher t;
+    int numclasses;
+    cout << "Number of classes taught: ";
+    cin >> numclasses;
+    cin.ignore();
+    t.sectptr = new Section[numclasses];
+    input (&t, numclasses);
+    output (t, numclasses);
+    delete [] t.sectptr;
+    return 0;
+ }
+
+ void input (Teacher* t, int n)
+ {
+    cout << "Teacher name: ";
+    getline (cin, t->name);
+    for (int i = 0; i < n; i++)
+    {
+       cout << "Enter section number: ";
+       cin >> t->sectptr[i].number;
+       cin.ignore();
+       cout << "Enter section name: ";
+       getline(cin, t->sectptr[i].name);
+    }
+ }
+
+ void output (Teacher t, int n)
+ {
+    cout << "Teacher name: " << t.name << endl;
+    for (int i = 0; i < n; i++)
+    {
+       cout << "Section number: " << t.sectptr[i].number << endl;
+       cout << "Section name: " << t.sectptr[i].name << endl;
+    }
+ }
+
+Sample run
+
+ Number of classes taught: 2
+ Teacher name: Genghis Khent
+ Enter section number: 839
+ Enter section name: Intermediate Programming Torture
+ Enter section number: 802
+ Enter section name: Introductory Programming Torture
+ Teacher name: Genghis Khent
+ Section number: 839
+ Section name: Intermediate Programming Torture
+ Section number: 802
+ Section name: Introductory Programming Torture
+
+ 
+
+Back to top
+
+ 
+
+Example #3
+
+ 
+
+#include <iostream>
+ using namespace std;
+ #include <string>
+
+ struct Section {
+    int number;
+    string name;
+ };
+
+ struct Teacher {
+    string name;
+    Section * sectptr;
+    int numSections;
+    Teacher ()
+    {
+       name = "";
+       sectptr = NULL;
+       numSections = 0;
+    }
+ };
+
+ void input (Teacher[], int);
+ void output (Teacher[], int);
+
+ int main ()
+ {
+    Teacher * t;
+    int numteachers;
+    cout << "Number of teachers: ";
+    cin >> numteachers;
+    cin.ignore();
+    t = new Teacher[numteachers];
+    input (t, numteachers);
+    output (t, numteachers);
+    for (int y = 0; y < numteachers; y++)
+       delete [] t[y].sectptr;
+    delete [] t;
+    return 0;
+ }
+
+ void input (Teacher* t, int n)
+ {
+    for (int x = 0; x < n; x++)
+    {
+       cout << "Teacher name: ";
+       getline (cin, t[x].name);
+       int numclasses;
+       cout << "Number of classes taught: ";
+       cin >> numclasses;
+       t[x].numSections = numclasses;
+       t[x].sectptr = new Section[numclasses];
+       for (int i = 0; i < numclasses; i++)
+       {
+          cout << "Enter section number: ";
+          cin >> t[x].sectptr[i].number;
+          cin.ignore();
+          cout << "Enter section name: ";
+          getline(cin, t[x].sectptr[i].name);
+       }
+    }
+ }
+
+ void output (Teacher* t, int n)
+ {
+    for (int x = 0; x < n; x++)
+    {
+       cout << "Teacher name: " << t[x].name << endl;
+       for (int i=0; i < t[x].numSections; i++)
+       {
+          cout << "Section number: " << t[x].sectptr[i].number << endl;
+          cout << "Section name: " << t[x].sectptr[i].name << endl;
+       }
+    }
+ }
+
+ 
+
+ 
+
+Sample run
+
+ 
+
+Number of teachers: 2
+ Teacher name: Genghis Khent
+ Number of classes taught: 3
+ Enter section number: 666
+ Enter section name: Everything I know about women
+ Enter section number: 777
+ Enter section name: How to tell good jokes
+ Enter section number: 888
+ Enter section name: How to be a fashion model
+ Teacher name: Devvie DeVille
+ Number of classes taught: 2
+ Enter section number: 111
+ Enter section name: How to marry a loser
+ Enter section number: 222
+ Enter section name: Having fun at college committee meetings
+ Teacher name: Genghis Khent
+ Section number: 666
+ Section name: Everything I know about women
+ Section number: 777
+ Section name: How to tell good jokes
+ Section number: 888
+ Section name: How to be a fashion model
+ Teacher name: Devvie DeVille
+ Section number: 111
+ Section name: How to marry a loser
+ Section number: 222
+ Section name: Having fun at college committee meetings
+  
+
+Back to top
+
+ 
+
+Further Practice 
+
+1.Create a zero-argument constructor for Section. The name member variable would be intialized to an empty string. The number member variable would be initialized to 0 (zero).
+
+
+2.Replace the standalone function input with a Teacher member function input, and replace the standalone function output with a Teacher member function output.
+
+
+ 
+
+ 

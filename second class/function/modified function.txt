@@ -1,0 +1,390 @@
+modidifed by me
+
+1.
+
+#include <iostream> 
+
+using namespace std;
+void showDollars(double pay); // Function prototype
+void userInput(double&, double&);
+double wageCal (double , double);
+
+
+int main() 
+{
+	double payRate, hoursWorked, wages;
+	userInput(hoursWorked, payRate);
+	wages = wageCal(hoursWorked, payRate);
+	showDollars(wages); 
+	return 0;
+}
+
+
+
+void userInput ( double &a , double &b) 
+{
+	cout << "How many hours have you worked? ";
+	cin >> a;
+	cout << "What is your hourly pay rate? ";
+	cin >> b;
+
+}
+
+
+double wageCal(double g, double h)
+
+{
+	double total;
+
+	total = g * h;
+
+	return total;
+
+}
+
+
+void showDollars(double p)
+
+{
+	cout << "Your wages are $ " << p;
+
+
+
+}
+
+
+
+
+
+
+2.
+
+#include <iostream>
+using 
+namespace std;
+
+// Function prototype
+
+int showSum(int , int , int);
+
+void userInput(int&, int&, int&);
+
+
+
+int main()
+
+{
+	
+int value1, value2, value3, totalCal;
+
+	
+
+userInput(value1, value2, value3);
+
+	
+
+	
+// Call showSum, passing 3 arguments
+	
+	
+totalCal = showSum(value1, value2, value3);
+
+
+	
+cout << " total amount is $" << totalCal << endl;
+
+
+
+
+	
+return 0;
+
+}
+
+
+/********************************************
+*                 showSum                  *
+*  This function displays the sum of the   *
+*  3 integers passed into its parameters.  *
+********************************************/
+
+
+
+void userInput(int &a , int &b , int &c)
+{
+
+	
+// Get 3 integers
+	
+cout << "Enter three integers and I will display ";
+	
+cout << "their sum: ";
+	
+cin >> a >> b>> c;
+
+
+
+}
+
+
+
+
+
+int showSum(int num1, int num2, int num3)
+
+{
+	
+int total;
+
+	
+total = (num1 + num2 + num3) ;
+
+	
+return total;
+
+}
+
+
+
+
+3.
+
+
+// This program uses a function to perform division.
+
+// It illustrates the return statement. 
+
+#include <iostream>
+
+using namespace std;
+
+
+// Function prototype.
+
+void userInput(double&, double&);
+
+bool divide(double arg1, double arg2);
+
+double div(double, double);
+
+void display(double);
+
+
+
+int main()
+
+{
+	
+double num1, num2;
+
+	
+userInput(num1, num2);
+
+
+	
+bool result = divide(num1, num2);
+
+	
+if (result == false)
+		
+cout << "Sorry, I cannot divide by zero.\n";
+
+	
+else
+	
+{
+	
+		
+double x = div(num1, num2);
+		
+display(x);
+
+	
+}
+	
+return 0;
+
+}
+
+
+
+
+void userInput(double &a, double &b)
+
+{
+	
+cout << "Enter two numbers and I will divide the first\n";
+	
+cout << "number by the second number: ";
+	
+cin >> a >> b;
+
+
+}
+
+
+
+
+
+bool divide(double arg1, double arg2)
+
+{
+	
+if (arg2 == 0.0)
+	
+{
+		
+		
+return false;
+	
+}
+	
+	
+return 
+true;
+
+}
+
+
+
+double div(double a, double b)
+
+
+{
+	
+double re;
+
+	
+re = (a / b);
+
+	
+return re;
+
+
+}
+
+
+void display(double g)
+
+{
+	
+cout << " The quient is :" << g << endl;
+
+
+}
+
+
+
+
+4.
+
+
+#include <iostream>
+
+#include <iomanip>
+
+using namespace std;
+
+#include <string>
+
+
+//Function prototypes
+
+double getRadius();
+
+double square(double number);
+
+string display ();
+
+
+int main()
+
+{
+	
+const double PI = 3.14159;   
+// Constant for pi
+	
+double radius;               
+// Holds the circle's radius
+	
+double area;                 
+// Holds the circle's area
+
+	
+// Set the numeric output formatting
+	
+cout << fixed << showpoint << setprecision(2);
+
+	
+// Get the radius of the circle
+	
+cout << "This program calculates the area of a circle.\n";
+	
+radius = getRadius();
+
+	
+// Caclulate the area of the circle
+	
+area = PI * square(radius);
+
+	
+	
+cout << display() << area << endl;
+
+
+	
+// Display the area 
+cout << "The area is " << area << endl;
+	
+return 0;
+
+}
+
+
+/********************************************
+*               getRadius                  *
+* This function returns the circle radius  *
+* input by the user.                       *
+********************************************/
+
+double getRadius()
+
+{
+	
+double rad;
+
+	
+cout << "Enter the radius of the circle: ";
+	
+cin >> rad;
+	
+return rad;
+
+}
+
+
+/********************************************
+*                   square                  *
+* This function returns the square of the   *
+* double argument sent to it                *
+*********************************************/
+
+double square(double number)
+
+{
+	
+return number * number;
+
+}
+
+
+string display()
+
+{
+	
+string s = "The area is ";
+	
+	
+return s;
+
+}

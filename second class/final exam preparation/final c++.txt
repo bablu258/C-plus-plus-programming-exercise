@@ -1,0 +1,468 @@
+1.
+passing by address
+
+void input(Employee*); // prototype and Employee is structure 
+//call
+Employee emp;
+    input(&emp);
+
+//function header
+void input(Employee* e)
+
+// get value for structureelement from user 
+ cout << ENTER the employee's number: ";
+    cin >> e->empNumber;
+    cout << "Enter the employee's name: ";
+    cin.ignore();
+    cin.getline(e->name, 80);
+
+2.
+
+multiple employee - passing as array
+
+one way
+
+//prototype
+
+void input(Employee*, int);
+void output(Employee[], int);
+
+
+// main
+
+int main()
+{
+    const int MAX = 2;
+    Employee emp[MAX];
+    input(emp, MAX);
+    output(emp, MAX);
+    return 0;
+}
+
+// dynamic main
+
+int main()
+{
+    int total;
+    cout << ENTER number of employees: ";
+    cin >> total;
+    Employee *emp;
+    emp = new Employee [total];
+    input(emp, total);
+    output(emp, total);
+    delete [] emp;
+    return 0;
+}
+
+
+
+// input and output should have for loop to work on the indexes of the array
+for (int i = 0; i < num; i++)
+    {
+        cout << "Enter the employee's number: ";
+        cin >> e[i].empNumber;
+        cout << "Enter the employee's name: ";
+        cin.ignore();
+        cin.getline(e[i].name, 80);
+    }
+
+
+3.
+use of enum and union
+
+enum paytype { hourly, salary };
+
+union payrate {
+    float per_hour; // hourly worker
+    // assume hourly worker paid on 40 hour week
+    int per_month; // salary worker
+};
+
+4.
+use of enum and union in the structure
+
+struct Employee {
+    int empNumber; 
+    char name[80]; 
+    paytype type;
+    payrate rate;
+};
+
+
+5.
+ access to the enum and union in the function
+char ch;
+cout << "Hourly or salaried (H/h or S/s) : ";
+        cin >> ch;
+        if (ch == 'h' || ch == 'H')
+        {
+            e[i].type = hourly;
+            cout << "Hourly rate: ";
+            cin >> e[i].rate.per_hour;
+        } 
+        else
+        {
+            e[i].type = salary;
+            cout << "Monthly salary: ";
+            cin >> e[i].rate.per_month;
+        } 
+
+
+6.
+double structure
+
+struct Date {
+    int month; 
+    int day;
+    int year;
+};
+
+struct Employee {
+    int empNumber; 
+    char name[80]; 
+    float hours;
+    float payRate; 
+    Date birthday;
+};
+
+
+7.
+aceess to the Date in the input function
+
+ cout << "Enter employee's birthday in mm dd yyyy format: "; 
+    cin >> e->birthday.month >> e->birthday.day >> e->birthday.year;
+
+8.
+aceess to the Date in the output function
+
+cout << "Birthday is " << e.birthday.month << " " << e.birthday.day << " " << e.birthday.year;
+
+9.
+
+structure with constructure
+
+struct Employee {
+   double hours;
+   double payRate;
+   Employee ()
+   {
+      hours = 0; 
+      payRate = 0;
+   }
+  Employee (double h, double pr)
+   {
+       hours = h; 
+      payRate = pr;
+   }
+};
+
+
+// code in the main
+int main()
+{
+  // zero argument call of the structure
+   Employee emp;
+   output(emp); // here output a function outside the structure
+
+// parameterised call of the structure
+
+   double hrs, prate;
+   cout << "Hours worked: ";
+   cin >> hrs;
+   cout << "Pay rate: ";
+   cin >> prate;
+    Employee emp (hrs, prate);
+   output(emp);
+   return 0;
+}
+
+
+10.
+
+double structure with constructor
+
+struct Date {
+    int month;
+    int day;
+    int year;
+};
+
+struct Employee {
+   double hours;
+   double payRate;
+    Date birthday;
+ 
+    Employee ()
+   {
+      hours = 0; 
+     payRate = 0;
+     birthday.month = birthday.day = birthday.year = 0;
+   // or use the following code
+  //  Date()
+ //  {
+  //  month = day = year = 0;
+  // }
+
+   }
+
+   Employee(double h, double pr, int m, int d, int y)
+{
+hours = h;
+payRate = pr;
+birthday.month = m;
+birthday.day = d;
+birthday.year = y;
+}
+};
+
+11.
+Add the following code in main after the entry of the PAY rate:
+ 
+int m, d, y; 
+cout << ENTER birthay in m d y format : ";
+cin >> m >> d >> y;
+ 
+Change the creation of emp1 to read:
+ 
+Employee emp1(hrs, prate, m, d, y); 
+
+
+12.
+
+a structure may also have other member functions, such as for input or output.
+
+13.
+c-string in the structure 
+
+struct Employee {
+   char name [80];
+    
+ 
+    Employee ( )
+   {
+       
+     strcpy (name, "\0");
+   }
+   
+   Employee ( char s [])
+   {
+       
+      strcpy (name, s); // not name = s;
+   }
+};
+
+
+// code in the main
+char sname [80];
+    cout << ENTERFIRST NAME: ";
+    cin >> sname;
+// call to parametrised argument
+Employee emp1 (sname);
+output(emp1); // need separete output function
+
+//call to zero argument
+
+Employee emp2;     
+   input (&emp2); // need separete input function
+   output (emp2); // need separete output function
+
+
+// code in the input
+
+cout << ENTER FIRST NAME: ";
+    cin >> e->name;
+//getline (cin, t->name);
+
+// code in the output
+
+cout << "Name: " << e.name << endl;
+
+
+
+14. Input and Output member functions of Employee structure
+
+struct Employee {
+   float hours;
+   float payRate;
+ 
+    Employee ( )
+   { hours = payRate = 0; }
+   
+   Employee (float h, float pr)
+   {
+       hours = h; 
+      payRate = pr;
+   }
+ 
+   void input( )
+   {
+   cout << ENTER name: ";    
+   cin >> name;      // assume no embedded spaces in name
+   cout << "Hours worked: " ;
+   cin >> hours;
+   cout << "Hourly PAY rate: $";
+   cin >> payRate;  
+   }
+   void output()
+   {
+   cout << "Name: " << name << endl;
+   cout << "Hours worked: " << hours << endl;
+   cout << "Hourly pay rate: $" << payRate << endl;
+   cout << "Gross pay: $" << hours * payRate << endl;
+   }
+
+};
+
+
+//code in the main - it is easy
+
+emp1.output();
+cout << endl;
+emp2.input();
+emp2.output();
+
+
+
+15.
+
+ resetting the hours to zero
+
+First, add this member function:
+ 
+bool validHours(int h)
+{ return h >= 0 && h <= 168; }
+ 
+Second, modify the two-argument constructor. Added code is bolded.
+ 
+Employee(double h, double pr, char s[])
+{
+   bool result = validHours(h);
+   if (result)
+      hours = h;
+   else
+   {
+      cout << "Invalid hours, resetting to zero\n";
+      hours = 0;
+   }
+   payRate = pr;
+   strcpy(name, s); 
+}
+
+Third, modify the input member function. Added code is bolded.
+ 
+void input()
+{
+   cout << ENTER first name: ";
+   cin >> name;
+   cout << "Hours worked: ";
+   cin >> hours;
+   bool result = validHours(hours);
+   if (result == false)
+   {
+      cout << "Invalid hours, resetting to zero\n";
+      hours = 0;
+   }
+   cout << "Hourly PAY rate: $";
+   cin >> payRate;
+}
+
+
+16.
+
+Array of Structure Instances 
+
+int main()
+{
+int num;
+Employee * ptr;
+cout << "How many employees: ";
+cin >> num;
+ptr = new Employee[num];
+// call input member function for each employee
+// call output member function for each employee
+delete[] ptr;
+return 0;
+}
+
+
+
+
+17.
+
+
+advanced example 
+
+#include <iostream>
+using namespace std;
+#include <string>
+
+struct Section {
+   int number;
+   string name;
+};
+
+struct Teacher {
+   string name;
+   Section * sectptr;
+   int numSections;
+   Teacher ()
+   {
+      name = "";
+      sectptr = NULL;
+      numSections = 0;
+   }
+};
+
+void input (Teacher[], int);
+void output (Teacher[], int);
+
+int main ()
+{
+   Teacher * t;
+   int numteachers;
+   cout << "Number of teachers: ";
+   cin >> numteachers;
+   cin.ignore();
+   t = new Teacher[numteachers];
+   input (t, numteachers);
+   output (t, numteachers);
+   for (int y = 0; y < numteachers; y++)
+      delete [] t[y].sectptr;
+   delete [] t;
+   return 0;
+}
+
+void input (Teacher* t, int n)
+{
+   for (int x = 0; x < n; x++)
+   {
+      cout << "Teacher name: ";
+      getline (cin, t[x].name);
+      int numclasses;
+      cout << "Number of classes taught: ";
+      cin >> numclasses;
+      t[x].numSections = numclasses;
+      t[x].sectptr = new Section[numclasses];
+      for (int i = 0; i < numclasses; i++)
+      {
+         cout << ENTER section number: ";
+         cin >> t[x].sectptr[i].number;
+         cin.ignore();
+         cout << "Enter section name: ";
+         getline(cin, t[x].sectptr[i].name);
+      }
+   }
+}
+
+void output (Teacher* t, int n)
+{
+   for (int x = 0; x < n; x++)
+   {
+      cout << "Teacher name: " << t[x].name << endl;
+      for (int i=0; i < t[x].numSections; i++)
+      {
+         cout << "Section number: " << t[x].sectptr[i].number << endl;
+         cout << "Section name: " << t[x].sectptr[i].name << endl;
+      }
+   }
+}

@@ -1,0 +1,116 @@
+
+
+CSIT 839 
+Intermediate Programming using C/C++
+Instructor: Jeff Kent
+Structures - Programming Challenge - Cars
+ 
+Part 1
+
+Declare a structure named Car, which includes a union and an enum (enumerated type) that you also need to declare. This structure holds the following information about a car:
+
+-model, a C-string that may have embedded spaces and up to 20 characters.
+-year, an int.
+-type (leased or purchased), an instance of an enum or a union (you decide) called transactionType, which represents whether the buyer is BUYING or leasing the car.
+- PAYMENT, an instance of an enum or a union (you decide) called payType, which represents the MONTHLY PAYMENT (a double) in the case of a lease, or the purchase price (an int) in the case of a purchase.
+ 
+Questions: Should the Car structure also should have one or more constructors? Same question for the union?
+
+Part 2
+
+Write code in main which will dynamically allocate an array of Car structure instances. The number of array elements is determined by the user. (See Sample Run #1 below).
+ 
+Question: Which constructor or constructors will be invoked by this dynamic allocation of an array of Car structure instances? 
+
+Part 3
+
+A. Prototype and write a Car member function called assignValues. This function prompts for and assigns values to the member variables of a car. This function is called in main once for each car created in main. The arguments, if any, are up to you. 
+
+B. Prototype and write a Car member function called displayValues. This function displays the values of he member variables of a car. This function is called in main once for each car created in main. The arguments, if any, are up to you. (See Sample Run #1 below).
+
+Sample Run (with comments that would not be part of input or output)
+
+ENTER the number of cars: 2  // may be a different number, but assume at least 2 - no input validation necessary
+
+// code to dynamically create an array of Car instances, the number based on user input
+
+// call in main the assignValues member function for each Car instance in the array
+
+ENTERmodel name: Bummer
+Enter model year: 1999
+Lease (l or L) or Purchase (p or P): L
+Enter MONTHLY PAYMENT: 175.87
+ 
+Enter model name: Know Vah
+Enter model year: 2003
+Lease (l or L) or Purchase (p or P): p
+Enter purchase price: 26589
+ 
+// call in main the displayValues member function for each Car instance in the array
+ 
+Model: Bummer
+Year: 1999
+Leased at $175.87
+
+Model: Know Vah
+Year: 2003
+Purchased at $26589
+ 
+Part 4
+ 
+Declare another structure named Manufacturer, which represents the manufacturer of a car (like Toyota or Chevrolet). This structure holds the following information about a manufacturer:
+
+-name, a C-string that may have embedded spaces and up to 20 characters.
+-source, which indicates if the manufacturer is domestic (U.S.) or foreign.
+
+One of these members is an enum or a union.
+ 
+Add the following member functions to the Manufacturer structure:
+assignValues so it also includes the input of information for the car's manufacturer.
+displayValues so it also includes the output of information for the car's manufacturer.
+Question: Should the Manufacturer structure also should have one or more constructors?
+ 
+Part 5
+ 
+Modify the Car structure so it includes an additional member variable, mfg, which is an instance of the Manufacturer structure.
+ 
+Modify the following member functions in the Car structure: 
+assignValues so it also calls the assignValues member function of Manufacturer.
+displayValues so it also calls the displayValues member function of Manufacturer.
+Question: If your Car structure has one or more constructors, how if at all should they be modified?
+ 
+SAMPLERun
+
+ENTER the NUMBER of cars in stock: 2
+
+ENTER manufacturer name: Hyundai  // new input
+Enter domestic (d or D) or foreign (f or F): f
+Enter model name: Bummer
+Enter model year: 1999
+Lease (l or L) or PURCHASE (p or P): L
+Enter MONTHLY PAYMENT: 175.87
+
+Enter manufacturer name: Chevy // new input
+Enter domestic (d or D) or foreign (f or F): D
+Enter model name: Know Vah
+Enter model year: 2003
+Lease (l or L) or Purchase (p or P): p
+Enter purchase price: 26589
+
+Manufacturer: Hyundai  // new output
+Source: Foreign  // new output
+Model: Bummer
+Year: 1999
+Leased at $175.87
+
+Manufacturer: Chevy  // new output
+Source: Domestic  // new output
+Model: Know Vah
+Year: 2003
+Purchased at $26589
+ 
+ 
+ 
+ 
+ 
+ 

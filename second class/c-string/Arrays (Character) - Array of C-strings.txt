@@ -1,0 +1,72 @@
+
+CSIT 839 
+Intermediate Programming using C/C++
+Instructor: Jeff Kent
+Static and Dynamic Array of C-Strings
+ 
+This handout has two example programs concerning arrays of C string, and passing them as function parameters. The first, staticstr.cpp, concerns a static array of strings. The second, dynstr.cpp, concerns an array of character pointers, with the strings created dynamically.
+ 
+//staticstr.cpp
+ 
+/* In this example the array contains a maximum of 3 names and each name
+contains a maximum of 5 characters including the terminating null character */
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+const int MAX = 3;
+void assignNames(char [][5]);
+
+
+int main()
+{
+char names [MAX] [5];
+assignNames(names);
+for (int count = 0; count < MAX; count++)
+cout <<"Name " << count + 1 << " is " << names [count] << "\n";
+return 0;
+}
+
+
+void assignNames(char param[] [5] )
+{
+for (int count = 0; count < MAX; count++)
+{
+cout << "Enter name: ";
+cin >> param[count];
+}
+}
+ 
+//dynstr.cpp
+ 
+/* In this example, the array contains a maximum of 3 names and the number
+of characters in each name is allocated dynamically (at runtime) */
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+const int MAX = 3;
+void assignNames(char **);
+ 
+int main()
+{
+char* names[MAX];
+assignNames(names);
+for (int count = 0; count < MAX; count++)
+   cout <<"Name " << count + 1 << " is " << names [count] << "\n";
+for (int count = 0; count < MAX; count++)
+   delete names [count];
+return 0;
+}
+ 
+void assignNames(char** param)
+{
+for (int count = 0; count < MAX; count++)
+{
+   char buffer[80];
+   cout << "Enter name: ";
+   cin >> buffer;
+   param [count] = new char [strlen(buffer) + 1];
+   strcpy(param[count], buffer);
+}
+}

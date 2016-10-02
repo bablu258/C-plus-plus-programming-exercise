@@ -1,0 +1,314 @@
+
+CSIT 839 
+Intermediate PROGRAMMING using C/C++
+Instructor: Jeff Kent
+Structures - Constructor
+ 
+PROGRAM #1
+ 
+This PROGRAM compiles. However, when run, it results in a runtime ERROR in the call to output in main: "The variable 'emp' is being used without being initialized." The reason is emp is being passed by value but emp (or more accurately its members) have not previously been assigned a value.
+ 
+#include <iostream>
+using namespace std;
+
+struct Employee {
+   double hours;
+   double payRate;
+};
+
+void output(Employee);
+
+int main()
+{
+   Employee emp;
+   output(emp); // runtime ERROR
+   return 0;
+}
+
+void output(Employee e)
+{
+   cout << "Hours worked: " << e.hours << endl;
+   cout << "Hourly PAY rate: $" << e.payRate << endl;
+   cout << "Gross pay: $" << e.hours * e.payRate << endl;
+}
+ 
+Program #2
+ 
+To avoid the problem in Program #1, this version attempts to initialize the Employee member variables to 0. However, before C++11, this resulted in a compiler error: "only static const integral data members can be initialized within a class." I'll explain the reason for this error message in class (you see, there's a reason to come to class besides getting your weekly ration of bad jokes). C++11 now supports initialization of structure member variables using the code below.
+ 
+#include <iostream>
+using namespace std;
+
+struct Employee {
+   double hours = 0;       // compile error before C++11
+   double payRate = 0;   // same
+};
+
+void output(Employee);
+
+int main()
+{
+   Employee emp;
+   output(emp); 
+   return 0;
+}
+
+void output(Employee e)
+{
+   cout << "Hours worked: " << e.hours << endl;
+   cout << "Hourly pay rate: $" << e.payRate << endl;
+   cout << "Gross pay: $" << e.hours * e.payRate << endl;
+}
+ 
+PROGRAM#3
+ 
+The solution is a SPECIAL member function known as a constructor -- which we'll also discuss in class. The constructor in this code is a no (or zero) argument constructor. It enables you to initialize the member variables to default values. We'll also discuss in class why Program #1 compiled (though there was a runtime ERROR) without expressly defining a no argument constructor because then one was implied. NOTE: Unlike other functions, there is no return value for a constructor; not even void.
+ 
+#include <iostream>
+using namespace std;
+
+struct Employee {
+   double hours;
+   double payRate;
+   Employee ()
+   {
+      hours = 0; 
+      payRate = 0;
+   }
+};
+
+void output(Employee);
+
+int main()
+{
+   Employee emp;
+   output(emp);
+   return 0;
+}
+
+void output(Employee e)
+{
+   cout << "Hours worked: " << e.hours << endl;
+   cout << "Hourly PAY rate: $" << e.payRate << endl;
+   cout << "Gross pay: $" << e.hours * e.payRate << endl;
+}
+ 
+Sample Run
+ 
+Hours worked: 0
+Hourly pay rate: $0
+Gross pay: $0
+
+Program #4
+ 
+This program uses a two argument constructor. Note the declaration of emp in main is followed by two arguments. This enables you to initialize the member values to supplied values (as opposed to the default values of a zero argument constructor). NOTE: You could enhance this constructor with input validation, so if the value supplied for hours or pay rate was invalid (such as negative), then default values instead could be assigned to the member variables.
+ 
+#include <iostream>
+using namespace std;
+
+struct Employee {
+   double hours;
+   double payRate;
+   Employee (double h, double pr)
+   {
+       hours = h; 
+      payRate = pr;
+   }
+};
+
+void output(Employee);
+
+int main()
+{
+   double hrs, prate;
+   cout << "Hours worked: ";
+   cin >> hrs;
+   cout << "Pay rate: ";
+   cin >> prate;
+    Employee emp (hrs, prate);
+   output(emp);
+   return 0;
+}
+
+void output(Employee e)
+{
+   cout << "Hours worked: " << e.hours << endl;
+   cout << "Hourly pay rate: $" << e.payRate << endl;
+   cout << "Gross pay: $" << e.hours * e.payRate << endl;
+}
+ 
+Sample Run
+ 
+Hours worked: 40
+Pay rate: 7.5
+Hours worked: 40
+Hourly pay rate: $7.5
+Gross pay: $300
+ 
+Program #5
+ 
+The only difference between this program and #4 is the addition in main of Employee emp.  This causes a compiler error: "'Employee' : no appropriate default constructor available."
+ 
+The reason for this compiler error is that since emp2 is not followed by any arguments, a zero argument constructor is needed. However, this code, unlike Program #3, does not include a zero argument constructor.
+ 
+What may be puzzling is that Program #1 also did not include a zero argument constructor, but the statement Employee emp in main did not cause a compiler error. The difference is that in Program #1, no constructor was included, zero argument, two argument or otherwise.
+ 
+Why does this matter? When no constructor is included, then a default zero argument constructor is implied. However, when any constructor is included -- here a 2 argument one -- then you need to also expressly include a zero argument constructor if you need one; you can't rely on an implied zero argument constructor.
+ 
+#include <iostream>
+using namespace std;
+
+struct Employee {
+   double hours;
+   double payRate;
+   Employee (double h, double pr)
+   {
+      hours = h; 
+     payRate = pr;
+   }
+};
+
+void output(Employee);
+
+int main()
+{
+  
+   double hrs, prate;
+   cout << "Hours worked: ";
+   cin >> hrs;
+   cout << "Pay rate: ";
+   cin >> prate;
+   Employee emp (hrs, prate);
+   Employee emp2;     // compiler error
+   output(emp);
+   return 0;   
+}
+
+void output(Employee e)
+{
+   cout << "Hours worked: " << e.hours << endl;
+   cout << "Hourly pay rate: $" << e.payRate << endl;
+   cout << "Gross pay: $" << e.hours * e.payRate << endl;
+}
+ 
+Nested Structures
+ 
+Examples # 4 and 5 in Structures - Introductory Examples concerned a single instance of a Date structure (birthday) being a member variable of another structure (Employee).
+ 
+Starting Code
+ 
+#include <iostream>
+using namespace std;
+ 
+struct Date {
+    int month;
+    int day;
+    int year;
+};
+
+struct Employee {
+   double hours;
+   double payRate;
+    Date birthday;
+ 
+    Employee ()
+   {
+      hours = 0; 
+     payRate = 0;
+   }
+
+   Employee (double h, double pr)
+   {
+      hours = h; 
+      payRate = pr;
+   }
+};
+
+void output(Employee);
+
+int main()
+{
+  
+   double hrs, prate;
+   cout << "Hours worked: ";
+   cin >> hrs;
+   cout << "Pay rate: ";
+   cin >> prate;
+    Employee emp1 (hrs, prate);
+    output(emp1);
+   Employee emp2;    
+   output(emp2);
+   return 0;   
+}
+
+void output(Employee e)
+{
+   cout << "Hours worked: " << e.hours << endl;
+   cout << "Hourly pay rate: $" << e.payRate << endl;
+   cout << "Gross pay: $" << e.hours * e.payRate << endl;
+   cout << "Birthday: " << e.birthday.month << " " << e.birthday.day << " " << e.birthday.year << endl;
+}
+ 
+Sample Output
+ 
+Hours worked: 40
+Pay rate: 1.5
+Hours worked: 40
+Hourly pay rate: $1.5
+Gross pay: $60
+Birthday: -858993460 -858993460 -858993460
+Hours worked: 0
+Hourly pay rate: $0
+Gross pay: $0
+Birthday: -858993460 -858993460 -858993460
+ 
+Question: How do we modify the zero and two argument constructors so the Employee member variable birthday will have values? And does any code in main then need to be changed?
+ 
+Zero Argument Constructor
+ 
+Alternative 1
+ 
+Add the following code to the end of the zero argument constructor:
+ 
+birthday.month = birthday.day = birthday.year = 0;
+ 
+Note: Default values other than zero could be used
+Question: Why does no code in main needs to be changed for this modification?
+ 
+Alternative 2
+ 
+Create a zero argument constructor in Date:
+ 
+Date()
+{
+month = day = year = 0;
+}
+ 
+Question: How does the Date zero argument constructor get called?
+Question: Which alternative is better, #1 or #2?
+ 
+Two (to Five) Argument Constructor
+ 
+Change the two argument constructor to a five argument constructor:
+ 
+Employee(double h, double pr, int m, int d, int y)
+{
+hours = h;
+payRate = pr;
+birthday.month = m;
+birthday.day = d;
+birthday.year = y;
+} 
+ 
+Add the following code in main after the entry of the pay rate:
+ 
+int m, d, y; 
+cout << "Enter birthay in m d y format : ";
+cin >> m >> d >> y;
+ 
+Change the creation of emp1 to read:
+ 
+Employee emp1(hrs, prate, m, d, y); 
+ 
+NOTE: There are other, perhaps more elegant, approaches, such as a copy constructor or an overloaded assignment operator, that you'll learn in CSIT 840.
+ 

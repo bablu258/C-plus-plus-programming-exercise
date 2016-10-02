@@ -1,0 +1,133 @@
+
+
+Contents:
+
+Introduction
+
+Static Member Variables
+
+Static Member Functions
+
+Accessing a Static Member Function
+
+Changing the Value of the Static Member Variable
+
+Conclusion
+
+ 
+
+Introduction
+
+So far we have been working with instance variables and functions. That is, each class instance has its own copy of each member variable and function. In this module you will learn about static member variables and functions.
+
+Back to top
+
+Static Member Variables
+
+Textbook resources: § 11.2 (Static Members)
+
+Each class instance has its own copy of each member variable. Thus, in our array of 3 student instances, each had a name and a gpa. However, the value of each student's name and gpa could be different than the names and gpas of the other 2 students. Since each class instance has its own copy of each member variable, these variables are called instance variables. Similarly, the member functions you have been using thus far are instance functions.
+
+That's fine, but sometimes you may want a member variable whose value is the same no matter which class instance accesses it. An example is a member variable that keeps tracks of the total number of students.
+
+A member variable whose value is the same no matter which class instance accesses it is referred to as a static member. It is declared the same as any other member variable except the keyword static appears before it. Thus, in our student.h file, we add the following (private) member variable that keeps tracks of the total number of students as follows:
+
+static int totalStus;
+
+Back to top
+
+Static Member Functions
+
+Textbook resources: § 11.2 (Static Members)
+
+So far, so good. However, since totalStus is (and should be) private, we can't access it outside the class. Therefore, we add the following (public) member function to the student.h file:
+
+static int getTotalStus();
+
+Next, implement this static member function in the student.cpp file:
+
+int Student::getTotalStus()
+
+{
+
+   return totalStus;
+
+}
+
+Note: The static keyword is not used in the function header in the student.cpp file. You declared (essentially prototyped) the function as static in the student.h file.
+
+Build the project. It will compile, but you will be a linker error: "unresolved external symbol 'private: static int Student::totalStus.'"
+
+The reason is that, when you use a static member variable, you also have to declare it in the class' implementation file. Accordingly, add the following statement to the student.cpp file, such as below the preprocessor directives and above the constructors:
+
+int Student::totalStus;
+
+Now the project will build (and link) successfully. But you might want to initialize the variable, say to 0.
+
+        //int Student::totalStus;
+
+int Student::totalStus = 0;
+
+You do this here rather than in a constructor since this variable is static, and not an instance variable where a new copy is created (by the constructor) each time an instance is created.  (If we placed this initialization of totalStus to zero in a constructor, then each time a new Student instance is created, the totalStus would be reset to zero.)
+
+Back to top
+
+Accessing a Static Member Function
+
+Textbook resources: § 11.2 (Static Members)
+
+Now, we add the following statement to the test.cpp file, after the 2 loops, and before the delete [] s statement"
+
+cout << "There are " << Student::getTotalStus() << " students\n";
+
+ 
+
+Note that since the member function getTotalStus is static, you access it from the class name followed by the scope resolution operator (Student::), rather than through an instance of the class.
+
+ 
+
+Assuming your test.cpp file contains "#include <iostream>" and "using namespace std", the program will build and run, but as discussed below, this new cout statement will not display the correct number of students ...
+
+ 
+
+Back to top
+
+ 
+
+Changing the Value of the Static Member Variable
+
+ 
+
+The output at the end of the program will be: 'There are 0 students." This output is not correct. There are 3 students.
+
+ 
+
+The reason is we never changed the value of totalStus from its default value of 0 (since it is a static int). Each time we created an additional Student instance, the value of totalStus should have been incremented, or increased by 1. But we have no code to do that.
+
+ 
+
+The code we want to add is:
+
+ 
+
+totalStus++;
+
+ 
+
+But where do you add it? The logical answer is the constructor(s). The reason is that a constructor executes every time you create a new Student instance (object). (See the final version of student.cpp for module 6).
+
+ 
+
+Note 1: Technically you also would want to decrement totalStus (totalStus--) each time a class instance is destroyed. This would be done in the destructor. However, we haven't covered the destructor ... yet.
+
+ 
+
+Note 2:  In some circumstances, you might not want to increment totalStus in the constructor(s), but instead in some other member function. For example, if totalStus did not represent the number of Student instances that were created, but instead the actual number of elements in the array of students that were initialized with input data, then you would want to increment totalStus in the member function which initializes a Student element with data.  Remember, it is always possible for the number of user initialized elements in an array to be less than the actual (maximum) number created, even when that maximum number is determined by the user.
+
+Back to top
+
+Conclusion
+
+In this module you learned about static member variables and functions, and how they differ from instance member variables and functions.
+
+Back to top

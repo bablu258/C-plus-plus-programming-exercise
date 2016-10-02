@@ -1,0 +1,140 @@
+
+CSIT 839 
+Intermediate Programming using C/C++
+Instructor: Jeff Kent
+Arrays (Character) - Programming challenges (C-String Library)
+You should be able to write your own C-string library functions.
+
+The C-string slides already gave you the code to implement StringLength (instead of strlen) and StringCopy (instead of strcpy). Programs #s 1-2 give you the rest of the code (except for the prototype and call whidh should be easy) so you can test yourself.
+
+You should also try to write your own C-string libary functions for strcat and strcmp. Programs #s 3-4 give you a starting point. 
+
+Program #1
+
+Prototype, call and implement the function StringLength. This function, like strlen, returns the number of characters in a C-string, up to but not including the null character. It takes at least one argument, the C-string. Any additional arguments are up to you. Implement StringLength without using strlen.
+
+#include <iostream> 
+using namespace std; 
+// prototype StringLength
+
+int main() 
+{ 
+char input[80];
+int len;
+cout << "Input a string: ";
+cin >> input;
+// call StringLength
+cout << "Length = " << len << endl;
+system("pause");
+return 0; 
+}
+// implement StringLength
+Sample input/output
+
+Input a string: Getmeouttahere
+Length = 14
+
+Program #2
+
+Prototype, call and implement the function StringCopy. This function does not return a value. This function, like strcpy, takes at  least two arguments, both C-strings, and assigns the contents of the second string to the contents of the first string. Any additional arguments are up to you. Implement StringCopy without using strcpy.
+
+#include <iostream> 
+using namespace std; 
+// prototype StringCopy
+
+int main() 
+{ 
+char input1[80], input2[80];
+cout << "Input first string: ";
+cin >> input1;
+cout << "Input second string: ";
+cin >> input2;
+// call StringCopy
+cout << input1 << endl;
+system("pause");
+return 0; 
+}
+// implement StringCopy
+
+Sample inputs/outputs
+
+Input first string: Jeff
+Input second string: Genghis
+Genghis
+
+Input first string: Genghis
+Input second string: Jeff
+Jeff
+
+Program #3
+
+Prototype, call and implement the function StringAppend. This function does not return a value. This function, like strcat, takes at  least two arguments, both C-strings, and appends the contents of the second string to the contents of the first string Any additional arguments are up to you. Implement StringAppend without using strcat.
+
+#include <iostream> 
+using namespace std; 
+// prototype StringAppend
+
+int main() 
+{ 
+char input1[80], input2[80];
+cout << "Input first string: ";
+cin >> input1;
+cout << "Input second string: ";
+cin >> input2;
+// call StringAppend
+cout << input1 << endl;
+system("pause");
+return 0; 
+}
+// implement StringAppend
+
+Sample inputs/outputs
+
+Input first string: Jeff
+Input second string: Genghis
+JeffGenghis
+
+Input first string: Genghis
+Input second string: Jeff
+GenghisJeff
+
+Program #4
+
+Prototype, call and implement the function StringCompare. This function returns an integer value, positive if the first C-string is larger (in an ASCII comparison sense), negative if the second C-string is larger, zero if the two C-strings are equal. This function, like strcmp, takes at  least two arguments, the two C-strings which are being compared. Any additional arguments are up to you. Implement StringCompare without using strcmp.
+
+#include <iostream>
+using namespace std;
+// prototype StringCompare 
+
+int main()
+{
+char rr [80], xx [80];
+cout << "Enter value for rr: ";
+cin >> rr;
+cout << "Enter value for xx: ";
+cin >> xx;
+// call StringCompare
+if (result == 0)
+   cout << "They're equal\n";
+else if (result > 0)
+   cout <<"rr is larger\n";
+else
+   cout <<"xx is larger\n";
+return 0;
+}
+
+// implement StringCompare  
+
+Sample inputs/outputs
+
+Input first string: Jeff
+Input second string: Genghis
+Jeff is larger
+
+Input first string: Jeff
+Input second string: Jeff
+They're equal
+
+Input first string: Jeff
+Input second string: Jeffrey
+Jeffrey is larger

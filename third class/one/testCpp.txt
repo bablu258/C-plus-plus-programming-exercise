@@ -1,0 +1,37 @@
+// Bablu Banik
+// First Assignment
+
+
+#include <iostream>
+using namespace std;
+#include "Date.h"
+void setDateValues(int&, int&, int&);
+int main()
+{
+
+	int mth;
+	int  day, yr;
+
+	setDateValues(mth, day, yr);
+	/* Insert statement(s) to create a Date instance (object) from the user input here*/
+	Date tes(mth, day, yr);
+	cout << "Date is:\n";
+
+	/* Insert statement(s) to call your print member function 4 separate times to test print the date in each of 4 formats */
+
+	tes.displayDate();
+
+
+	return 0;
+}
+
+
+void setDateValues(int& m, int& d, int& y)
+{
+	cout << "Enter month: ";
+	cin >> m;
+	cout << "Enter day: ";
+	cin >> d;
+	cout << "Enter year: ";
+	cin >> y;
+}

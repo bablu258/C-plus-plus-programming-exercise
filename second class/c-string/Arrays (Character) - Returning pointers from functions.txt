@@ -1,0 +1,67 @@
+
+CSIT 839 
+Intermediate Programming using C/C++
+Instructor: Jeff Kent
+Returning Pointers from Functions
+ 
+Section 10.10 of the book at pages 648-652 concerns returning pointers from functions. This handout has two example programs. The first, badprog.cpp, shows why it is dangerous to return a pointer to a local variable. The second, goodprog.cpp, does so safely. The issue, as will be discussed in class, is variable "lifetime", as opposed to "scope."
+ 
+//badprog.cpp
+ 
+#include <iostream>
+using namespace std;
+char * GetName();
+
+int main ()
+{
+char* str;
+str = GetName();
+cout << str << endl;
+return 0;
+}
+
+char* GetName ()
+{
+char Name[80]; // declaring as static would work
+cout << "Enter your name: ";
+cin.getline (Name, 80);
+return Name;
+}
+ 
+/* Output:
+
+Enter your name: Genghis Khent
+XA i c?/ ? +2? J1A;2? ? G?/ S2? ii/A £2?e
+
+*/
+ 
+//goodprog.cpp
+ 
+#include <iostream>
+using namespace std;
+char * GetName();
+ 
+int main ()
+{
+char* str;
+str = GetName();
+cout << str;
+delete [] str;
+return 0;
+}
+
+char* GetName ()
+{
+char* ptr;
+ptr = new char[81];
+cout << "Enter your name: "; 
+cin.getline (ptr, 81);
+return ptr;
+}
+ 
+/* Output:
+ 
+Enter your name: Jeff Kent 
+Jeff Kent  
+ 
+*/

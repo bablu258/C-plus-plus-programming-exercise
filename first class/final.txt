@@ -1,0 +1,536 @@
+1. while loop
+
+int count = 1;
+
+while (count <= limit)  //limit is the # of loop repetitions
+
+{
+
+    //do stuff
+
+    count++;
+
+}
+
+
+2.for loop 
+
+for  (  int count = 1;  count <= limit  ; count++   )
+
+{
+
+       //do stuff
+
+}
+
+3. taking user input for condition - while loop
+
+int main()
+{ 
+   int x = 1, z;
+   cout << "Enter limit: ";
+   cin >> z;
+
+   while (x <= z)
+   {
+      cout << x << endl;
+      x++;
+   }
+   return 0;
+}
+
+
+
+4.taking user input for condition - for loop
+
+int main()
+{ 
+   int z;
+   cout << "Enter limit: ";
+   cin >> z;
+   for (int x = 1; x <= z; x++)
+   {
+       cout << x << endl;
+   }
+
+   return 0;
+}
+
+
+5. indifinate loop 
+ Typical Indefinite Loops:
+
+    Loops for which a particular user input signals the loop termination
+
+ 
+
+1.    while-loop for input validation -- continues until user enters valid input
+
+ 
+
+cout << “Enter ….”;
+
+cin >> value;
+
+while ( /*  value is invalid */)
+
+{
+
+         cout << value << “is not valid …..”;
+
+         cout << “Enter ….”;
+
+cin >> value;
+
+}
+
+//… value is valid
+
+example 
+#include <iostream>
+using namespace std;
+
+int main()
+{
+int score;
+cout << "Enter score: ";
+cin >> score;
+while (score < 0 || score > 100)
+{
+   cout << "Invalid input\n";
+   cout << "Enter score: ";
+   cin >> score;
+}
+cout << "Score: " << score << endl;
+return 0;
+}
+ 
+
+ 
+
+2.    do-while-loop for input validation -- continues until the user enters valid input
+
+ 
+
+do
+
+{
+
+         cout << “Enter ….”;
+
+cin >> value;
+
+if (/*  value is invalid */)
+
+                          cout << value << “is not valid …..”;
+
+        
+
+} while ( /*  value is invalid */);
+
+//… value is valid
+
+example
+
+#include <iostream>
+using namespace std;
+
+int main()
+{
+int score;
+do
+{
+   cout << "Enter score: ";
+   cin >> score;
+   if (score < 0 || score > 100)
+      cout << "Invalid input\n";
+}
+while (score < 0 || score > 100);
+cout << "Score: " << score << endl;
+return 0;
+}
+
+ 
+
+ 
+
+ 
+
+3.    while-loop as a sentinel-controlled loop
+
+ 
+
+cout << “Enter [input] …. “;
+
+cin >> input;
+
+while ( /* input is not a sentinel */ )
+
+{
+
+       //Process the input
+
+ 
+
+         cout << “Enter [input] …. “;
+
+cin >> input;
+
+}
+
+ 
+
+4.    do-while-loop as a sentinel-controlled loop
+
+ 
+
+do
+
+{
+
+         cout << “Enter [input] …. “;
+
+cin >> input;
+
+         if (  /* input is not a sentinel */  )
+
+        {
+
+                 //Process the input
+
+        }
+
+} while ( /* input is not a sentinel */ );
+
+ 
+
+ 
+
+     5.    while-loop for input validation -- continues until user enters valid input or user quits
+
+ 
+
+char response;
+
+bool flag = true;
+
+cout << “Enter ….”
+
+cin >> value;
+
+while ( /*  value is invalid and flag is true*/)
+
+{
+
+         cout << value << “is not valid …..”;
+
+         cout << "Try again (y/n)? ";
+
+         cin >> response;  response = tolower (response);
+
+         if (response != 'y')
+
+               flag = false;
+
+         else
+
+         {
+
+              cout << “Enter ….”;
+
+    cin >> value;
+
+}
+
+}
+
+//… At this point either flag is false (user quit), or value is valid
+
+ 
+
+ 
+
+     6.    do-while-loop for input validation -- continues until user enters valid input or user quits
+
+ 
+
+char response;
+
+bool flag = true;
+
+do
+
+{
+
+          cout << “Enter ….”;
+
+          cin >> value;
+
+          if (/*  value is invalid and flag is true*/)
+
+         {
+
+              cout << value << “is not valid …..”;
+
+              cout << "Try again (y/n)? "; 
+
+             cin >> response;  response = tolower (response);
+
+             if (response != 'y')
+
+                 flag = false;
+
+             else
+
+             {
+
+                  cout << “Enter ….”;
+
+        cin >> value;
+
+             }
+
+        }
+
+}while ( /*  value is invalid and flag is true*/);
+
+//… At this point either flag is false (user quit), or value is valid
+
+ 
+
+ 
+
+ 
+
+7.    user want-to-do-again? Loop
+
+ 
+
+char answer;
+
+cout << “Would you like to do this? (y/n) “;
+
+cin >> answer;
+
+while (answer == ‘y’ || answer == ‘Y’)
+
+{
+
+      //do stuff
+
+ 
+
+ 
+
+      cout << “Would you like to continue? (y/n) “;
+
+      cin >> answer;
+
+}
+
+ 6. add library
+#include <cmath>
+ cout << "\nThe square root of " << number << " is " << sqrt(number);
+
+
+7. breaking statement 
+int main()
+{
+double number;
+bool keepgoing = true;
+cout << "Enter 5 positive numbers separated by spaces and \n"
+<< "I will find their square roots: ";
+for (int count = 1; count <= 5 && keepgoing; count++)
+{
+   cin >> number;
+   if (number >= 0.0)
+  {
+
+      cout << "\nThe square root of " << number << " is " << sqrt(number);
+   }
+   else
+   {
+
+      cout << "\n\n" << number << " is negative. "
+         << "I cannot find the square root \n"
+         << "of a negative number. The program is terminating.\n";
+
+      keepgoing = false;
+
+      // break;
+   }
+}
+return 0;
+} 
+
+
+
+8. need to nclude #include <iomanip> for correct double output
+
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main()
+{
+int numDVDs; // Number of DVDs being rented
+double total = 0.0; // Accumulates total charges for all DVDs
+char current; // Current release? (Y/N)
+
+// Get number of DVDs rented
+cout << "How many DVDs are being rented? ";
+cin >> numDVDs;
+
+// Determine the charges
+for (int dvdCount = 1; dvdCount <= numDVDs; dvdCount++)
+{
+
+   if (dvdCount % 3 == 0) // If it's a 3rd DVD it's free
+   {
+      cout << "DVD #" << dvdCount << " is free!\n";
+      // continue;
+   }
+
+   else
+  {
+      cout << "Is DVD #" << dvdCount << " a current release (Y/N)? ";
+      cin >> current;
+      if ((current == 'Y') || (current == 'y'))
+         total += 3.50;
+      else
+         total += 2.50;
+
+   }
+}
+// Display the total charges
+cout << fixed << showpoint << setprecision(2);
+cout << "The total is $" << total << endl;
+return 0;
+}
+
+
+9. int main()
+{
+   int numStudents, // Number of students
+   numTests, // Number of tests per student
+   total; // Accumulates total score for each student
+   double average; // Average test score for each student
+
+   cout << "This program averages test scores.\n";
+   cout << "How many students are there? ";
+   cin >> numStudents;
+   cout << "How many test scores does each student have? ";
+   cin >> numTests;
+   cout << endl;
+
+   for (int student = 1; student <= numStudents; student++) // Outer loop
+   {
+       total = 0;
+       for (int test = 1; test <= numTests; test++) // Inner loop
+      {
+           int score;
+           cout << "Enter score " << test << " for " << "student " << student << ": ";
+           cin >> score;
+           total += score;
+       } // End of inner loop
+        average = total / (double) numTests;
+        cout << "The average for student " << student;
+        cout << " is " << average << ".\n\n";
+   } // End of outer loop
+   return 0;
+}
+
+
+10. higest and lowest 
+A.
+                                    if (test == 1)  //mod 2 // test is the initialization of loop
+				highest = lowest = score;  //mod 2
+			else if (score > highest)  //mod 2
+				highest = score;  //mod 2
+			else if (score < lowest)  //mod 2
+				lowest = score;  //mod 2
+
+
+
+B.
+
+                  if (student == 1)  //mod 2
+		{  //mod 2
+			classHighest = highest;  //mod 2
+			classLowest = lowest;  //mod 2
+		}  //mod 2
+		else if (highest > classHighest)	//mod 2
+		   classHighest = highest;  //mod 2
+		else if (lowest < classLowest)  //mod 2
+			classLowest = lowest; 
+
+
+11. don't include invalid inputs in total
+
+/Test Scores -- Part 5
+/*
+    Input Validation with Option to Quit
+*/
+#include <iostream>
+using namespace std;
+int main()
+{
+    int score;
+    int numTests;
+    int total = 0;
+    double average;
+    int high, low;
+    bool keepGoing = true;  //added for Part 4
+    int numValid = 0;  //added for Part 4
+    char quitOption; //added for Part 5
+
+    cout << "How many tests: ";
+    cin >> numTests;
+
+    //main  loop
+    //for (int s = 1; s <= numTests; s++)
+    //for (int s = 1; s <= numTests && keepGoing; s++)  //alternative -- but better as while loop
+    int s = 1;
+    while (s <= numTests && keepGoing)
+    {
+        cout << "Enter score # " << s << ": ";
+        cin >> score;
+        //input validation  -- option to terminate on invalid score
+        if (score < 0 || score > 100)
+        {
+            cout << "Invalid score\n";
+            cout << "Do you want to quit (q/Q) ? ";
+            cin >> quitOption;
+            quitOption = tolower(quitOption);
+            if (quitOption == 'q')
+                keepGoing = false;
+        }
+        else
+        {
+            numValid++;
+            //if (s == 1)
+            if (numValid == 1)
+                high = low = score;
+            else if (score > high)
+                high = score;
+            else if (score < low)
+                low = score;
+            total += score;
+            s++;
+        }
+    }
+
+    if (numValid >= 1)
+    {
+        //average = (double) total / numTests;
+        average = (double)total / numValid;
+        cout << "\nTotal: " << total << endl;
+        cout << "Average: " << average << endl;
+        cout << "Highest: " << high << endl;
+        cout << "Lowest: " << low << endl;
+    }
+    else
+        cout << "No total, average, highest, or lowet available.\n";
+    return 0;
+}

@@ -1,0 +1,127 @@
+// Bablu Banik
+// First Assignment
+
+
+#include <string>
+using namespace std;
+
+class Date
+{
+private:
+	int month, day, year;
+public:
+	Date();
+	Date(int&, int&, int&);
+	void displayDate();
+};
+
+
+
+
+
+
+// Bablu Banik
+// First Assignment
+
+
+#include <iostream>
+
+using namespace std;
+
+#include "Date.h"
+
+
+
+//no-argument constructor :
+Date::Date() : month(0), day(0), year(0){}
+
+Date::Date(int& m, int& d, int& y)
+{
+	month = m;
+	day = d;
+	year = y;
+
+}
+
+
+
+void Date::displayDate()
+
+
+{
+
+	const string monthStr[] =   //alternative:  const char monthStr[] [15]=
+	{ "January", "February", "March", "April", "May", "June",
+	"July", "August", "September", "October", "November",
+	"December" };
+
+	const string monthStrAbbrev[] =  //not strictly necessary, but helpful
+	{ "jan", "feb", "mar", "apr", "may", "jun",
+	"jul", "aug", "sep", "oct", "nov",
+	"dec" };
+
+	const int startYear = 1900;
+	const int endYear = 2020;
+
+	const int monthDays[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+
+	if ((day == monthDays[month - 1] || day < monthDays[month - 1]) && (year >= startYear && year <= endYear) && (month <= 12))
+	{
+		cout << month << "/" << day << "/" << year << endl;
+		cout << monthStr[month - 1] << " " << day << ", " << year << endl;
+		cout << year << "-" << month << "-" << day << endl;
+		cout << year << "-" << monthStrAbbrev[month - 1] << "-" << day << endl;
+	}
+
+	else
+	{
+		cout << 1 << "/" << 1 << "/" << 2001 << endl;
+		cout << monthStr[0] << " " << 1 << ", " << 2001 << endl;
+		cout << 2001 << "-" << 1 << "-" << 1 << endl;
+		cout << 2001 << "-" << monthStrAbbrev[0] << "-" << 1 << endl;
+	}
+}
+
+
+
+
+
+
+// Bablu Banik
+// First Assignment
+
+
+#include <iostream>
+using namespace std;
+#include "Date.h"
+void setDateValues(int&, int&, int&);
+int main()
+{
+
+	int mth;
+	int  day, yr;
+
+	setDateValues(mth, day, yr);
+	/* Insert statement(s) to create a Date instance (object) from the user input here*/
+	Date tes(mth, day, yr);
+	cout << "Date is:\n";
+
+	/* Insert statement(s) to call your print member function 4 separate times to test print the date in each of 4 formats */
+
+	tes.displayDate();
+
+
+	return 0;
+}
+
+
+void setDateValues(int& m, int& d, int& y)
+{
+	cout << "Enter month: ";
+	cin >> m;
+	cout << "Enter day: ";
+	cin >> d;
+	cout << "Enter year: ";
+	cin >> y;
+}

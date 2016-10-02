@@ -1,0 +1,139 @@
+
+
+Contents:
+
+ 
+
+Introduction
+
+Composition
+
+Inheritance
+
+Protected Access
+
+Constructors, Destructors, and Inheritance
+
+Overriding Base Class Functions
+
+Using Base Class Pointers
+
+Polymorphism and Virtual Member Functions
+
+Pure Virtual Functions
+
+Composition vs. Inheritance
+
+Conclusion
+
+ 
+
+Introduction
+
+Assignment #4 involves several important OOP concepts: composition, inheritance and polymorphism. The book does an excellent job of covering these concepts and preparing you for the assignment. The purpose of this module is to direct you to the sections of the textbook you should review and where appropriate add brief explanations.
+
+Back to top
+
+Composition
+
+Textbook resource: § 11.9 (Object Composition)
+
+A class may contain another class. For example, in Assignment #4, the Account class contains a variable of  the Customer class, representing the customer who owns the account. 
+
+This containership, also referred to as composition, occurs when one class has a "has a" relationship with another class. An Account "has a" Customer who owns the account.
+
+Back to top
+
+Inheritance
+
+Textbook resource: § 11.10 (Inheritance)
+
+A class may be derived from another class. For example, in Assignment #4, the Savings and Checking classes are derived from the Account class.  In other words, Savings and Checking are subclasses of the Account class.
+
+This derivation, commonly referred to as inheritance, occurs when one class has an "is a" relationship with another class. Thus,  Savings "is an" Account, and Checking "is an" Account.  The class which is inherited, such as the Account class, often is called the base or parent class, or the superclass. The class which is inheriting, such as the Savings class, often is called the derived or child class, or the subclass.
+
+Back to top
+
+Protected Access
+
+Textbook resource: § 11.11 (Protected Members and Class Access)
+
+So far our member variables and functions have had one of two access specifiers, private or public. When inheritance is involved, a third access specifier, protected, often is used. Protected is similar to private except access is permitted not just to that class, but also other classes which inherit from that class. Therefore it is common that member variables and functions of a class from which other classes may inherit are declared with protected rather than private access.
+
+When you declare a class which inherits from another one, you also declare the class from which the declared class inherits. For example the following statement declares a Savings class which inherits from an Account class:
+
+class Savings : public Account
+
+{
+
+// body of Savings class
+
+};
+
+The public keyword is the base class access specifier; it also could be private or protected. We will be using public as the base class access specifier.
+
+Back to top
+
+Constructors, Destructors, and Inheritance
+
+Textbook resource: § 11.12 (Constructors, Destructors, and Inheritance)
+
+When you create an instance of a derived class, the default base class constructor is automatically called. Thus, when you create an instance of the Savings class, the corresponding constructor for the parent Account class is automatically called. You also may pass arguments to the base class constructor by invoking an appropriate base class constructor from a derived class constructor.
+
+Similarly, when an instance of the derived class goes out of scope, the corresponding base class destructor is automatically called.
+
+Back to top
+
+Overriding Base Class Functions
+
+Textbook resource: § 11.13 (Overriding Base Class Functions)
+
+The derived class may call a base class member function that has protected (or public) access. However, if the derived class wants the function to do more than the base class member function does, then it may override the base class member function. In Assignment #4, the  Savings and Checking classes override the view function of the Account class. By doing so, the view function of the derived class still may call the base class' implementation of that function with the syntax Account::view().
+
+NOTE: Overriding is different than overloading, as this section of the book explains.
+
+Back to top
+
+Using Base Class Pointers
+
+Textbook resource: § 15.1 (Type Compatibility in Inheritance Hierarchies)
+
+This section introduces the concept of using base class pointers to point to derived class objects. In Assignment #4, you will use pointers of the Account class to point to Savings and Checking instances. 
+
+Back to top
+
+Polymorphism and Virtual Member Functions
+
+Textbook resource: § 15.2 (Polymorphism and Virtual Member Functions)
+
+The problem with using base class pointers to point to derived class objects is calling an overridden function from the base class pointer will execute the base class' implementation of that function. However, you can use polymorphism and virtual functions so the derived class' implementation of the function will execute.  In Assignment #4, the view function of the Account class could be virtual.  Then, the corresponding functions in the derived classes are implicitly virtual since they are declared virtual in the base class.  (Note that although it is not strictly necessary to declare such functions as virtual in the derived classes, it is considered good practice to explicitly do so in order to point out that they are virtual.)
+
+ Back to top
+
+Pure Virtual Functions
+
+Textbook resource: § 15.3 (Abstract Base Classes and Pure Virtual Functions)
+
+In Assignment #4, the Account class should be made abstract since it represents a generic account that will never be instantiated as an Account object.  The Account class automatically becomes abstract once it contains a pure virtual function which has no code body.  The subclasses of the Account class, Savings and Checking, must override any pure virtual functions of the Account base class, or these subclasses will themselves become abstract classes such that no Checking or Savings objects could be created.
+
+Back to top
+
+Composition vs. Inheritance
+
+Textbook resources: § 15.5 (Focus on Object-Oriented Programming: Composition versus Inheritance)
+
+This section has a very interesting discussion and comparison of composition and inheritance that may help your understanding of these concepts and the differences between them.
+
+Back to top
+
+Conclusion
+
+This module covers several important OOP concepts; composition, inheritance and polymorphism. Composition occurs when one class has a "has a" relationship with another class. Inheritance occurs when one class has an "is a" relationship with another class.
+
+When you create an instance of a derived class, the corresponding base class constructor is automatically called, and you also may pass arguments to the base class constructor. Similarly, when an instance of the derived class goes out of scope, the corresponding base class destructor is automatically called.
+
+Member variables in the parent or base class may be given protected access so they may be accessed by the child or derived class. The derived class may call a base class member function that has protected (or public) access. However, if the derived class wants the function to do more than the base class member function does, then it may override the base class member function.
+
+You may use base class pointers to point to derived class objects. The problem is calling an overridden function from the base class pointer will execute the base class' implementation of that function. However, you can use polymorphism and virtual functions so the derived class' implementation of the function will execute. You also can utilize abstract base classes and pure virtual functions.
+
+Back to top

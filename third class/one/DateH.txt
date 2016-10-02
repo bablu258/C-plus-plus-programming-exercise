@@ -1,0 +1,16 @@
+// Bablu Banik
+// First Assignment
+
+
+#include <string>
+using namespace std;
+
+class Date
+{
+private:
+	int month, day, year;
+public:
+	Date();
+	Date(int&, int&, int&);
+	void displayDate();
+};

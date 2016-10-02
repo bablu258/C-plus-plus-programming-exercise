@@ -1,0 +1,676 @@
+
+
+Contents:
+
+Introduction
+
+The Need to Initialize Class Data
+
+Initializing Variables Doesn't Work
+
+Default Constructor
+
+Writing the Constructor - Class Declaration
+
+Writing the Constructor - Class Implementation
+
+Testing the Constructor
+
+Overloading Constructors
+
+Testing the Overloaded Constructor
+
+Destructors - A Brief Mention
+
+Conclusion
+
+Introduction
+
+In this module, you will learn about a special type of class member function, the constructor, whose purpose is to provide initial values to a class instance. You also will learn how to overload constructors.
+
+Back to top
+
+The Need to Initialize Class Data
+
+In the test.cpp file in Module #2, comment out the call to setValues, so the program just outputs the default values of the Student object s1, so that it appears as follows:
+
+ 
+
+// test.cpp:
+
+ 
+
+#include <iostream>
+
+using namespace std;
+
+#include "student.h"
+
+ 
+
+int main()
+
+{
+
+   Student s1;
+
+   //s1.setValues();
+
+   cout << "Ouputting student's data\n";
+
+   s1.getValues();
+
+   return 0;
+
+}
+
+ 
+
+ 
+
+Here is the output when you run the program:
+
+ 
+
+Outputting student's data
+Student's name is and GPA is -1.07374e+008
+ 
+
+As the output reflects, the name is blank and the GPA is weird. This is not good. It is an invitation to invalid data, or as the saying goes, "garbage in, garbage out." Maybe a student could have a blank name, but it is doubtful any student would have a GPA below zero, and certainly not one of -1.07374e+008.
+
+ 
+
+Back to top
+
+ 
+
+Initializing Variables Doesn't Work
+
+ 
+
+One possible solution is to initialize the member variables when you declare them.
+
+ 
+
+The student.h file of Module 2 reads:
+
+ 
+
+//Project: Module2Version4b
+
+// student.h:
+
+ 
+
+#include <string>
+
+using namespace std;
+
+ 
+
+class Student
+
+{
+
+   private:
+
+      string name;
+
+      float gpa;
+
+   public:
+
+      void setValues();
+
+      void getValues();
+
+}; //end class declaration
+
+ 
+
+Try initializing the member variables as follows:
+
+#include <string>
+
+using namespace std;
+
+ 
+
+class Student
+
+{
+
+   private:
+
+      //string name;
+
+     //float gpa; 
+
+      string name = "No name provided";
+
+      float gpa = 0.0;
+
+   public:
+
+      void setValues();
+
+      void getValues();
+
+}; //end class declaration
+
+ 
+
+ 
+
+The project will not compile. The line:
+
+ 
+
+string name = "No name provided";
+ 
+
+is flagged by the error message: "'Student::name' : only static const integral data members can be initialized within a class."
+
+ 
+
+Similarly, the line
+ 
+
+float GPA = 0.0;
+
+ 
+
+is flagged by the error message: "'Student::gpa' : only static const integral data members can be initialized within a class." 
+ 
+
+Restore student.h to how it read at the start. We need to try a different solution.
+
+Back to top
+
+Default Constructor
+
+Textbook resources: (Using a Constructor with a Class) § 7.14, 6th ed; (Constructors) § 7.6 (7th or 8th ed)
+
+The solution is a constructor. Constructors are well-explained in the textbook. Basically a constructor is a special member function that is automatically called when you create an instance of the class. Thus, the statement in test.cpp:
+
+ 
+
+Student s1;
+
+ 
+
+automatically calls the constructor. You do not (and really cannot) call the constructor as you would other functions.
+
+ 
+
+You may be wondering: "What constructor is being called? I didn't write one." The answer is you don't need to. If you don't, then a compiler-created default constructor is called.
+
+ 
+
+Here, however, the default constructor is not sufficient for our purposes. As we already have seen, the name member variable defaults to a blank, and the GPA member variable to -1.07374e+00. Accordingly, we need to write a constructor that defaults the name member variable to "No name provided" and the gpa member variable to 0.0.
+
+ 
+
+Back to top
+
+ 
+
+Writing the Constructor - Class Declaration
+
+ 
+
+Here is the student.h  file. The additional code referring to the constructor is indicated in bold, italic type:
+
+ 
+
+// student.h:
+
+#include <string>
+
+using namespace std;
+
+ 
+
+class Student
+
+{
+
+   private:
+
+       string name;
+
+      float gpa;
+
+      //string name = "No name provided";
+
+      //float gpa = 0.0;
+
+   public:
+
+      Student();      //constructor (programmer-declared)
+
+      void setValues();
+
+      void getValues();
+
+}; //end class declaration
+
+ 
+
+    The name of the constructor is always the same as the name of the class.
+
+    The constructor has public access.
+
+    The constructor has no return type. No means no. Even a void return type will cause a compiler error.
+
+Back to top
+
+ 
+
+Writing the Constructor - Class Implementation
+
+ 
+
+Here is the student.cpp file. Once again, the additional code referring to the constructor is indicated in bold, italic type:
+
+// student.cpp:
+
+#include <iostream>
+
+using namespace std;
+
+#include "student.h"
+
+ 
+
+//constructor (programmer-defined):
+
+Student::Student()
+
+{
+
+   name = "No name provided";
+
+   gpa = 0.0;
+
+}
+
+ 
+
+void Student::setValues ()
+
+{
+
+   cout << "Enter student's name: ";
+
+   getline (cin, name);
+
+   cout << "Enter GPA: ";
+
+   cin >> gpa;
+
+   cin.ignore();
+
+}
+
+ 
+
+void Student::getValues ()
+
+{
+
+    cout << "Student's name is " << name
+
+           << " and GPA is " << gpa << endl;
+
+}
+
+ 
+
+This code explicitly assigns values to the member variables. An alternative is to use an initialization list for the definition of the Student() constructor in student.cpp shown in bold, italics here:
+
+ 
+
+//constructor:
+
+Student::Student() : name("No name provided"), gpa (0.0) { }
+
+//Student::Student()
+
+//{
+
+//    name = "No name provided";
+
+//    gpa = 0.0;
+
+//}
+
+ 
+
+ 
+
+The initialization list usually is preferred to assignment as faster as it avoids the unnecessary creation of temporary objects. But for our purposes, either syntax, assignment or initialization list, works. Just don't use both at the same time.
+
+ 
+
+Back to top
+
+
+Testing the Constructor
+
+ 
+
+Let's test our constructor. In the test.cpp file in Module #2, again comment out the call to setValues, so the program just outputs the default values of the Student object s1:
+
+ 
+
+// test.cpp:
+
+ 
+
+#include <iostream>
+
+using namespace std;
+
+#include "student.h"
+
+ 
+
+int main()
+
+{
+
+   Student s1;
+
+   //s1.setValues();
+
+   cout << "Ouputting student's data\n";
+
+   s1.getValues();
+
+   return 0;
+
+}
+
+ 
+
+ 
+
+When the program containing our written constructor, Student(), in student.cpp is run with our modified test.cpp above which comments out s1.setValues,  the output is:
+
+ 
+
+Ouputting student's data
+Student's name is No name provided and GPA is 0
+
+ 
+
+The constructor works. The default values of name and gpa are sensible instead of "garbage values" of a blank name and a ridiculous gpa.
+
+ 
+
+Back to top
+
+ 
+
+Overloading Constructors
+
+ 
+
+Textbook resources: (Overloading Constructors) § 7.15, 6th ed; § 7.6, 7th or 8th ed;
+
+ 
+
+In CSIT 839 you were introduced to the topic of overload functions. Refer to Chapter 6 of the textbook for review. Basically you can have more than one function with the same name if they differ by, for example, the number of arguments.
+
+ 
+
+Similarly, you can overload constructors. Overloading constructors is well-explained in the textbook sections listed above. Basically, the benefit of overloading constructors is that when you declare a class instance, you can also pass arguments that will be assigned to the member variables of that instance.
+
+ 
+
+Currently the statement in test.cpp that creates a Student instance has no arguments:
+
+ 
+
+Student s1;
+
+ 
+
+You might also want to create a Student instance by passing parameters with a statement such as:
+
+ 
+
+Student s2("GenghisKhent", 3.1);
+
+ 
+
+This statement would create a Student instance whose name is "Genghis Khent" and GPA is 3.1.
+
+ 
+
+Of course, we can't add this statement yet. If we did, the code won't compile. The statement we just added would be flagged with the error message: "'Student::Student' : no overloaded function takes 2 arguments." That's because we haven't yet written a constructor that takes 2 arguments. So let's do it!
+
+ 
+
+Here is the final student.h  file. The additional code referring to the overloaded constructor is indicated in bold, italic type:
+
+ 
+
+//Project: Module3FinalVersion
+
+// student.h:
+
+ 
+
+#include <string>
+
+using namespace std;
+
+ 
+
+class Student
+
+{
+
+   private:
+
+      string name;
+
+      float gpa;   
+
+   public:
+
+      Student();                        //no-argument constructor
+
+      Student(string, float);  //2-argument constructor
+
+      void setValues();
+
+      void getValues();
+
+}; //end class declaration
+
+ 
+
+ 
+
+NOTE: The order of the two arguments is unimportant, as long as you are consistent.
+
+ 
+
+Here is the final student.cpp file. Once again, the additional code referring to the overloaded constructor is indicated in bold type:
+
+ 
+
+//Project: Module3FinalVersion
+
+// student.cpp:
+
+ 
+
+#include <iostream>
+
+using namespace std;
+
+#include "student.h"
+
+ 
+
+//no-argument constructor :
+
+Student::Student() : name("No name provided"), gpa (0.0) {}
+
+//Student::Student()
+
+//{
+
+//    name = "No name provided";
+
+//    gpa = 0.0;
+
+//}
+
+ 
+
+//2-argument constructor :
+
+Student::Student(string s, float f)
+
+{
+
+   name = s;
+
+   gpa = f;
+
+}
+
+ 
+
+void Student::setValues ()
+
+{
+
+   cout << "Enter student's name: ";
+
+   getline (cin, name);
+
+   cout << "Enter GPA: ";
+
+   cin >> gpa;
+
+   cin.ignore();
+
+}
+
+ 
+
+void Student::getValues ()
+
+{
+
+   cout << "Student's name is " << name
+
+           << " and GPA is " << gpa << endl;
+
+}
+
+ 
+
+ 
+
+NOTE: Resist the temptation to name the parameters (here s and f) the same as the names of the member variables (name and gpa) as this can result in error.
+
+ 
+
+Back to top
+
+ 
+
+Testing the Overloaded Constructor
+
+ 
+
+Let's test our overloaded constructor. Change the test.cpp file to read as follows. The added code is indicated in bold type:
+
+ 
+
+//Project: Module3FinalVersion
+
+// test.cpp:
+
+ 
+
+#include <iostream>
+
+using namespace std;
+
+#include "student.h"
+
+ 
+
+int main()
+
+{
+
+   Student s1;
+
+   //s1.setValues();
+
+   Student s2 ("Genghis Khent", 3.1);
+
+   cout << "Ouputting student's data\n";
+
+   s1.getValues();
+
+   s2.getValues();
+
+   return 0;
+
+}
+
+ 
+
+Here is the output when you run the program:
+
+ 
+
+Ouputting student's data
+Student's name is No name provided and GPA is 0
+Student's name is Genghis Khent and GPA is 3.1
+
+ 
+
+The overloaded constructor works. The values passed as arguments to the class instance when it was declared are assigned to its name and gpa member variables. 
+
+ 
+
+Back to top
+
+ 
+
+Destructors - A Brief Mention
+
+ 
+
+Textbook resources: (Destructors) § 7.16, 6th ed; § 7.7, 7th or 8th ed;
+
+ 
+
+Destructors are mentioned in chapter 7 of the textbook. We will cover them, but not now. The reason is that destructors serve a purpose when a class contains member variables that are dynamically allocated. Currently the members of our Student class, name and GPA, are not dynamically allocated. So we'll defer discussing destructors in depth for now.
+
+ 
+
+Back to top
+
+ 
+
+Conclusion
+
+ 
+
+In this module, you learned about a special type of class member function, the constructor, whose purpose is to provide initial values to a class instance. You also learned how to overload constructors.
+
+ 
+
+So far our member functions have been public. In the next module you will learn when to use member functions that are private.

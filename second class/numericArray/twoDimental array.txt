@@ -1,0 +1,137 @@
+
+
+CSIT 839 
+
+Intermediate programming using C/C++
+	
+
+Instructor: Jeff Kent
+
+Passing Two-Dimensional Numeric Arrays to Functions
+
+ 
+
+This handout has two example programs concerning passing two-dimensional numeric arrays to functions. The first, staticarr.cpp, concerns a two-dimensional numeric array created on the stack. The second, dynarr.cpp, concerns an array of integers pointers, with the array representing the tests per student created dynamically.
+
+ 
+
+//staticarr.cpp
+
+ 
+
+/* In this example the array contains 3 rows and 2 columns of scores
+
+    A row is a student, a column is a score for that student */
+
+#include <iostream>
+using namespace std;
+
+void input (int [][2], int);
+void output (int [][2], int);
+
+int main()
+{
+   int scores [3][2];
+   input (scores, 3);
+   output (scores, 3);	
+   return 0;
+}
+
+void input (int arr [][2], int num)
+{
+   for (int x = 0; x < num; x++)
+   {
+      for (int y = 0; y < 2; y++)
+      {
+         cout << "Student " << x + 1 << " score " << y + 1 << ": ";
+         cin >> arr[x][y];
+      }
+   }
+}
+
+void output (int arr [][2], int num)
+{
+   for (int x = 0; x < num; x++)
+   {
+      for (int y = 0; y < 2; y++)
+     {
+         cout << "Student " << x + 1 << " score " << y + 1 << ": " << arr[x][y] << endl;
+      }
+   }
+}
+
+/* 
+Sample run
+Student 1 score 1: 78
+Student 1 score 2: 93
+Student 2 score 1: 34
+Student 2 score 2: 23
+Student 3 score 1: 89
+Student 3 score 2: 98
+Student 1 score 1: 78
+Student 1 score 2: 93
+Student 2 score 1: 34
+Student 2 score 2: 23
+Student 3 score 1: 89
+Student 3 score 2: 98
+*/
+
+ 
+
+//dynarr.cpp
+
+ 
+
+/* In this example, the array contains a maximum of 3 students,
+     but the numberof scores is allocated dynamically (at runtime) */
+
+ 
+
+#include <iostream>
+using namespace std;
+ 
+const int MAX = 3;
+ 
+void input(int*[], int);
+void output(int*[], int);
+ 
+int main()
+{
+   int* scores[MAX];
+   int tests;
+   cout << "How many tests: ";
+   cin >> tests;
+   for (int x = 0; x < MAX; x++)
+      scores[x] = new int[tests];
+   input(scores, tests);
+   output(scores, tests);
+   for (int x = 0; x < MAX; x++)
+      delete [] scores[x];
+   return 0;
+}
+ 
+void input(int *arr[], int num)
+{
+   for (int x = 0; x < MAX; x++)
+   {		
+      for (int y = 0; y < num; y++)
+      {
+         cout << "Student " << x + 1 << " score " << y + 1 << ": ";
+         cin >> arr[x][y];
+      }
+   }
+}
+ 
+void output(int *arr[], int num)
+{
+   for (int x = 0; x < MAX; x++)
+   {
+      for (int y = 0; y < num; y++)
+      {
+         cout << "Student " << x + 1 << " score " << y + 1 << ": " << arr[x][y] << endl;
+      }
+   }
+}
+
+CHALLENGE: Modify dynarr.cpp so the tests per each student may differ among students. 
+

@@ -1,0 +1,349 @@
+
+
+Contents:
+
+Introduction
+
+ADTs Revisited - again
+
+The Need for Input Validation
+
+Need for an Input Validation Function
+
+GPA Testing Function
+
+Using the GPA Testing Function
+
+A Note on Effective Error Checking
+
+An Alternate Way to Write the Student Example Project
+
+Conclusion
+
+Introduction
+
+So far our member functions have been public. In this module, you will learn how to use member functions that are private. These private member functions also may be referred to as helper functions as they help public member functions. You also will learn how this separation of public and private member function is consistent with the concept of ADTs, which separate what an object does from how it does it.
+
+Back to top
+
+ADTs Revisited - again
+
+Let's return to the analogy to cars when we revisited ADTs in Module #2.
+
+As the driver, the only action you need to know about to start the car is to turn on the ignition key. However, turning on the ignition key does not itself start the engine. When you turn the ignition key, you start the starter motor. The starter motor spins the engine a few revolutions so that the combustion process can start. The combustion process itself is an involved process. See How Automobile Ignition Systems Work.
+
+Continuing with the analogy, the ignition key being switched to the on position, turnKeyOn. is a member function of the Car class. The turnKeyOn member function calls (triggers) other member functions such as the starter motor spinning the engine (spinEngine).
+
+The turnKeyOn member function must be public, because the driver needs to do it. However, the spinEngine member function may be private, because it is not done directly by the driver, but rather called by another member function of the Car class (turnKeyOn).
+
+This separation of public and private member function is consistent with the concept of ADTs, which separate what an object does from how it does it.
+
+In this module, we will use a private, helper function for input validation.
+
+Back to top
+
+The Need for Input Validation
+
+Textbook resources: (Input Validation Objects) § 7.17, 6th ed, § 7.12, 7th ed
+
+ 
+
+Change the test.cpp file in Module #3 by uncommenting out the call to setValues, and changing the second argument of the call to the two argument constructor from 3.1 to -3.1, so the program reads:
+
+ 
+
+// test.cpp:
+
+#include <iostream>
+
+using namespace std;
+
+#include "student.h"
+
+int main()
+
+{
+
+   Student s1;
+
+   s1.setValues();     //uncommented out
+
+   //Student s2 ("Genghis Khent", 3.1);  //commented out
+
+   Student s2 ("Genghis Khent", -3.1);  //added
+
+   cout << "Ouputting student's data\n";
+
+   s1.getValues();
+
+   s2.getValues();
+
+  return 0;
+
+}
+
+ 
+
+Here is a sample run:
+
+ 
+
+Enter student's name: In Valid
+Enter GPA: 1234.56
+Ouputting student's data
+Student's name is In Valid and GPA is 1234.56
+Student's name is Genghis Khent and GPA is -3.1
+
+ 
+
+ 
+
+As the output reflects, there is nothing to stop an invalid GPA from being assigned, either in setValues or in the two argument constructor. This also is an invitation to invalid data, or "garbage in, garbage out."
+
+ 
+
+Back to top
+
+ 
+
+Need for an Input Validation Function
+
+ 
+
+One solution is to put error-checking code in the two-argument constructor. If the second argument is not within a valid range, say 0 to 4, then 0.0, rather than the value of the second argument, is assigned to GPA.
+
+ 
+
+You would have to put similar error-checking code in setValues. If the value entered by the user for the GPA is not within a valid range, then 0.0, rather than the user input, is assigned to the GPA.
+
+ 
+
+However, isn't the error-checking exactly the same in both cases? So why duplicate code? Instead, you should write an error-checking member function.
+
+ 
+
+Back to top
+
+ 
+
+GPA Testing Function
+
+ 
+
+Textbook resources: (Using Private Member Functions): § 7.18, 6th ed; § 7.8, 7th ed
+
+ 
+
+One approach (there are others) is a member function that returns true if the GPA that is its parameter is in the valid range, false otherwise:
+
+ 
+
+bool isValidGPA(float f)
+
+{
+
+if (f >= 0 && f <= 4)
+
+   return true;
+
+else
+
+   return false;
+
+}
+
+ 
+
+Here is the modified student.h  file. The additional code referring to isValidGPA is indicated in bold, italic type:
+
+ 
+
+//Project: Module4FinalVersion
+
+// student.h:
+
+#include <string>
+
+using namespace std;
+
+class Student
+
+{
+
+   private:
+
+      string name;
+
+      float gpa;
+
+      bool isValidGPA (float);
+
+   public:
+
+      Student();
+
+      Student(string, float);
+
+      void setValues();
+
+      void getValues();
+
+}; //end class declaration
+
+ 
+
+ 
+
+Note that the input validation function is private. One reason (and a good one) is it doesn't have to be public. It will be called by other member functions of the same class, and not by the application or user of the class, test.cpp. See the analogy above to the turnKeyOn and spinEngine member functions of the hypothetical Car class.
+
+ 
+
+Next, you will add the following implementation of isValidGPA to existing student.cpp file:
+
+ 
+
+bool Student::isValidGPA(float f)
+
+{
+
+   if (f >=0 && f<=4)
+
+      return true;
+
+   else
+
+      return false;
+
+}
+
+ 
+
+ 
+
+Back to top
+
+ 
+
+Using the GPA Testing Function
+
+ 
+
+We now will use the isValidGPA function in the two argument constructor and the setValues function.
+
+ 
+
+Student::Student(string s, float f)
+
+{
+
+   name = s;
+
+   if (isValidGPA(f))
+
+      gpa = f;
+
+   else
+
+      gpa = 0.0;
+
+}
+
+ 
+
+void Student::setValues ()
+
+{
+
+   cout << "Enter student's name: ";
+
+   getline (cin, name);
+
+   cout << "Enter GPA: ";
+
+   cin >> gpa;
+
+   if ( !isValidGPA(gpa) )
+
+      gpa = 0.0;
+
+   cin.ignore();
+
+}
+
+ 
+
+Including these in our student.cpp file and testing them with this test.cpp file shows that the input validation works!
+
+ 
+
+Enter student's name: In valid
+Enter GPA: 12.34
+Ouputting student's data
+Student's name is In valid and GPA is 0
+Student's name is Genghis Khent and GPA is 0
+
+ 
+
+New General Rule of Thumb:  To enforce data encapsulation, all member variables should retain private access.  Although some member functions must have public access so that they can be called by the driver or application program, others, which do not need to be called by the driver program, but are consider "helper" functions that are called only by other member functions, should retain private access. Thus, the above helper member function, isValidGPA, is declared private, because as shown above, it is called by the two argument constructor and the setValues member function, but not by the driver. (As mentioned in Module 1, later in the course, we will discuss a third alternative access known as "protective".)
+
+ 
+
+Back to top
+
+ 
+
+A Note on Effective Error Checking
+
+ 
+
+If the user enters an invalid GPA value, you might be tempted to try to call the 2-argument Student constructor from the setValues member function as follows:
+
+ 
+
+void Student::setValues ()
+
+{
+
+   cout << "Enter student's name: ";
+
+   getline (cin, name);
+
+   cout << "Enter GPA: ";
+
+   cin >> gpa;
+
+   if ( !isValidGPA(gpa) )
+
+    //gpa = 0.0;             //COMMENTED OUT
+
+     Student (name, 0); //ADDED:  WON'T SET gpa OF DRIVER STUDENT INSTANCE TO 0
+
+    cin.ignore();
+
+}
+
+This code compiles without error. However, as the comment above indicates, this code will not have the intended effect of setting the invalid gpa to zero.  Why? Because the code Student (name, 0) does not affect the Student instance, s1, created in the driver application, test.cpp. Instead, it creates another unnamed Student instance, and it is this other unnamed Student instance whose gpa will be set to zero. To affect the Student created in the driver application (s1) you instead simply set its GPA to zero:  gpa = 0.0.  The reason gpa = 0.0 affects the gpa of the Student instance s1 is that it is the s1 student instance which called setValues with s1.setValues() in the driver file.  The concept discussed here should become clearer once we discuss something called the "this" pointer in future modules.  Thus, you should never explicitly call a constructor; a constructor is automatically called when an object is declared; that is, when an instance of a class is declared as with:
+
+  Student s1;   //no-argument constructor automatically called
+
+  Student s2 ("Genghis Khent", -3.1);   //two-argument constructor automatically called
+
+ 
+
+Back to top
+
+ 
+
+An Alternate Way to Write the Student Example Project
+
+In our example program, the original setValues explicitly sets gpa to zero in the event of invalid input. That works. However, there is an alternative approach, in which the driver test.cpp could directly creates a Student instance from user input.  In order to do so, the driver would be responsible for obtaining the input for a student name and GPA. The driver then would use that input to create a student instance by invoking the two argument Student constructor with these input values, rather than with constant values (such as "Genghis Khent", -3.1 as shown in our test.cpp example driver).  Thus, there would be no need for a setValues input member function. But what if the input in the driver was invalid, such as -444 for the GPA? The two argument constructor would be responsible for error checking the two arguments provided by the user's input, which are passed as argument variables (rather than constants) to the two argument constructor. To validate the input, the two argument constructor could call the proper private helper function or functions. If an input was invalid, the two argument constructor would not assign that invalid input to the member variable. Instead, it would assign a default value, such as 0.0 for GPA.  Note:  That is the approach you will be using on the first assignment.
+
+Back to top
+
+ 
+
+Conclusion
+
+In prior modules our member functions have been public. In this module, you learned how to use member functions that are private. These private member functions also may be referred to as helper functions as they help public member functions. You also learned how this separation of public and private member function is consistent with the concept of ADTs, which separate what an object does from how it does it.
+
+So far we have been creating one class instance at a time. In the next module, we will be working with arrays of class instances. And it is a small step from arrays to pointers.

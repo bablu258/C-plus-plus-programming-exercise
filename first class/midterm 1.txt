@@ -1,0 +1,176 @@
+Note for midterm
+
+1. Basic
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    cout << "Name : Bablu\n Age : 23\n GPA : 4\n Grade : A\n";
+
+    return 0;
+}
+
+
+2. string, double and charecter
+
+
+#include <iostream>
+using namespace std;
+#include <string>
+
+int main()
+
+...
+//Step A:  Declare variables
+
+
+	string name;
+string typeOfFruit;
+
+	int  currentage;     //given
+	double gpa;
+
+	char grade;
+	...
+grade = 'A'; //char single quote
+...
+typeOfFruit = "peaches"; // string double qoute
+
+
+// another way of gettong string
+
+string em1;
+	...
+cout << " enter the name of first employee ";
+	cin >> em1;
+....
+//user input
+
+cout << "enter the name of the person: ";
+	cin >> name;
+
+...
+//display
+
+cout << "Person: " << name << endl;
+	cout << "Age: " << currentage << endl;
+
+...
+
+3. calculation 
+
+numSoldNxtWk = numSoldToday + 10;
+	numSoldNxtMth = numSoldNxtWk * 2;
+	//numSoldNxtMth = (numSoldToday + 10) * 2; //works but not best
+
+
+4. Constant
+
+const int lnumbe = 4;
+
+5. rules for get line
+
+Rules
+a.	Follow every “cin >> “ immediately with a “cin.ignore ()” statement
+b.	Never follow “ getline (cin, string _variable)” with a “cin. Ignore()” statement 
+...
+
+cout << "Enter name of employee #1: ";
+	getline(cin, emp1);
+	cout << "Enter sick days for employee #1: ";
+	cin >> numDays1;
+	cin.ignore();
+....
+//input
+	cout << "Enter age: ";
+	cin >> age;
+	cin.ignore();   //<=== after cin>>, clears out input buffer
+	cout << "Enter GPA: ";
+	cin >> gpa;
+	cin.ignore();   //<=== after cin>>, clears out input buffer
+	cout << "Enter grade expected: ";
+	cin >> grade;
+	cin.ignore();   //<=== THIS ONE IS CRITICAL BECAUSE getline IS NEXT INPUT!
+	cout << "Enter the person's FULL name: ";
+	//cin >> name;  // <=== LOGIC ERROR WHEN FOLLOWED BY getline FOR SAME STRING VARIABLE!
+	getline(cin, name);
+..
+
+0 arguments  (Mostly used in this class)
+A single character is taken from the input buffer and discarded
+cin.ignore();
+
+1 argument
+The specified number of characters are taken from the input buffer and discarded
+cin.ignore(33);  
+
+2 arguments
+Discards the number of characters specified, or characters up to and including the specified delimiter, whichever comes first
+cin.ignore(26, '\n');
+// ignore 26 characters or through a newline, whichever comes first 
+
+6. arithmatic operation
+
+a = 5, b = 3;
+	a *= b;  //a = a * b; there cannot be any space between * and =
+	cout << a << endl;  //a is 15
+...
+a = 5; b = 3;
+	a = -b; // take 3 and put - just before 3. space is optional between - and b ; as there is no combination in consederdation 
+	cout << a << endl; //a is -3
+...
+
+a = 5; b = 3;
+	//a =* b;  //<=== COMPILER ERROR!!
+....
+a = 5; b = 3;
+	a %= b;  //a = a % b;  it keeps reminder 
+	cout << a << endl;  //a is 2. moduler division; if 5/3, there is remionder is 2. ....
+...
+int cents, dollars, quarters, dimes, nickels, pennies;
+
+	cout << " how many change do you have in cents? ";
+	cin >> cents;
+
+
+// calculation
+
+	dollars = cents / 100;
+	cents = cents % 100;
+	quarters = cents / 25;
+	cents = cents % 25; // every time new value is required for calculation
+	dimes = cents / 10;
+	cents = cents % 10;
+	nickels = cents / 5;
+	cents = cents % 5;
+	pennies = cents / 1;
+	cents = cents % 1; // pennies = cents;
+....
+
+
+7. save file 
+
+#include <fstream>
+..
+ofstream sky;
+
+..
+// display
+
+	//cout << " How many hot dog: " << num_dog << endl;
+	cout << " Customer Name: " << name << endl;
+	cout << " Price before tax: " << total_cost << endl;
+	cout << " tax: " << tax_amount << endl;
+	cout << " Price after tax: " << withtax << endl;
+
+
+	// text file saving
+
+	sky.open("sky.txt");
+
+	sky << " Customer Name: " << name << endl;
+	sky << " Price before tax: " << total_cost << endl;
+	sky << " tax: " << tax_amount << endl;
+	sky << " Price after tax: " << withtax << endl;

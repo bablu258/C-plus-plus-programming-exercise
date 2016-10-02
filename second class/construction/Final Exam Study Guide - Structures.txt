@@ -1,0 +1,74 @@
+
+CSIT 839 
+
+Intermediate Programming using C/C++
+ 
+Instructor: Jeff Kent
+
+Final Exam Study Guide - Structures
+ 
+
+ 
+
+The Final Exam will concern structures in addition to the material for which you were responsible on the first 3 midterms. You should know how to do the following: 
+
+疋eclare a Structure 
+
+
+標rite functions to input values to member variables of a single structure instance. (See Structures - Introductory Examples, Example #1).
+
+
+標rite member functions to input values to member variables of a single structure instance. (See Structures - Member Functions).
+
+
+標rite functions to output values of member variables of a single structure instance. (See Structures - Introductory Examples, Example #1).
+
+
+標rite member functions to output values of member variables of a single structure instance. (See Structures - Member Functions).
+
+
+標rite functions to input values to member variables of an array of structure instances. (See  Structures - Introductory Examples, Example #2).
+
+
+標rite functions to output values of member variables of an array of structure instances. (See  Structures - Introductory Examples, Example #2).
+
+
+標rite member functions to input and output values to member variables of an array of structure instances. (Apply information in Structures - Member Functions). 
+
+
+必now how to declare and use an enum. (See  Structures - Introductory Examples, Example #3).
+
+
+必now how to declare and use a union. (See  Structures - Introductory Examples, Example #3).
+
+
+必now how to make an instance of one structure a member variable of another structure. (See  Structures - Introductory Examples, Examples #4-5).
+
+
+必now how to initialize member variables of a structure with default values when you declare an instance of that structure. (See Structures - Constructor, Programs #1-3).
+
+
+必now how to initialize member variables of a structure with user-provided values when you declare an instance of that structure. (See Structures - Constructor, Programs #4-5).
+
+
+必now how to make an array of structure instances a member variable of another structure. (See  Structures - Advanced Examples, Example #1).
+
+
+必now how to make a pointer to an array of structure instances (for dynamic memory allocation) a member variable of another structure. (See  Structures - Advanced Examples, Examples #2-3).
+
+
+必now how to use structures in place of numeric or character arrays. (To be discussed in class).
+
+
+Textbook References (based on 8th Edition) 
+  
+
+Book Section  Description 
+7.12 Structures 
+8.12 Arrays of Objects (see Arrays of Structures towards end of section) 
+10.11 Pointers to Class Objects and Structures (uses classes but principle same)  
+
+
+
+
+ 

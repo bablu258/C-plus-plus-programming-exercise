@@ -1,0 +1,369 @@
+1. 
+#include<iostream>
+using namespace std;
+void outputPrompt();
+ 
+int main()
+{
+int score;
+outputPrompt();
+cin >> score;
+cout << "Score: " << score << endl;
+return 0;
+}
+ 
+void outputPrompt()
+{
+cout << "Enter test score: ";
+}
+
+
+2.The inputScore function has no parameters, but returns a value, 
+the score inputted by the user in that function.
+#include<iostream>
+using namespace std;
+void outputPrompt();
+int inputScore();
+ 
+int main()
+{
+int score;
+outputPrompt();
+score = inputScore();
+cout << "Score: " << score << endl;
+return 0;
+}
+ 
+void outputPrompt()
+{
+cout << "Enter test score: ";
+}
+ 
+int inputScore()
+{
+int temp;
+cin >> temp;
+return temp;
+}
+
+
+
+3.
+this time the function has one parameter, a prompt "Enter test score: " 
+
+#include<iostream>
+using namespace std;
+#include <string>
+ 
+int inputScore(string);
+ 
+int main()
+{
+int score;
+score = inputScore("Enter test score: ");
+cout << "Score: " << score << endl;
+return 0;
+}
+ 
+int inputScore(string s)
+{
+cout << s;
+int temp;
+cin >> temp;
+return temp;
+}
+
+
+4.
+Solution - inputScore function - parameter replaces returned value
+#include<iostream>
+using namespace std;
+#include <string>
+ 
+void inputScore(string, int&);
+ 
+int main()
+{
+int score;
+inputScore("Enter test score: ", score);
+cout << "Score: " << score << endl;
+return 0;
+}
+ 
+void inputScore(string s, int & n)
+{
+cout << s;
+cin >> n;
+}
+
+5.
+
+#include<iostream>
+using namespace std;
+#include <string>
+ 
+void inputScore(string, int&);
+bool isValidScore(int);
+ 
+int main()
+{
+int score;
+bool result;
+do {
+inputScore("Enter test score: ", score);
+result = isValidScore(score);
+if (result == false)
+cout << "Invalid score\n";
+} while (result == false);
+cout << "Score: " << score << endl;
+return 0;
+}
+ 
+void inputScore(string s, int & n)
+{
+cout << s;
+cin >> n;
+}
+ 
+bool isValidScore(int n)
+{
+if (n >= 0 && n <= 100)
+return true;
+else
+return false;
+}
+
+6.
+
+If has a return value, return value may be any data type 
+(e.g., int, float, char, string)
+
+7.
+
+If no return value, then use keyword void
+
+
+8.
+Parameters in function prototypes and headers are 
+called arguments in function call. Number of arguments 
+must be same as number of parameters in prototype
+Data type of arguments must match data types and 
+order of parameters in prototype
+
+
+
+9.
+
+
+// in main
+int var = 5; doubleIt(var); // call
+
+void doubleIt (int num) // header{
+	num *= 2; // value of num doubled
+
+
+the change in the value of num has no effect on value of 
+var in main; it's still 5. Variable passed by value must 
+already have an assigned value
+
+
+
+10.
+Reference parameter has ampersand (&) in function 
+prototype and in header; no & in argument in call 
+void change(int&);
+int val;
+change(val); // call, no &
+void change(int& n) // header
+
+Unlike passing by value, if by reference, argument 
+Must be a variable (not literal, constant or expression) 
+Is changed by change to value of corresponding parameter 
+Need not already have an assigned value
+
+
+11.
+
+// in main
+int var = 5; doubleIt(var); // call
+
+void doubleIt (int & num) // header{
+	num *= 2; // value of num doubled
+}
+Change to value of num in doubleIt (from 5 to 10 by num *= 2) also 
+changes the value of var in main from 5 to 10. 
+
+
+
+
+12.
+
+return statement returns a value from the called function to the statement which called it 
+	int var = doubleIt (5); // call	int doubleIt (int n) // header
+	{
+		return n * 2; // returns 10
+	}
+
+
+13.
+
+deleted
+
+14.
+
+/swapbyref.cpp
+ 
+#include <iostream>
+using namespace std;
+void swap (int&, int&);
+int main()
+{ 
+int x = 5, y = 10;
+
+cout << "Originally x is " << x << " and y is " << y << endl;
+swap (x, y);
+cout << "Now x is " << x << " and y is " << y << endl;
+return 0;
+}
+void swap (int& a, int& b)
+{
+int temp = a;
+a = b;
+b = temp;
+}
+ 
+//swapbyadd.cpp
+ 
+#include <iostream>
+using namespace std;
+void swap (int*, int*);
+int main()
+{ 
+int x = 5, y = 10;
+
+cout << "Originally x is " << x << " and y is " << y << endl;
+swap (&x, &y);
+cout << "Now x is " << x << " and y is " << y << endl;
+//Now x is 10 and y is 5
+return 0;
+}
+void swap (int* a, int* b)
+{
+int temp = *a;
+*a = *b;
+*b = temp;
+}
+ 
+Syntax Differences Between Passing by Reference and by Address
+ 
+There are four syntax differences between passing a single variable (for example, an int as opposed to an int array) by reference and by address.
+ 
+1. In the prototype you use & for passing by reference, * for passing by address:
+ 
+void swap (int&, int&);    // by reference
+void swap (int*, int*);      // by address
+ 
+2. Similarly, in the formal parameters of the function header, you use & for passing by reference, * for passing by address:
+ 
+void swap (int& a, int& b)      // by reference
+void swap (int* a, int* b)        // by address
+ 
+3. When you call the function, you don't need the address of operator (&) for passing by reference, you do for passing by address:
+ 
+swap (x, y);           // by reference
+swap (&x, &y);    // by address
+ 
+4. In the function body, you don't need the dereference operator (*) for passing by reference, you do for passing by address:
+ 
+// by reference - no reference
+{
+int temp = a;
+a = b;
+b = temp;
+}       
+ 
+// by address - it is a reference
+{
+int temp = *a;
+*a = *b;
+*b = temp;
+}
+ 
+Is there a Substantive Difference Between Passing by Reference and by Address
+
+Mostly passing by reference and passying by address do the same thing. However, there are
+some differences, hence situation where you can only use one and not the other. 
+Dynamic memory allocation requires a pointer. A reference won't work.
+You can change the address to which a pointer points. A reference cannot be 
+changed to a different object. In this way, the pointer acts more as a variable, a reference a constant.
+You can do pointer arithmetic, where somePointer++ means the pointer points to the next 
+memory address. You cannot do such arithmetic with references. Pointer arithmetic may be useful in iterating through an array.
+You can assign NULL to a pointer, whereas a reference always refers to an object.
+You can access the address pointed to by a pointer. You can't access the address pointed to by a reference.
+You can pass values without an address, such as a numeric literal, to a function which takes a 
+const reference, whereas you can't pass values without an address to a function which takes a const pointer.
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+#include <iostream>
+using namespace std;
+
+bool isEven(int);
+
+int main()
+{
+   int val;
+   cout << "Enter an integer and I will tell you ";
+   cout << "if it is even or odd: ";
+   cin  >> val;
+   // if (isEven(val)) replaced by next two lines
+   bool result = isEven(val);
+   if (result == true)
+      cout << val << " is even.\n";
+   else
+      cout << val << " is odd.\n";
+   return 0;
+}
+
+bool isEven(int number)
+{
+  if (number % 2 == 1)
+       return false; // The number is odd if there's a remainder.
+   else
+      return true;  // Otherwise, the number is even.
+}
+ 
+Two parameters instead of a Return Value
+ 
+#include <iostream>
+using namespace std;
+
+void isEven(int, bool&);
+
+int main()
+{
+   int val;
+   cout << "Enter an integer and I will tell you ";
+   cout << "if it is even or odd: ";
+   cin  >> val;
+   // bool result = isEven(val); replaced by next two lines
+   bool result;
+   isEven (val, result);
+   if (result == true)
+      cout << val << " is even.\n";
+   else
+      cout << val << " is odd.\n";
+   return 0;
+}
+
+void isEven(int number, bool &b)
+{
+  if (number % 2 == 1)
+       b = false;  // instead of return false; 
+   else
+      b = true;  // instead of return true;  
+}
+
+

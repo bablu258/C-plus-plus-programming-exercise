@@ -1,0 +1,38 @@
+//version2a.cpp
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Student  //The only change is here --> "class" replaces "struct"
+{
+	string name;
+	float gpa;
+};  //end of class definition
+
+void setValues (Student&);  //input
+void getValues (Student);    //output
+
+int main()
+{
+	Student s1;
+	setValues (s1);
+	cout << "Ouputting student's data\n";
+	getValues (s1);
+	return 0;
+}
+
+void setValues (Student& stu)
+{
+	cout << "Enter student's name: ";
+	getline (cin, stu.name);
+	cout << "Enter GPA: ";
+	cin >> stu.gpa;
+	cin.ignore();
+}
+
+void getValues (Student s)
+{
+	cout << "Student's name is " << s.name
+		   << " and GPA is " << s.gpa << endl;
+}

@@ -1,0 +1,59 @@
+
+CSIT 839 
+Intermediate Programming using C/C++ 
+Instructor: Jeff Kent
+Arrays (Character) - Programming challenge (SSN Validation)
+ 
+This program prompts the user to enter their SSN. The user's input is stored in a C-string (not a string). You may assume that the user's input does not include an embedded space.
+The program then tests whether the SSN is in the format ###-##-####, a # signifying a digit, - a dash, such as 154-237-9245. Therefore, "123-87-4444" is valid. However, "123874444" would not be valid since there are no dashes. Additionally, "154-237-92453" would not be valid since there are too many numbers.
+
+The test of whether the SSN is in a valid format is performed by calling from main a function named isValidSSN that you will write. The isValidSSN function takes as an argument the SSN inputted by the user, and returns true if the SSN is in a valid format, false if it is not. (If you can't do this test with a separate function, then write in main the code that tests if the SSN is in a valid format).
+
+If the SSN is in a valid format, then the program first outputs this information before ending. Sample input and output:
+
+Enter your SSN: 111-22-3333
+11-22-3333 is valid
+If the SSN is not in a valid format, then the program first outputs this information before ending. Sample input and output:
+
+Enter your SSN: 111223333
+111223333 is invalid
+Here's the code given to you. The comments indicate the code you need to complete.  
+
+#include <iostream>
+using namespace std;
+// include any other library files you need
+// prototype isValidSSN
+
+int main ()
+{
+char ssn[80];
+bool result;
+cout << "SSN: ";
+cin >> ssn;
+/* call isValidSSN */
+if (result == true)
+   cout << ssn << " is valid\n";
+else
+   cout << ssn << " is not valid\n";
+return 0;
+}
+
+// implement isValidSSN
+
+Extra
+ 
+For those of you who keep asking me for an extra level of difficulty, try this.
+ 
+The Social Security Administration's FAQ "Which Social Security numbersare invalid?" states:
+ 
+===
+ 
+"However, there are some 9 digit numbers that we do not include in our randomized process.  We do not assign a Social Security number with the first three digits of: 
+000
+666
+900 - 999
+Nor do we assign Social Security number with '00' in the fourth and fifth position, or '0000' in the last four positions of the numbers."
+ 
+===
+ 
+Modify isValidSSN so it also rejects SSNs which, while in the correct format, are invalid under the above criteria.

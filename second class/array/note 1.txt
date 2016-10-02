@@ -1,0 +1,564 @@
+1.
+
+
+// This program stores employee work hours in an int array. It uses
+// one loop to input the hours and another loop to display them.
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	const int NUM_EMPLOYEES = 6;
+	int hours[NUM_EMPLOYEES];      // Holds hours worked for 6 employees
+	int count;                     // Loop counter
+
+	// Input the hours worked by each employee
+	cout << "Enter the hours worked by " << NUM_EMPLOYEES
+		<< " employees: ";
+
+	for (count = 0; count < NUM_EMPLOYEES; count++)
+		cin >> hours[count];
+
+	// Display the contents of the array
+	cout << "The hours you entered are:";
+
+	for (count = 0; count < NUM_EMPLOYEES; count++)
+		cout << " " << hours[count];
+
+	cout << endl;
+	return 0;
+}
+
+
+2.
+const int SIZE = 3;
+	
+int A[SIZE] = { 1, 1, 1 }; 
+// Define A as a 3-element int array 
+	
+// holding the values 1, 1, 1
+	
+int B[SIZE];  
+
+
+3.// This program displays the number of days in each month.
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main()
+{
+	const int NUM_MONTHS = 12;
+	int days[NUM_MONTHS];
+
+	days[0] = 31;  // January
+	days[1] = 28;  // February
+	days[2] = 31;  // March
+	days[3] = 30;  // April
+	days[4] = 31;  // May
+	days[5] = 30;  // June
+	days[6] = 31;  // July
+	days[7] = 31;  // August
+	days[8] = 30;  // September
+	days[9] = 31;  // October
+	days[10] = 30;  // November
+	days[11] = 31;  // December
+
+	for (int month = 0; month < NUM_MONTHS; month++)
+	{
+		cout << "Month " << setw(2) << (month + 1) << " has ";
+		cout << days[month] << " days.\n";
+	}
+	return 0;
+}
+
+
+
+4.
+// This program displays the number of days in each month.
+// This version of Program 8-5 stores data beginning in array element 1.
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main()
+{
+	const int NUM_MONTHS = 12;
+	int days[NUM_MONTHS + 1];
+
+	days[0] = 0;   // Dummy value. Not used.
+	days[1] = 31;  // January
+	days[2] = 28;  // February
+	days[3] = 31;  // March
+	days[4] = 30;  // April
+	days[5] = 31;  // May
+	days[6] = 30;  // June
+	days[7] = 31;  // July
+	days[8] = 31;  // August
+	days[9] = 30;  // September
+	days[10] = 31;  // October
+	days[11] = 30;  // November
+	days[12] = 31;  // December
+
+	for (int month = 1; month <= NUM_MONTHS; month++)
+	{
+		cout << "Month " << setw(2) << month << " has ";
+		cout << days[month] << " days.\n";
+	}
+	return 0;
+}
+
+
+5.
+
+
+// This program displays the number of days in each month. It uses an
+// array of string objects to hold the month names and an int array 
+// to hold the number of days in each month. Both are initialized with 
+// initialization lists at the time they are created.
+#include <iostream>
+#include <iomanip>
+#include <string> 
+using namespace std;
+
+int main()
+{
+	const int NUM_MONTHS = 12;
+	string name[NUM_MONTHS] = 
+	           { "January",   "February", "March",    "April",
+                 "May",       "June",     "July",     "August",
+                 "September", "October",  "November", "December" };
+
+	int days[NUM_MONTHS] = {31, 28, 31, 30,
+		                    31, 30, 31, 31,
+							30, 31, 30, 31};
+
+	for (int month = 0; month < NUM_MONTHS; month++)
+	{
+		cout << setw(9) << left << name[month] << " has ";
+		cout << days[month] << " days.\n";
+	}
+	return 0;
+}
+// This program displays the number of days in each month. It uses an
+// array of string objects to hold the month names and an int array 
+// to hold the number of days in each month. Both are initialized with 
+// initialization lists at the time they are created.
+#include <iostream>
+#include <iomanip>
+#include <string> 
+using namespace std;
+
+int main()
+{
+	const int NUM_MONTHS = 12;
+	string name[NUM_MONTHS] = 
+	           { "January",   "February", "March",    "April",
+                 "May",       "June",     "July",     "August",
+                 "September", "October",  "November", "December" };
+
+	int days[NUM_MONTHS] = {31, 28, 31, 30,
+		                    31, 30, 31, 31,
+							30, 31, 30, 31};
+
+	for (int month = 0; month < NUM_MONTHS; month++)
+	{
+		cout << setw(9) << left << name[month] << " has ";
+		cout << days[month] << " days.\n";
+	}
+	return 0;
+}
+
+
+
+6.
+#include <iostream>
+
+#include <string>
+
+using namespace std;
+
+#include <iomanip>
+int main() {
+
+	const int NUM_SIZE = 12;
+
+	int choice;
+
+	int days[NUM_SIZE] = {31, 28, 31, 29, 30, 31, 30, 29,
+	                      30, 31, 29, 31};
+
+	
+
+	string months[NUM_SIZE] = { "January", "February", "March",
+		"April", "May", "June", "July", "August",
+		"September", "October", "November", "December" };
+
+
+	cout << " Enter the number left to the name of the month\n" <<
+		"and the system will tell how many daysin the concerned month. \n\n";
+
+	for (int x = 1; x <= NUM_SIZE; x++)
+		cout << setw(2) << (x) << "               " << months[x - 1]   << endl;
+
+	cout << " Enter your choice here: " << endl;
+	cin >> choice;
+
+	cout << setw(2) << months[choice - 1] << "  " << days[choice - 1] << "days\n\n" ;
+
+
+
+
+
+
+
+
+
+	return 0;
+
+}
+
+
+
+7.
+
+// by "looking up" information it has stored in arrays.
+// This version of Program 8-7 stores data beginning in array element 1.
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+int main()
+{
+	const int NUM_MONTHS = 12;
+	int choice;
+	string name[NUM_MONTHS+1] = 
+		{ " ", "January",   "February", "March",    "April", 
+		       "May",       "June",     "July",     "August",
+		       "September", "October",  "November", "December" };
+
+	int days[NUM_MONTHS+1] = {0, 31, 28, 31, 30,
+		                         31, 30, 31, 31,
+							     30, 31, 30, 31};
+
+	cout << "This program will tell you how many days are "
+		 << "in any month.\n\n";
+
+	// Display the months
+	for (int month = 1; month <= NUM_MONTHS; month++)
+		cout << setw(2) << month << "  " << name[month] << endl;
+
+	cout << "\nEnter the number of the month you want: "; 
+	cin  >> choice;
+
+	// Use the choice the user entered to get the name of
+	// the month and its number of days from the arrays.
+	cout << "The month of " << name[choice] << " has "
+		 << days[choice]  << " days.\n";
+	return 0;
+}
+
+
+
+8.
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	const int SIZE = 7;
+	int numbers[SIZE] = { 1, 2, 4, 8 }; // Initialize the first 4 elements 
+
+	cout << "Here are the contents of the array:\n";
+	for (int index = 0; index < SIZE; index++)
+		cout << numbers[index] << "  ";
+	cout << endl;
+	return 0;
+}
+
+
+9.
+cout << "\nHere is the gross pay for each employee:\n";
+	cout << fixed << showpoint << setprecision(2);
+	for (int worker = 0; worker < NUM_WORKERS; worker++)
+	{
+		double grossPay = hours[worker] * payRate;
+		cout << "Employee #" << (worker + 1);
+		cout << ": $" << setw(7) << grossPay << endl;
+	}
+	return 0;
+
+
+10.
+// This program uses an array to store monthly sales figures 
+// for a company's regional offices. It then finds and displays
+// the total, average, highest, and lowest sales amounts. 
+// The data to fill the array is read in from a file. 
+#include <iostream>
+#include <fstream>              // Needed to use files
+#include <iomanip>
+using namespace std;
+
+int main()
+{
+	const int NUM_OFFICES = 12;
+	ifstream dataIn;
+	int office;                 // Loop counter
+	double sales[NUM_OFFICES],  // Array to hold the sales data
+		totalSales = 0.0,    // Accumulator initialized to zero
+		averageSales,
+		highestSales,
+		lowestSales;
+
+	// Open the data file
+	dataIn.open("dot.txt");
+	if (!dataIn)
+		cout << "Error opening data file.\n";
+	else
+	{   // Fill the array with data from the file
+		for (office = 0; office < NUM_OFFICES; office++)
+			dataIn >> sales[office];
+		dataIn.close();
+
+		// Sum all the array elements
+		for (office = 0; office < NUM_OFFICES; office++)
+			totalSales += sales[office];
+
+		// Calculate average sales
+		averageSales = totalSales / NUM_OFFICES;
+
+		// Find highest and lowest sales amounts
+		highestSales = lowestSales = sales[0];
+		for (office = 1; office < NUM_OFFICES; office++)
+		{
+			if (sales[office] > highestSales)
+				highestSales = sales[office];
+			else if (sales[office] < lowestSales)
+				lowestSales = sales[office];
+		}
+		// Display results
+		cout << fixed << showpoint << setprecision(2);
+		cout << "Total sales   $" << setw(9) << totalSales << endl;
+		cout << "Average sales $" << setw(9) << averageSales << endl;
+		cout << "Highest sales $" << setw(9) << highestSales << endl;
+		cout << "Lowest sales  $" << setw(9) << lowestSales << endl;
+	}
+	return 0;
+}
+
+
+
+11.
+// This program uses a partially-filled array to store monthly sales 
+// figures for a set of offices. It then finds and displays the total
+// sales amount, the average sales amount, and a listing of the offices
+// with sales below the average. The data to fill the array is read
+// in from a file and the number of data values are counted.
+#include <iostream>
+#include <fstream>            // Needed to use files
+#include <iomanip>
+using namespace std;
+
+int main()
+{
+	const int SIZE = 20;
+	ifstream dataIn;          // Object to read file input
+	int numOffices,           // Number of data values read in
+	    count;                // Loop counter
+	double sales[SIZE],       // Array to hold the sales data
+	       totalSales = 0.0,  // Accumulator initialized to zero
+		   averageSales;      // Average sales for all offices
+
+	// Open the data file
+	dataIn.open("sales.dat");
+	if (!dataIn)
+		cout << "Error opening the data file.\n";
+	else
+	{   // Read values from the file and store them in the array,
+		// counting them and summing them as they are read in
+		count = 0;
+		while (count < SIZE && dataIn >> sales[count])
+		{   totalSales += sales[count];
+		    count++;
+		}
+		numOffices = count;
+		dataIn.close();
+
+		// Calculate average sales
+		averageSales = totalSales / numOffices;
+
+		// Display total and average
+		cout << fixed << showpoint << setprecision(2);
+		cout << "The total sales are   $"
+			 << setw(9) << totalSales << endl;
+		cout << "The average sales are $" 
+			 << setw(9) << averageSales << endl;
+
+		// Display figures for offices performing below the average
+		cout << "\nThe following offices have below-average "
+			 << "sales figures.\n";	
+		for (int office = 0; office < numOffices; office++)
+		{	if (sales[office] < averageSales)
+		        cout << "Office "     << setw(2) << (office + 1) 
+				     << " $" << sales[office] << endl;
+		}
+	}
+	return 0;
+}
+
+
+12.
+
+// This program illustrates how a string can be processed as an array
+// of individual characters. It reads in a string, then counts the 
+// number of vowels in the string. It uses the toupper function to 
+// uppercase each letter in the string and the string class member 
+// function length() to determine how many characters are in the string.
+#include <iostream>
+#include <string>        // Needed to use string objects
+#include <cctype>        // Needed for the toupper function
+using namespace std;
+
+int main()
+{
+	char ch;
+	int vowelCount = 0;
+	string sentence;
+	
+	cout << "Enter any sentence you wish and I will \n"
+		 << "tell you how many vowels are in it.\n";
+	getline(cin, sentence);
+
+	for (int pos = 0; pos < sentence.length(); pos++)
+	{	
+		// Uppercase a copy of the next character and assign it to ch
+		ch = toupper(sentence[pos]); 
+
+		// If the character is a vowel, increment vowelCount                            
+		switch(ch)
+		{	case 'A': 
+			case 'E': 
+			case 'I': 
+			case 'O': 
+			case 'U': vowelCount++;
+		}
+	}
+	cout << "There are " << vowelCount << " vowels in the sentence.\n";
+	return 0;
+}
+
+
+
+13.
+// This program stores employee hours worked 
+// and hourly pay rates in two parallel arrays.
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main()
+{
+	const int NUM_EMPS = 5;
+	int index;
+	int hours[NUM_EMPS];         // Define 2 parallel arrays
+	double payRate[NUM_EMPS];
+	double grossPay;
+
+	// Get employee work data
+	cout << "Enter the hours worked and hourly pay rates of "
+		 << NUM_EMPS << " employees. \n";  
+
+	for (index = 0; index < NUM_EMPS; index++)
+	{
+		cout << "Hours worked by employee #" << (index + 1) << ": ";
+		cin  >> hours[index];
+		cout << "Hourly pay rate for employee #" << (index + 1) << ": ";
+		cin  >> payRate[index];
+	}
+	// Display the data
+	cout << "\nHere is the gross pay for each employee:\n";
+	cout << fixed << showpoint << setprecision(2);
+	for (index = 0; index < NUM_EMPS; index++)
+	{
+     	grossPay = hours[index] * payRate[index];
+		cout << "Employee #" << (index + 1);
+		cout << ": $" << setw(7) << grossPay << endl;
+	}
+	return 0;
+}
+
+
+
+14.
+
+// This program demonstrates that an array element 
+// can be passed to a function like any other variable.
+#include <iostream>
+using namespace std;
+
+void showValue(int);    // Function prototype
+
+int main()
+{
+	const int ARRAY_SIZE = 8;
+   int collection[ARRAY_SIZE] = {5, 10, 15, 20, 25, 30, 35, 40};
+
+	for (int index = 0; index < ARRAY_SIZE; index++)
+		showValue(collection[index]);
+	cout << endl;
+	return 0;
+}
+
+/***************************************
+ *               showValue             *
+ * This function displays the integer  *
+ * value passed to its num parameter.  *
+ ***************************************/
+void showValue(int num)
+{
+	cout << num << " ";
+}
+
+
+
+15.
+// This program demonstrates passing different arrays to a function.
+#include <iostream>
+using namespace std;
+
+// Declare arrayType to be an alias for an array of ints
+typedef int arrayType[];  
+
+void showValues(arrayType, int);  // Function prototype
+
+int main()
+{
+	const int SIZE1 = 8;
+	const int SIZE2 = 5;
+	int set1[] = {5, 10, 15, 20, 25, 30, 35, 40};
+	int set2[] = {2, 4, 6, 8, 10};
+
+	cout << "Here are the values stored in array set1: ";
+	showValues(set1, SIZE1);      // Pass set 1 to showValues
+	
+	cout << "Here are the values stored in array set2: ";
+	showValues(set2, SIZE2);      // Pass set 2 to showValues
+	return 0;
+}
+
+/*************************************************************
+ *                         showValues                        *
+ * This function displays the contents of an integer array   *
+ * when passed the array's address and its size as arguments.*
+ *************************************************************/
+void showValues (arrayType nums, int size)
+{
+	for (int index = 0; index < size; index++)
+		cout << nums[index] << " ";
+	cout << endl;
+}
+
+
+16.
+

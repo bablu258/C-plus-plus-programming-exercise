@@ -1,0 +1,102 @@
+Ad by shoppilation | Close
+
+CSIT 839 
+Intermediate PROGRAMMING using C/C++
+Instructor: Jeff Kent
+Passing by Reference vs. Passing by ADDRESS
+ 
+This handout compares passing by reference and passing by address. The example used is the "swap" PROGRAM that you probably saw in CSIT 802, in which the values of two variables in main are swapped by the called function.
+ 
+This handout first will show the code for the swap PROGRAM that uses passing by reference (swapbyref.cpp). It then will show the code for the swap PROGRAM using passing by address (swapbyadd.cpp). Finally, this handout will list and describe the syntax differences between passing by reference and passing by address.
+ 
+//swapbyref.cpp
+ 
+#include <iostream>
+using namespace std;
+void swap (int&, int&);
+int main()
+{ 
+int x = 5, y = 10;
+
+cout << "Originally x is " << x << " and y is " << y << endl;
+swap (x, y);
+cout << "Now x is " << x << " and y is " << y << endl;
+return 0;
+}
+void swap (int& a, int& b)
+{
+int temp = a;
+a = b;
+b = temp;
+}
+ 
+//swapbyadd.cpp
+ 
+#include <iostream>
+using namespace std;
+void swap (int*, int*);
+int main()
+{ 
+int x = 5, y = 10;
+
+cout << "Originally x is " << x << " and y is " << y << endl;
+swap (&x, &y);
+cout << "Now x is " << x << " and y is " << y << endl;
+//Now x is 10 and y is 5
+return 0;
+}
+void swap (int* a, int* b)
+{
+int temp = *a;
+*a = *b;
+*b = temp;
+}
+ 
+Syntax Differences Between Passing by Reference and by ADDRESS
+ 
+There are four syntax differences between passing a SINGLE variable (for example, an int as opposed to an int array) by reference and by address.
+ 
+1. In the prototype you use & for passing by reference, * for passing by address:
+ 
+void swap (int&, int&);    // by reference
+void swap (int*, int*);      // by address
+ 
+2. Similarly, in the formal parameters of the function header, you use & for passing by reference, * for passing by address:
+ 
+void swap (int& a, int& b)      // by reference
+void swap (int* a, int* b)        // by address
+ 
+3. When you call the function, you don't need the address of operator (&) for passing by reference, you do for passing by address:
+ 
+swap (x, y);           // by reference
+swap (&x, &y);    // by address
+ 
+4. In the function body, you don't need the dereference operator (*) for passing by reference, you do for passing by address:
+ 
+// by reference - no dereference
+{
+int temp = a;
+a = b;
+b = temp;
+}       
+ 
+// by address - need to dereference
+{
+int temp = *a;
+*a = *b;
+*b = temp;
+}
+ 
+Is there a Substantive Difference Between Passing by Reference and by Address
+
+Mostly passing by reference and passying by address do the same thing. However, there are some differences, hence situation where you can only use one and not the other. 
+Dynamic memory allocation requires a pointer. A reference won't work.
+You can change the address to which a pointer points. A reference cannot be changed to a different object. In this way, the pointer acts more as a variable, a reference a constant.
+You can do pointer arithmetic, where somePointer++ means the pointer points to the next memory address. You cannot do such arithmetic with references. Pointer arithmetic may be useful in iterating through an array.
+You can assign NULL to a pointer, whereas a reference always refers to an object.
+You can access the address pointed to by a pointer. You can't access the address pointed to by a reference.
+You can pass values without an address, such as a numeric literal, to a function which takes a const reference, whereas you can't pass values without an address to a function which takes a const pointer.
+As you can see, most of these advantages are in favor of a pointer. However, a reference is easier to work with as a matter of syntax. So if one of the situations above are not involved, a reference probably is easier ... unless of course you are dealing with an evil CSIT instructor who requires you to use pointers.
+ 
+
+dollarsaver Advertisement

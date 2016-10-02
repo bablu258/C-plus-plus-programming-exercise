@@ -1,0 +1,70 @@
+
+
+CSIT 839 
+
+Intermediate programming using C/C++
+	
+
+Instructor: Jeff Kent
+
+study Guide - Numeric Arrays
+
+ 
+
+The next midterm will include numeric arrays (+ functions + File I/O). You should know how to write functions which do the following: 
+
+    Have the user assign values to the elements of the array passed to it. (See Passing Array Elements or Array, program 4).
+
+    Displaying (or saving to a file) the values of the elements of the array passed to it. (See Passing Array Elements or Array, program 4).
+
+    sizeof operator - its uses and limitations. (See Numeric Arrays Slides, two slides on this operator).
+
+    Return the total of the numbers in an array, or their average. (See Numeric Arrays Slides, Sum/Average of Array Elements).
+
+    Return the largest number in an array, or the smallest. (See Numeric Arrays Slides, Largest Array Element).
+
+    Return if a specified number appears in an array. Here's code in main to start with:
+
+    int myArray[5];
+    // call input function to assign values to myArray
+    int search;
+    cout << enter value to search for: ";
+    cin >> search;
+    // call function to search array
+    // if search value in array
+       cout << search << " is in array\n";
+    else
+       cout << search << " is not in array\n";
+
+    Return the number of times a specified number appears in an array. Here's code in main to start with:
+
+    int myArray[5];
+    // call input function to assign values to myArray
+    int search, times;
+    cout << "Enter value to search for: ";
+    cin >> search;
+    // call function to search array
+    cout << search << " is in array " << times << " times\n";
+
+    Copying the values in one array to another array of equal length and same data type. Here's code in main to start with:
+
+    int sourceArray[5], targetArray[5];
+    // call input function to assign values to sourceArray
+    // call copy array function to assign values from sourceArray to targetArray
+
+    Return if the values in two arrays of equal length and same data type have the same values in the same order, or not.  Here's code in main to start with:
+
+    int arr1[5], arr2[5];
+    // call input function to assign values to arr1
+    // call input function to assign values to arr2
+    // call function to compare arr1 and arr2
+    // if arrays are equal
+       cout << "Arrays are equal";
+    else
+       cout << "Arrays are not equal";
+
+    Know how to dynamically allocate a numeric array. (See Arrays (Numeric) - Dynamic memory allocation). 
+
+And remember that when you pass a numeric array to a function, you should also pass its ... well, you should know by now.
+
+ 

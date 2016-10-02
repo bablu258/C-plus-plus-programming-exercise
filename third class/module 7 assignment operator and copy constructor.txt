@@ -1,0 +1,168 @@
+
+
+Contents:
+
+ 
+
+Introduction
+
+Assignment Operator with Classes
+
+Default Copy Constructors
+
+Copy Constructor vs. Assignment Operator
+
+Convert Constructors
+
+Conclusion
+
+ 
+
+Introduction
+
+Back in CSIT 802, you used the assignment operator to assign a value to a previously declared scalar variable, as in the following example:
+
+int num1;
+
+num1 = 5;
+
+You also learned then about initialization, in which a variable is declared and assigned a value in one statement, such as:
+
+int num1 = 5;
+
+You also used the assignment operator to assign the value of one scalar variable to another, as in the following example:
+
+int num1 = 5;
+
+int num2;
+
+num2 = num1;
+
+You also could initialize one scalar variable with another, as in the following example:
+
+int num1 = 5;
+
+int num2 = num1;
+
+These concepts also apply to classes. However, since classes are more complex than scalar variables, some interesting issues arise, about which you will learn in this module.
+
+NOTE: In the prior modules, we have predominantly used supplemental examples rather than using the example programs in the textbook. The reason is that I believed I could improve on the program examples in the textbook in bringing you up to speed on the basics of using a class in a multi-file project.  However, in this module (and some future ones), I will be predominantly using the example programs in the textbook rather than my own examples because I believe that the program examples in the textbook and the accompanying explanations do a good job of explaining the concepts involved.
+
+Back to top
+
+Assignment Operator with Classes
+
+Textbook resources: § 11.4 (Memberwise Assignment)
+
+The assignment operator (=) works with class instances as well as scalar variables. Program 11-5 in the textbook illustrates this. The program instantiates and assigns values to 2 instances of the Rectangle class, box1 and box2. The statement:
+
+box2 = box1;
+
+assigns the length and width values of box1 to box2.
+
+Default Copy Constructors
+
+Textbook resources: § 11.5 (Copy Constructors)
+
+Program 11-6 in the textbook illustrates use of a copy constructor. An Address object mary is instantiated and assigned values. When you instantiate a second Address instance, joan, you can in the same step assign it the values of mary with the statement:
+
+Address joan = mary;
+
+This looks like initialization, but with classes is called using the default copy constructor. The word "constructor" refers to the fact that the instance joan is being created. The word "default" refers to the fact that you don't need to write code for the assignment of values when the instance is created. Just as you don't have to write a constructor if you rely on the default constructor, you don't have to write a copy constructor if you rely on the default copy constructor.
+
+Note: As discussed in Module #8 in Shallow vs. Deep Copy, you can't always rely on the default copy constructor and sometimes have to write your own.
+
+Back to top
+
+Copy Constructor vs. Assignment Operator
+
+The copy constructor seems similar to the use of the assignment operator with classes. The difference is that with the default copy constructor is used when the instance is created, whereas the assignment operator is used after the instance is created.
+
+In this respect, the copy constructor is similar to initialization of scalar variables, in which a variable is declared and assigned a value in one statement, such as:
+
+int age = 5;
+
+By contrast, the assignment operator with classes is similar to the following example using scalar variables, in which the target of the assignment (num2) was previously declared:
+
+int num1 = 5;
+
+int num2;
+
+num2 = num1;
+
+ 
+
+Back to top
+
+ 
+
+Convert Constructors
+
+ 
+
+Textbook resources: § 11.8 (Convert Constructors)
+
+ 
+
+Section 11.8 of the textbook defines a convert constructor: "A constructor that takes a single parameter of a type other than its class type can be regarded as converting its parameter into an object of its class."
+
+ 
+
+Program 11-18 in the textbook illustrates the use of a convert constructor. A class named IntClass includes the following code:
+
+ 
+
+class IntClass
+{
+   private:
+      int value;
+   public:
+      IntClass (int intValue) { value = intValue; } //convert constructor
+      int getValue() { return value; }
+};
+
+ 
+
+The one-argument constructor is a convert constructor.  It has a single parameter, and the data type of that parameter is different than the class. In other words, the data type of the single parameter is not of the type IntClass.
+
+ 
+
+You could call the one-argument constructor with the code:
+
+ 
+
+IntClass intObject(23);
+
+ 
+
+Instead, you could use the following syntax, in which an object of IntClass is initialized with a value of the data type of the convert constructor's parameter:
+
+ 
+
+IntClass intObject;
+
+intObject = 23;
+
+ 
+
+This looks like assignment. However, the data type of the value on the right side of the assignment operator is different (an int) than the data type of the value on the left side of the assignment operator (an instance of IntClass). yet the statement works because of the convert constructor.
+
+ 
+
+IntClass intObject = 23;
+
+ 
+
+This looks like initialization, or use of the copy constructor. However, here too the data type of the value on the right side of the assignment operator is different (an int) than the data type of the value on the left side of the assignment operator (an instance of IntClass). yet this statement also works because of the convert constructor.
+
+ 
+
+Section 11.8 and Program 11-18 illustrate other uses of the convert constructor. However, these examples parallel the use of the assignment operator and the copy constructor.
+
+Back to top
+
+Conclusion
+
+The assignment operator works with classes similar to how it works with scalar variables. Copy constructors in classes are analogous to initialization of scalar variables. Convert constructors may be similar to either, except the data type value on the right side of the assignment operator is different than the class.
+
+Back to top

@@ -1,0 +1,131 @@
+SIT 839 
+Intermediate Programming using C/C++
+Instructor: Jeff Kent
+Passing Array Elements or Array
+Each of the following 4 programs does input and output with an array, but in a different way.
+
+PROGRAM #1
+
+In this version all input and output is in main.
+
+#include <iostream> 
+using namespace std; 
+
+int main() 
+{ 
+int arr[5];
+for (int x = 0; x < 5; x++)
+{
+cin >> arr[x];
+}
+for (int x = 0; x < 5; x++)
+{
+cout << arr[x] << " ";
+}
+cout << endl;
+return 0; 
+} 
+
+PROGRAM #2
+
+In this version functions are called to input and output. But the argument is a single element of the array.  Note input passes by reference but output by value. Also note program could be rewritten so input passes by address rather than by reference.
+
+#include <iostream> 
+using namespace std; 
+void input(int&);
+void output(int);
+
+int main() 
+{ 
+int arr[5];
+for (int x = 0; x < 5; x++)
+{
+input(arr[x]);
+}
+for (int x = 0; x < 5; x++)
+{
+output(arr[x]);
+cout << " ";
+}
+cout << endl;
+return 0; 
+} 
+
+void input(int& val)
+{
+ cout << "Enter value: ";
+ cin >> val;
+}
+
+void output(int val)
+{
+ cout << val << " ";
+}
+
+PROGRAM #3
+
+In this version functions again are called to input and output. But this time the argument is the array rather than a single element of it. Note input no longer needs to pass by reference or address because you are passing an array rather than a single element of it.
+
+#include <iostream> 
+using namespace std; 
+void input (int []);
+void output(int []);
+
+int main() 
+{ 
+int arr[5];
+input(arr);
+output (arr);
+cout << endl;
+return 0; 
+} 
+
+void input (int val[])
+{
+for (int x = 0; x < 5; x++)
+{
+cout << "Enter value: ";
+cin >> val[x];
+}
+}
+
+void output(int val[])
+{
+for (int x = 0; x < 5; x++)
+cout << val[x] << " ";
+}
+
+PROGRAM #4
+
+Similar to PROGRAM #3, but in this version the size (as in number of elements) of the array also is passed as an argument.
+
+#include <iostream> 
+using namespace std; 
+void input (int [], int);
+void output(int [], int);
+
+int main() 
+{ 
+int arr[5];
+input(arr, 5);
+output (arr, 5);
+cout << endl;
+return 0; 
+} 
+
+void input (int val[], int size)
+{
+for (int x = 0; x < size; x++)
+{
+cout << "Enter value: ";
+cin >> val[x];
+}
+}
+
+void output(int val[], int size)
+{
+for (int x = 0; x < size; x++)
+cout << val[x] << " ";
+}
+
+ 

@@ -1,0 +1,518 @@
+Contents:
+Introduction
+Objects and ADTs
+A Student Structure
+Member Variables
+Private vs. Public Access
+Member Functions
+Using Both Private and Public Access
+Encapsulation
+Why both Structures and Classes?
+Conclusion
+
+ 
+
+Introduction
+
+CSIT 840 is a class.  However, class also is a C++ programming key word that represents an abstract data type (ADT). You already know about another ADT, a structure, from the prerequisite class, CSIT 839. A class is quite similar to a structure, but there are important differences between them. 
+
+In this module, you will be shown how to create and use a class in a C++ program. You will learn how to declare and use member variables and functions, and private and public access. You also will learn about OOP (object-oriented programming) concepts such as objects, ADTs, and encapsulation.
+
+This module is a supplement to the textbook, not a substitute for reading it. The textbook introduces classes in chapter 7, starting in section 7.3. I try in this module to reference the pertinent sections of the textbook.  My suggestion is that you may find it easier to complete this module before you read those sections, and then use those sections as a resource to understand the material at a deeper level.
+
+Back to top
+
+Objects and ADTs
+
+While game programs are fun, the usual purpose of a program is to provide a solution to real-world tasks, which involve persons, places, things, or concepts. Programs use objects to represent a real-world person, place, thing, or concept. As the name of this course, Object-Oriented Programming in C++, suggests, this course is all about using programming objects.
+
+Objects generally are too complex to be described by a single variable. An array can store multiple values, but all the values in that array must be of the same data type.
+
+The array's restriction that all values must be of the same data type usually is not workable for objects. For example, each of you as students share common characteristics such as a name and a GPA (which hopefully this class will improve). The value of each may be stored in a variable. However, these variables have different data types. A name would be stored in a C-string or a C++ string class variable. However, GPA should be stored as a floating point type (float or double).
+
+The name and GPA variables are related in the sense that they both describe different characteristics of the same student. However, if you declare them as follows, they are not grouped together, but instead simply are two separate, independent variables:
+
+string name;
+float gpa;
+
+C++ enables you to package related variables together into a structure. Recall that a structure may contain multiple variables of different data types, permitting the program to more faithfully emulate the complexity of a real-world object.
+
+Note: You learned about structures at the end of CSIT 839, which is the prerequisite course to this one. You may want to review structures before proceeding further in this module.
+
+For example, you could declare the following Student structure:
+
+struct Student
+
+{
+
+   string name;
+
+   float gpa;
+
+};
+
+ 
+
+A structure, in reality, is a data type. However, it is not a data type built into C++, such as an int or float. Instead, it is a programmer-defined data type. Another term is abstract data type, the acronym for which is ADT. Section 7.1 of the 8th or 7th edition   (Section 7.8 of the 6th edition) of the textbook discusses ADTs.
+
+Note: ADTs are more than a programmer-defined data type. They also separate the "what" and the "how" of an object ("what" an object does as opposed to the the details of "how" it does it). However, this may not make much sense until we have covered more about classes in Module #2.
+
+Back to top
+
+A Student Structure (Review from CSIT 839)
+
+Let's start with a simple program that uses a structure which represents a real world object familiar to you, a student. I suggest that you not just read this, but actually create a C++ program and run the code. Many students have said that it helps them to actually retype the code, rather than copying and pasting it from this material, but that is up to you.  I'm also providing a handy link to the code below:  version1.cpp
+
+//version1.cpp
+
+ 
+
+#include <iostream>
+
+#include <string>
+
+using namespace std;
+
+ 
+
+struct Student
+
+{
+
+   string name;
+
+   float gpa;
+
+};  //end of struct definition
+
+ 
+
+void setValues (Student&); //input
+
+void getValues (Student); //output
+
+ 
+
+int main()
+
+{
+
+   Student s1;
+
+   setValues (s1);
+
+   cout << "Ouputting student's data\n";
+
+   getValues (s1);
+
+   return 0;
+
+}
+
+ 
+
+void setValues (Student& stu)
+
+{
+
+   cout << "Enter student's name: ";
+
+   getline (cin, stu.name);
+
+   cout << "Enter GPA: ";
+
+   cin >> stu.gpa;
+
+   cin.ignore();
+
+}
+
+ 
+
+void getValues (Student s)
+
+{
+
+   cout << "Student's name is " << s.name
+
+          << " and GPA is " << s.gpa << endl;
+
+}
+
+ 
+
+//===
+
+Here is sample input and output:
+
+Enter student's name: Stu Dunt
+Enter GPA: 1.85
+Outputting student's data
+Student's name is Stu Dunt and GPA is 1.85
+
+Back to top
+
+Member Variables (More Review from CSIT 839)
+
+In the following Person structure declaration:
+
+struct Person
+
+{
+
+   string name;
+
+   int testscore;
+
+};
+
+name and testscore are members of the Person structure. Since name and testscore are variables, they are member variables of the Person structure.
+
+Back to top
+
+Private vs. Public Access
+
+Textbook resources: (Object-Oriented Programming and Introduction to Classes) § 7.2 - 7.8 8th ed.; § 7.9 - 7.10, 6th ed; § 7.2-7.3 , 7th ed
+
+Let's now convert the code so it uses a class instead of a structure. All you need to do is change the struct keyword to the class keyword, as we do here for version2a.cpp:
+
+//version2a.cpp
+
+ 
+
+#include <iostream>
+
+#include <string>
+
+using namespace std;
+
+ 
+
+class Student  //The only change is here --> "class" replaces "struct"
+
+{
+
+   string name;
+
+   float gpa;
+
+};  //end of class definition
+
+ 
+
+void setValues (Student&); //input
+
+void getValues (Student); //output
+
+ 
+
+int main()
+
+{
+
+   Student s1;
+
+   setValues (s1);
+
+   cout << "Ouputting student's data\n";
+
+   getValues (s1);
+
+   return 0;
+
+}
+
+ 
+
+void setValues (Student& stu)
+
+{
+
+   cout << "Enter student's name: ";
+
+   getline (cin, stu.name);
+
+   cout << "Enter GPA: ";
+
+   cin >> stu.gpa;
+
+   cin.ignore();
+
+}
+
+ 
+
+void getValues (Student s)
+
+{
+
+   cout << "Student's name is " << s.name
+
+          << " and GPA is " << s.gpa << endl;
+
+}
+
+ 
+
+//===
+
+One minor problem. This code will not compile.
+
+The following statement in the setValues function:
+
+getline(cin, stu.name);
+
+is flagged by the following error message: "'Student::name' : cannot access private member declared in class 'Student'"
+
+Similarly, the following statement in the setValues function:
+
+cin >> stu.gpa; 
+
+is flagged by the following error message: "'Student::gpa' : cannot access private member declared in class 'Student'".
+
+The statement in the getValues function:
+
+cout << "Student's name is " << s.name
+        << " and GPA is " << s.gpa << endl;
+
+also is flagged by error messages that Student::name and Student::gpa : cannot access private members declared in the Student class.
+
+By default, all members of a class have private access. We have not changed that default. Therefore, the member variables name and gpa in the Student class have private access.
+
+Section 7.10 (6th ed) or Section 7.3 (7th ed) of the textbook, under "Access Specifiers", explains the consequences of private access. A private class member may only be accessed from within the class. The setValues and getValues functions are outside the class. These functions may be in the same .cpp file, but they are outside the class definition, which, like a structure definition, begins with an open curly brace and ends with a close curly brace and semicolon.
+
+One solution is to give the Student class member variables name and gpa public access by inserting the public keyword, followed by a colon, before them (version2b.cpp):
+
+class Student
+
+{
+
+   public:
+
+      string name;
+
+      float gpa;
+
+};
+
+ 
+
+With this change, the code using a class now runs exactly the same as its structure counterpart, version1.cpp. But we didn't declare name and gpa to have public access for the structure of version1.cpp, so why didn't we encounter the same compiler error in version1.cpp? The reason is that all members of a struct by default have public access, while all the members of a class by default have private access. This is one important difference between a structure and a class. 
+
+Back to top
+
+Member Functions
+
+Textbook resources: (Defining Member Functions)§ 7.5  7th or 8th ed; § 7.12  6th ed;
+
+A class (or a structure) may also have members that are functions instead of variables. Let's rewrite the code in version2b.cpp so that setValues and getValues, instead of being standalone functions, are member functions of the Student class (version3a.cpp)
+
+//version3a.cpp
+
+ 
+
+#include <iostream>
+
+#include <string>
+
+using namespace std;
+
+ 
+
+class Student
+
+{
+
+   public:
+
+      string name;
+
+      float gpa;
+
+      void setValues ()
+
+      {
+
+         cout << "Enter student's name: ";
+
+         getline (cin, name);
+
+         cout << "Enter GPA: ";
+
+         cin >> gpa;
+
+         cin.ignore();
+
+      }
+
+      void getValues ()
+
+      {
+
+         cout << "Student's name is " << name
+
+                << " and GPA is " << gpa << endl;
+
+      }
+
+};   //end of class definition
+
+int main()
+
+{
+
+    Student s1;
+
+    s1.setValues();
+
+    cout << "Ouputting student's data\n";
+
+    s1.getValues();
+
+    return 0;
+
+}
+
+ 
+
+//===
+
+This code runs the same as version2b.cpp. Here are the differences between version2b and version3a:
+
+    The body of setValues and getValues were moved inside the class declaration for version3b.cpp. This move eliminates the need for the prototypes of these functions above main.
+    The functions of version3a.cpp no longer require as a parameter the Student instance on which they are operating (to set or get the name or gpa). The reason is that ...
+    In main of version3a.cpp, a Student instance (s1) now is calling the class member functions using the dot operator, so it is that Student instance on which the member functions operate, as indicated by the syntax of version3a.cpp, in calls s1.setValues() and s1.getValues(), instead of setValues(s1) and getValues(s1) of version2b.cpp.
+
+Back to top
+
+Using Both Private and Public Access
+
+Comment out the public keyword in the Student class in version3a.cpp to create version3b.cpp:
+
+class Student
+
+{
+   //public:
+
+This code will not compile.
+
+The call in main to the setValues function:
+
+p1.setValues();
+
+is flagged by the following error message: "'Student::setValues' : cannot access private member declared in class 'Student'".
+
+Similarly, the call in main to the getValues function:
+
+p1.getValues();
+
+is flagged by a similar error message: "'Student::getValues' : cannot access private member declared in class 'Student'".
+
+The reason is that, just as member variables have private access by default, so do member functions. Therefore, the member functions getValues and setValues have to be given public access so they can be called from main.
+
+However, only the member functions have to be given public access. The member variables may have private access. The reason is that in version3a.cpp the member variables are not being accessed from outside the class. Rather, the member variables only are to be accessed by the member functions of the class.
+
+Compare this with version2b.cpp. There the member variables, name and gpa, were being accessed by functions that, not being member functions, were outside the class. Therefore the member variables had to be given public access.
+
+To prove that only the member functions have to be given public access, and the member variables may have private access, change the class declaration of version3a.cpp to version3c.cpp to read:
+
+class Student
+
+{
+
+   private:
+
+      string name;
+
+      float gpa;
+
+ 
+
+   public:
+
+      void setValues ()
+
+      {
+
+         cout << "Enter student's name: ";
+
+         getline (cin, name);
+
+         cout << "Enter GPA: ";
+
+         cin >> gpa;
+
+         cin.ignore();
+
+      }
+
+      void getValues ()
+
+      {
+
+         cout << "Student's name is " << name
+
+                << " and GPA is " << gpa << endl;
+
+      }
+
+};   //end of class definition
+
+ 
+
+int main()
+
+{
+
+    Student s1;
+
+    s1.setValues();
+
+    cout << "Ouputting student's data\n";
+
+    s1.getValues();
+
+    return 0;
+
+}
+
+Note: The private access specifier before the member variables is unnecessary since without an access specifier, the default is private anyway. The private access specifier is included (and recommended) simply to make the code more self-documenting.
+
+The code of version3c.cpp above should compile and run fine.
+
+Back to top
+Encapsulation
+
+While the code you just ran works fine, you legitimately may wonder why we went to the trouble of using public member functions to read from, and write to, private member variables, rather than just make the member variables public.
+
+The reason is that if the member variables are public, there is nothing to prevent invalid values from being assigned to the member variables. For example, the name could be blank, and the GPA an invalid number such as 10.0 or -3.4.
+
+However, if you use public member functions to read from, and write to, private member variables, then the setValues member function could check if the name is blank or the GPA is an invalid value. Similarly, the getValues member function could restrict access to information (names and GPAs) to only those users who in the particular system have the right to access that information.
+
+This demonstrates another aspect of OOP, encapsulation or information-hiding. The applicability of information hiding is that the class' data or information, contained in its member variables, is hidden from the "outside world" and access to them is restricted to member functions. Encapsulation applies because a member variable is packaged together with the member functions that read or write to it.
+
+General Rule of Thumb (for now):  To enforce data encapsulation, all member variables should retain private access, while member functions "may" have, and may need to have, public access.  (In Module 4, we will learn situations in which is it prudent to declare some of your member functions with private access.  Also, later in the course, we will discuss a third alternative access known as "protective".)
+
+Back to top
+
+Why both Structures and Classes?
+
+Now that you have mastered classes (sort of anyway), you may be thinking why would you ever use a structure again.  The answer is that you would not have to.  However, by convention, structures are used instead of classes when the abstract data type only contains data, and no member functions.  Additionally, as a programmer, you will be looking at other people's code, and other C++ programmers may well use structures as well as classes in their code.
+
+You legitimately may think that it is redundant for C++ to support both structures and classes since they are almost the same.  The reason is that the predecessor to C++, C, supported only structures.  C++ added classes, but retains structures for backwards compatibility.  In fact, the C++ language is a superset of the C language with OOP capabilities.
+
+There are other examples of this redundancy.  C++ also supports both C-strings (a character array terminated by a null character) and the String class. The reason is that the C programming language supported only C-strings.  The string class was added in C++.
+
+Back to top
+
+Conclusion
+
+You have learned in this module about a class and how to create and use one in a C++ program. You also learned about member variables and functions, and private and public access. You also learned about OOP concepts such as objects, ADTs, and encapsulation.
+
+In the next module, you will learn how to revise this code so it is a multi-file project, and why you would want to do so.
+
+ 
+
+ 
+
+ 

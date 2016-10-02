@@ -1,0 +1,65 @@
+
+
+CSIT 839 
+
+Intermediate programming using C/C++
+	
+
+Instructor: Jeff Kent
+
+Dynamic Memory Allocation of Array
+
+ 
+
+This handout demonstrates dynamic memory allocation of an array. The program totals and averages the sales figures for any number of days. The figures are stored in a dynamically allocated array.
+
+#include <iostream>
+
+using namespace std;
+
+void getSales (double [], int);
+double totalSales (double*, int); // double* alternate syntax to double []
+void displaySales (double, double);
+
+int main()
+{
+double *sales, total = 0, average;
+int NumDays;
+cout << "How many days of sales figures do you wish ";
+cout << "to process? ";
+cin >> NumDays;
+sales = new double [NumDays]; // Allocate memory
+getSales (sales, NumDays);
+total = totalSales(sales, NumDays);
+average = total / NumDays; // calculate the average sales per day
+displaySales (total, average);
+delete [] sales; // free dynamically allocated memory
+
+return 0;
+}
+
+void getSales (double s[], int n)
+{
+cout << enter the sales figures below.\n";
+for (int count = 0; count < n; count++)
+{
+   cout << "Day " << (count + 1) << ": ";
+   cin >> s[count];
+}
+}
+
+double totalSales (double * figures, int num) // double* alternate syntax to double []
+{
+double tot = 0;
+for (int count = 0; count < num; count++)
+{
+   tot += figures[count];
+}
+return tot;
+}
+
+void displaySales (double sum, double avg)
+{
+cout << "\n\ntotal Sales: $" << sum << endl;
+cout << "average Sales: $" << avg << endl;
+}

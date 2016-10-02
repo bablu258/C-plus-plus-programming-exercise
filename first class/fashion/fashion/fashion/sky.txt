@@ -1,0 +1,5 @@
+ Deposit: 50
+ Withdrawal: 25
+ The ending balance: 125
+ Average Balance: 112.5
+ Bank name: Wells Fargo

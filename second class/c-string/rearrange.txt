@@ -1,0 +1,66 @@
+
+CSIT 839 
+
+Intermediate Programming using C/C++
+ 
+Instructor: Jeff Kent
+
+Arrays (Character) - Programming Challenge (Name Rearrangement) 
+ 
+
+ 
+
+For those of you who want a challenge (and a good grade), try to write the following program. 
+
+ 
+
+In main, the user is asked ito enter their full name.  You may assume the user enters their full name in the following format: First name, a space, middle name, a space, and last name. No input validation is required. You may also assume the user’s first, middle, and last names each contains at least one character and no spaces; again no input validation is required. The user's input is stored in a C-string called  fullName. 
+
+ 
+
+Next in main, the code calls a function (which you also need to prototype and implement) called parseName. The parseName function has no return value. It takes at least two arguments, both C-strings (additional arguments if any are up to you). The first argument is fullName, the c-string which holds the full name (fullName) the user entered. The second argument is another c-string called resultName, which has not yet been assigned a value.
+
+ 
+
+The parseName function assigns to its second parameter (represented in the function call as resultName) the value of its first parameter (represented in the function call as fullName), but in a different format: Last name, comma, space, first name, space, middle name. For example, if the user entered Genghis Atilla Khent, the second c-string should store Khent, Genghis Atilla. 
+
+ 
+
+When the parseName function finishes, back in  main, the contents of resultName are displayed.
+
+ 
+
+ Sample Run (user input bolded and italicized)
+
+ 
+ 
+Enter name: Genghis Atilla Khent
+
+Parsed name: Khent, Genghis Atilla
+
+
+
+
+Starting Code
+
+ 
+
+#include <iostream>
+ using namespace std;
+// prototype parseName
+
+int main ()
+ {
+ char fullName[80], resultName[80];
+ cout << "Enter full name: ";
+ cin.getline(fullName, 80);
+// call  parseName
+ cout << "Parsed name: " << resultName << endl;
+ return 0;
+ }
+
+
+// implement  parseName
+
+ 
+ 

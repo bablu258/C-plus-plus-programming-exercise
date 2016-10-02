@@ -1,0 +1,294 @@
+1.
+the array contains a maximum of 3 names and the number
+of characters in each name is allocated dynamically (at runtime)
+
+void assignNames(char** param)
+{
+for (int count = 0; count < MAX; count++)
+{
+   char buffer[80];
+   cout << ENTER name: ";
+   cin >> buffer;
+   param [count] = new char [strlen(buffer) + 1];
+   strcpy(param[count], buffer);
+}
+}
+
+2.
+If the input string has an embedded space
+char str[20];
+cin.getline(str, 20);
+
+
+3.
+// good
+char str[20] = “Jeff Kent”;
+cout << str; // outputs Jeff Kent
+
+//bad
+
+char str[20];
+str = “Jeff Kent is grate!”;
+
+//good
+char str[20];
+strcpy (str, “Jeff Kent is grate!”); 
+
+
+
+4.
+// bad example for comparison
+
+char str1[15] = "Good";
+	char str2[30] = “Good";
+ 	if (str1 == str2) // always false
+ 	   cout << “They’re equal!”; 
+// right one
+
+char rr [8], xx [8];
+	cout << "Enter value for rr: ";
+	cin >> rr;
+	cout << "Enter value for xx: ";
+	cin >> xx;
+	int result = strcmp(rr, xx);
+	if (result == 0)
+		cout << "They're equal\n";
+	else if (result > 0)
+		cout <<"rr is larger\n";
+	else
+		cout <<"xx is larger\n";
+
+
+5.
+strcat has two arguments, both C-strings
+
+char str1[15] = "Good ";
+   char str2[30] = "Morning!";
+   strcat(str1, str2);
+   cout << str1; // prints: Good Morning!
+
+
+6.
+strstr – searching for a substring
+
+char s[15] = "Abracadabra";
+  	char *found = strstr(s,"dab");
+ 	cout << found;     // prints dabra
+
+
+7.
+concerns returning pointers from functions
+
+//bad example
+#include <iostream>
+using namespace std;
+char * GetName();
+
+int main ()
+{
+char* str;
+str = GetName();
+cout << str << endl;
+return 0;
+}
+
+char* GetName ()
+{
+char Name[80]; // declaring as static would work
+cout << ENTER your name: ";
+cin.getline (Name, 80);
+return Name;
+}
+
+/* Output:
+
+ENTER YOUR NAME: Genghis Khent
+XA i c?/ ? +2? J1A;2? ? G?/ S2? ii/A £2?e
+
+*/
+
+
+// good one
+
+
+#include <iostream>
+using namespace std;
+char * GetName();
+ 
+int main ()
+{
+char* str;
+str = GetName();
+cout << str;
+DELETE [] str;
+return 0;
+}
+
+char* GetName ()
+{
+char* ptr;
+ptr = new char[81];
+cout << ENTER YOUR NAME: "; 
+cin.getline (ptr, 81);
+return ptr;
+}
+ 
+/* Output:
+ 
+ENTER your name: Jeff Kent 
+Jeff Kent  
+ 
+*/
+
+8.
+double totalSales (double*, int); // double* alternate syntax to double []
+
+9.
+two dimentional array
+
+/* In this example the array contains 3 rows and 2 columns of scores
+    A row is a student, a column is a score for that student */
+#include <iostream>
+using namespace std;
+
+void input (int [][2], int);
+void output (int [][2], int);
+
+int main()
+{
+   int scores [3][2];
+   input (scores, 3);
+   output (scores, 3);	
+   return 0;
+}
+
+void input (int arr [][2], int num)
+{
+   for (int x = 0; x < num; x++)
+   {
+      for (int y = 0; y < 2; y++)
+      {
+         cout << "Student " << x + 1 << " score " << y + 1 << ": ";
+         cin >> arr[x][y];
+      }
+   }
+}
+
+void output (int arr [][2], int num)
+{
+   for (int x = 0; x < num; x++)
+   {
+      for (int y = 0; y < 2; y++)
+     {
+         cout << "Student " << x + 1 << " score " << y + 1 << ": " << arr[x][y] << endl;
+      }
+   }
+}
+
+/* 
+Sample run
+Student 1 score 1: 78
+Student 1 score 2: 93
+Student 2 score 1: 34
+Student 2 score 2: 23
+Student 3 SCORE 1: 89
+Student 3 score 2: 98
+Student 1 score 1: 78
+Student 1 score 2: 93
+Student 2 score 1: 34
+Student 2 score 2: 23
+Student 3 score 1: 89
+Student 3 score 2: 98
+*/
+
+10.
+Largest Array Element
+
+int largest = tests[0];
+ 	for (int tnum = 1; tnum < ISIZE; tnum++) 
+ 	{  if (tests[tnum] > largest)
+       largest = tests[tnum];
+ 	}
+ 	cout << "Highest score is " << largest;
+
+11.
+int exams[4][3];
+
+4= row
+3= coloum
+
+12.
+There are four syntax differences between passing a single variable (for example, an int as opposed to an int array) by reference and by address.
+ 
+1. In the prototype you use & for passing by reference, * for passing by address:
+ 
+void swap (int&, int&);    // by reference
+void swap (int*, int*);      // by address
+ 
+2. Similarly, in the formal parameters of the function header, you use & for passing by reference, * for passing by address:
+ 
+void swap (int& a, int& b)      // by reference
+void swap (int* a, int* b)        // by address
+ 
+3. When you call the function, you don't need the address of operator (&) for passing by reference, you do for passing by address:
+ 
+swap (x, y);           // by reference
+swap (&x, &y);    // by address
+ 
+4. In the function body, you don't need the dereference operator (*) for passing by reference, you do for passing by address:
+ 
+// by reference - no dereference
+{
+int temp = a;
+a = b;
+b = temp;
+}       
+ 
+// by address - need to dereference
+{
+int temp = *a;
+*a = *b;
+*b = temp;
+}
+
+
+
+13.
+
+exapmle of passing by address
+#include <iostream>
+using namespace std;
+void swap (int*, int*);
+int main()
+{ 
+int x = 5, y = 10;
+
+cout << "Originally x is " << x << " and y is " << y << endl;
+swap (&x, &y);
+cout << "Now x is " << x << " and y is " << y << endl;
+//Now x is 10 and y is 5
+return 0;
+}
+void swap (int* a, int* b)
+{
+int temp = *a;
+*a = *b;
+*b = temp;
+}
+
+
+14.
+Mostly passing by reference and passying by address do the same thing. However, there are some differences, hence situation where you can only use one and not the other. 
+A. Dynamic memory allocation requires a pointer. A reference won't work.
+
+B. You can change the address to which a pointer points. A reference cannot be changed to a different object. In this way, the pointer acts more as a variable, a reference a constant.
+
+C. You can do pointer arithmetic, where somePointer++ means the pointer points to the NEXT memory address. You cannot do such arithmetic with references. Pointer arithmetic may be useful in iterating through an array.
+
+D. You can assign NULL to a pointer, whereas a reference always refers to an object.
+
+E. You can access the address pointed to by a pointer. You can't access the address pointed to by a reference.
+
+F. You can pass values without an address, such as a numeric literal, to a function which takes a const reference, whereas you can't pass values without an address to a function which takes a const pointer.
+
+As you can see, most of these advantages are in favor of a pointer. However, a reference is easier to work with as a matter of syntax. So if one of the situations above are not involved, a reference probably is easier.

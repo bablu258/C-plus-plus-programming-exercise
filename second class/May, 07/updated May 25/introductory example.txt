@@ -1,0 +1,441 @@
+Ad by cheapcoup | Close
+
+CSIT 839 
+Intermediate PROGRAMMING using C/C++
+Instructor: Jeff Kent
+Structures - Introductory Examples
+ 
+These examples build on PROGRAM 7-1 in the textbook.
+
+Example #1 renames the PAYROLL structure to Employee (more logical name). It also has separate input and output functions rather than having all that code in main. A single Employee instance is created in main. 
+
+Example #2 builds on Example #1 by creating (and passing) an array of Employee instances rather than a single Employee instance. It also includes an alternate main function which uses dynamic memory allocation (rather than the stack as in the first main function) to create the array of Employee instances.
+
+Example #3 builds on Example #2 by adding an enum and a union. 
+ 
+Example #4 builds on Example #1 by adding to the Employee structure a member variable of another structure, Date.
+ 
+Example #5 similarly builds on Example #2 by adding to the Employee structure a member variable of another structure, Date.
+
+Example #1
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+struct Employee {
+    int empNumber; 
+    char name[80]; 
+    float hours;
+    float payRate;
+};
+
+void input(Employee*);
+void output(Employee);
+
+int main()
+{
+    Employee emp;
+    input(&emp);
+    output(emp);
+    return 0;
+}
+
+void input(Employee* e)
+{
+    cout << ENTER the employee's number: ";
+    cin >> e->empNumber;
+    cout << ENTER the employee's name: ";
+    cin.ignore();
+    cin.getline(e->name, 80);
+    cout << "How many hours did the employee work? ";
+    cin >> e->hours;
+    cout << "What is the employee's hourly payRate? ";
+    cin >> e->payRate;
+}
+
+void output(Employee e)
+{
+    cout << "\nHere is the employee's payroll data: \n";
+    cout << "Name: " << e.name << endl;
+    cout << "Number: " << e.empNumber << endl;
+    cout << "Hours worked: " << e.hours << endl;
+    cout << fixed << showpoint << setprecision(2);
+    cout << "Hourly PAY rate: $" << e.payRate << endl;
+    cout << "Gross pay: $" << e.hours * e.payRate << endl;
+}
+
+SAMPLErun
+ 
+ENTER the employee's NUMBER: 111
+ENTER the employee's name: Genghis Khent
+How many hours did the employee work? 3.4
+What is the employee's hourly payRate? 1.25
+
+Here is the employee's PAYROLL data:
+Name: Genghis Khent
+Number: 111
+Hours worked: 3.4
+Hourly PAY rate: $1.25
+Gross pay: $4.25
+ 
+Back to top
+
+Example #2
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+struct Employee {
+    int empNumber; 
+    char name[80]; 
+    float hours;
+    float payRate;
+};
+
+void input(Employee*, int);
+void output(Employee[], int);
+
+int main()
+{
+    const int MAX = 2;
+    Employee emp[MAX];
+    input(emp, MAX);
+    output(emp, MAX);
+    return 0;
+}
+ 
+/* Alternate main function using dynamic memory allocation
+int main()
+{
+    int total;
+    cout << "Enter number of employees: ";
+    cin >> total;
+    Employee *emp;
+    emp = new Employee [total];
+    input(emp, total);
+    output(emp, total);
+    delete [] emp;
+    return 0;
+} */
+
+void input(Employee* e, int num)
+{
+    for (int i = 0; i < num; i++)
+    {
+        cout << "Enter the employee's number: ";
+        cin >> e[i].empNumber;
+        cout << "Enter the employee's name: ";
+        cin.ignore();
+        cin.getline(e[i].name, 80);
+        cout << "How many hours did the employee work? ";
+        cin >> e[i].hours;
+        cout << "What is the employee's hourly payRate? ";
+        cin >> e[i].payRate;
+    }
+}
+ 
+void output(Employee e[], int num)
+{
+    cout << "\nHere is the employee payroll data: \n";
+    for (int i = 0; i < num; i++)
+    {
+        cout << "Name: " << e[i].name << endl;
+        cout << "Number: " << e[i].empNumber << endl;
+        cout << "Hours worked: " << e[i].hours << endl;
+        cout << fixed << showpoint << setprecision(2);
+        cout << "Hourly pay rate: $" << e[i].payRate << endl;
+        cout << "Gross pay: $" << e[i].hours * e[i].payRate << endl; 
+    }
+}
+
+Sample run
+
+Enter the employee's number: 111
+Enter the employee's name: Genghis Khent
+How many hours did the employee work? 3.4
+What is the employee's hourly payRate? 1.25
+Enter the employee's number: 222
+Enter the employee's name: Jeff Kent
+How many hours did the employee work? 2
+What is the employee's hourly payRate? 1111.22
+
+Here is the employee payroll data:
+Name: Genghis Khent
+Number: 111
+Hours worked: 3.4
+Hourly pay rate: $1.25
+Gross pay: $4.25
+Name: Jeff Kent
+Number: 222
+Hours worked: 2.00
+Hourly pay rate: $1111.22
+Gross pay: $2222.44
+ 
+Back to top
+
+Example #3
+
+#include <iostream>
+using namespace std;
+
+enum paytype { hourly, salary };
+
+union payrate {
+    float per_hour; // hourly worker
+    // assume hourly worker paid on 40 hour week
+    int per_month; // salary worker
+};
+
+struct Employee {
+    int empNumber; 
+    char name[80]; 
+    paytype type;
+    payrate rate;
+};
+
+void input(Employee*, int); 
+void output(Employee[], int);
+
+int main()
+{
+    const int MAX = 2;
+    Employee emp[MAX];
+    input(emp, MAX);
+    output(emp, MAX);
+    return 0;
+}
+
+void input(Employee* e, int num)
+{
+    char ch;
+    for (int i = 0; i < num; i++) 
+    {
+        cout << "Enter the employee's number: ";
+        cin >> e[i].empNumber;
+        cin.ignore();
+        cout << "Enter the employee's name: "; 
+        cin.getline(e[i].name, 80); 
+        cout << "Hourly or salaried (H/h or S/s) : ";
+        cin >> ch;
+        if (ch == 'h' || ch == 'H')
+        {
+            e[i].type = hourly;
+            cout << "Hourly rate: ";
+            cin >> e[i].rate.per_hour;
+        } 
+        else
+        {
+            e[i].type = salary;
+            cout << "Monthly salary: ";
+            cin >> e[i].rate.per_month;
+        } 
+    } 
+}
+ 
+void output(Employee e[], int num)
+{
+    cout << "\nHere is the employee payroll data: \n";
+    for (int i = 0; i < num; i++)
+    {
+        cout << "Name: " << e[i].name << endl;
+        cout << "Number: " << e[i].empNumber << endl;
+        if (e[i].type == hourly)
+        {
+            cout << "Hourly rate: $" << e[i].rate.per_hour << endl;
+            cout << "Total pay: $" << e[i].rate.per_hour * 40 << endl; 
+        }
+        else
+            cout << "Salary: $" << e[i].rate.per_month << endl;
+    } 
+}
+
+Sample run
+
+Enter the employee's number: 111
+Enter the employee's name: Genghis Khent
+Hourly or salaried (H/h or S/s) : h
+Hourly rate: 1.25
+Enter the employee's number: 222
+Enter the employee's name: Jeff Kent
+Hourly or salaried (H/h or S/s) : S
+Monthly salary: 22222
+
+Here is the employee payroll data:
+Name: Genghis Khent
+Number: 111
+Hourly rate: $1.25
+Total pay: $50
+Name: Jeff Kent
+Number: 222
+Salary: $22222
+
+Back to top
+ 
+Example #4
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+struct Date {
+    int month; 
+    int day;
+    int year;
+};
+
+struct Employee {
+    int empNumber; 
+    char name[80]; 
+    float hours;
+    float payRate; 
+    Date birthday;
+};
+
+void input(Employee*);
+void output(Employee);
+
+int main()
+{
+    Employee emp;
+    input(&emp);
+    output(emp);
+    return 0;
+}
+
+void input(Employee* e)
+{
+    cout << "Enter the employee's number: ";
+    cin >> e->empNumber;
+    cout << "Enter the employee's name: ";
+    cin.ignore();
+    cin.getline(e->name, 80);
+    cout << "How many hours did the employee work? ";
+    cin >> e->hours;
+    cout << "What is the employee's hourly payRate? ";
+    cin >> e->payRate;
+    cout << "Enter employee's birthday in mm dd yyyy format: "; 
+    cin >> e->birthday.month >> e->birthday.day >> e->birthday.year;
+}
+ 
+void output(Employee e)
+{
+    cout << "\nHere is the employee's payroll data: \n";
+    cout << "Name: " << e.name << endl;
+    cout << "Number: " << e.empNumber << endl;
+    cout << "Hours worked: " << e.hours << endl;
+    cout << fixed << showpoint << setprecision(2);
+    cout << "Hourly pay rate: $" << e.payRate << endl;
+    cout << "Gross pay: $" << e.hours * e.payRate << endl;
+    cout << "Birthday is " << e.birthday.month << " " << e.birthday.day << " " << e.birthday.year;
+}
+
+Sample run
+
+Here is the employee's payroll data:
+Name: Genghis Khent
+Number: 111
+Hours worked: 3.4
+Hourly pay rate: $1.25
+Gross pay: $4.25
+Birthday is 11 12 1911
+ 
+Back to top
+
+Example #5
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+ 
+struct Date {
+    int month; 
+    int day;
+    int year;
+};
+
+struct Employee {
+    int empNumber; 
+    char name[80]; 
+    float hours;
+    float payRate; 
+    Date birthday;
+};
+
+void input(Employee*, int);
+void output(Employee[], int);
+
+int main()
+{
+    const int MAX = 2;
+    Employee emp[MAX];
+    input(emp, MAX);
+    output(emp, MAX);
+    return 0;
+}
+
+void input(Employee* e, int num)
+{
+    for (int i = 0; i < num; i++)
+    {
+        cout << "Enter the employee's number: ";
+        cin >> e[i].empNumber;
+        cout << "Enter the employee's name: ";
+        cin.ignore();
+        cin.getline(e[i].name, 80);
+        cout << "How many hours did the employee work? ";
+        cin >> e[i].hours;
+        cout << "What is the employee's hourly payRate? ";
+        cin >> e[i].payRate;
+        cout << "Enter employee's birthday in mm dd yyyy format: ";
+        cin >> e[i].birthday.month >> e[i].birthday.day >> e[i].birthday.year;
+    }
+}
+ 
+void output(Employee e[], int num)
+{
+    cout << "\nHere is the employee payroll data: \n";
+    for (int i = 0; i < num; i++)
+    {
+        cout << "Name: " << e[i].name << endl;
+        cout << "Number: " << e[i].empNumber << endl;
+        cout << "Hours worked: " << e[i].hours << endl;
+        cout << fixed << showpoint << setprecision(2);
+        cout << "Hourly pay rate: $" << e[i].payRate << endl;
+        cout << "Gross pay: $" << e[i].hours * e[i].payRate << endl; 
+        cout << "Birthday is " << e[i].birthday.month << " " << e[i].birthday.day << " " << e[i].birthday.year;
+    }
+}
+
+Sample run
+
+Enter the employee's number: 111
+Enter the employee's name: Genghis Khent
+How many hours did the employee work? 3.4
+What is the employee's hourly payRate? 1.25
+Enter employee's birthday in mm dd yyyy format: 11 12 1911
+Enter the employee's number: 222
+Enter the employee's name: Jeff Kent
+How many hours did the employee work? 2
+What is the employee's hourly payRate? 1111.22
+Enter employee's birthday in mm dd yy format: 1 1 1999
+
+Here is the employee payroll data:
+Name: Genghis Khent
+Number: 111
+Hours worked: 3.4
+Hourly pay rate: $1.25
+Gross pay: $4.25
+Birthday is 11 12 1911
+Name: Jeff Kent
+Number: 222
+Hours worked: 2.00
+Hourly pay rate: $1111.22
+Gross pay: $2222.44
+Birthday is 1 1 1999
+ 
+Back to top
+ 
+
+ 

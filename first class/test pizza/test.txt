@@ -1,0 +1,158 @@
+// Bablu Banik
+// Pizza problem
+
+
+#include <iostream>
+using namespace std;
+
+#include <string>
+int main()
+
+{
+	int Numberofpizzas, individualnumberoftopping;
+    double totalnumberoftopping, totalpricce;
+	string colar;
+	char namofcolar, size, topping;
+	double const priceofsmall = 2.00, priceofmedium = 3.5, priceoflarge = 5.00, toppingprice = .50, notoppingprice = 0;
+	double dynamicprice;
+	bool keepgoing = true;
+
+	
+
+
+
+	cout << " Number of Pizza: ";
+	cin >> Numberofpizzas;
+	
+	cout << " Color: ";
+	cin >> namofcolar;
+
+	if (namofcolar >= 3)
+	
+	{
+		//cout << namofcolar << endl;
+
+		if (namofcolar == 1)
+			colar = " Green ";
+		else if (namofcolar == 2)
+			colar = " Yellow ";
+		else
+			colar = " Either half green or half yellow ";
+	}
+
+
+	else
+		cout << " Invalid entry! " << endl;
+
+		
+
+	cout << " Size: ";
+	cin >> size;
+
+
+
+	switch (size)
+	{
+
+	case 's':
+	case 'S': //cout << size << endl;
+		if (namofcolar == 1 || namofcolar == 2)
+			priceofsmall;
+		else
+			dynamicprice = priceofsmall +1 ;
+		break;
+
+	case 'm':
+	case'M': //cout << size << endl;
+		if (namofcolar == 1 || namofcolar == 2)
+			priceofmedium;
+		else
+			dynamicprice = priceofmedium + 1;
+		break;
+
+	case 'l':
+	case 'L': //cout << size << endl;
+		if (namofcolar == 1 || namofcolar == 2)
+			priceoflarge;
+		else
+			dynamicprice = priceoflarge + 1 ;
+		break;
+
+	default: cout << " Invaild resonse! /n";
+		
+	}
+	
+
+	cout << " Anchovy: ";
+	cin >> topping;
+
+	if (topping != 'y' && topping != 'Y' && topping != 'n' && topping != 'N')
+		cout << " Invalid User input! ";
+	else if (topping == 'y' || topping == 'Y')
+
+	{
+		toppingprice;
+		individualnumberoftopping = 1 ;
+	}
+
+	else
+		notoppingprice;
+	
+
+	cout << " Tuna: ";
+	cin >> topping;
+
+	if (topping != 'y' && topping != 'Y' && topping != 'n' && topping != 'N')
+		cout << " Invalid User input! ";
+	else if (topping == 'y' || topping == 'Y')
+	{
+		toppingprice;
+
+		individualnumberoftopping = 1;
+	}
+	else
+
+		notoppingprice;
+
+	cout << " Octopus: ";
+	cin >> topping;
+
+	if (topping != 'y' && topping != 'Y' && topping != 'n' && topping != 'N')
+		cout << " Invalid User input! ";
+	else if (topping == 'y' || topping == 'Y')
+	{
+		toppingprice;
+		individualnumberoftopping = 1;
+	}
+	else
+		notoppingprice;
+		
+
+	// calcualtion of total number of topping
+
+	if (individualnumberoftopping = 3)
+		totalnumberoftopping = 3;
+	else if (individualnumberoftopping = 2)
+		totalnumberoftopping = 2;
+	else if (individualnumberoftopping = 1)
+		totalnumberoftopping = 1;
+	else
+		totalnumberoftopping = 0;
+
+
+	// calcualtion of total price
+	 
+	totalpricce = Numberofpizzas * (size + (totalnumberoftopping * toppingprice) );
+
+
+	//Display
+
+	cout << " Total Numbero Of Topping: " << totalnumberoftopping << endl;
+	cout << " Total Price: $ " << totalpricce << endl;
+	
+
+
+
+	return 0;
+}
+

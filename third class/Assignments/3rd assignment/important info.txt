@@ -1,0 +1,19 @@
+1.
+overloaded extraction operator, >>.
+
+2.
+overloaded insertion operator, <<.
+3.
+overloaded relational operators == and >
+4.
+friend
+5.
+copy constuctor
+6.
+shallow copy and deep copy
+7.
+pointer
+8.
+reference
+9.
+destructor

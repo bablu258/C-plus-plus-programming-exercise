@@ -1,0 +1,76 @@
+1.
+When an argument is passed into a parameter by value, only a copy of the argument’s value is passed. Changes to the parameter do not affect the original argument.
+// This program demonstrates that changes to a function 
+// parameter have no effect on the original argument. 
+#include <iostream> 
+using namespace std; 
+// Function Prototype 
+void changeMe(int aValue); 
+ int main() 
+{ 
+11 int number = 12; 
+// Display the value in number 
+cout << "In main number is " << number << endl; \
+// Call changeMe, passing the value in number as an argument 
+changeMe(number); 
+ // Display the value in number again 
+cout << "Back in main again, number is still " << number << endl; 
+return 0; 
+} 
+void changeMe(int myValue) 
+{ 
+myValue = 0; 
+cout << "In changeMe, the value has been changed to "         << myValue << endl; 
+}
+
+
+
+
+
+Program Output In main number is 12 In changeMe, the value has been changed to 0 Back in main again, number is still 12
+
+
+
+
+2
+
+A reference variable is a variable that references the memory location of another variable. Any change made to the reference variable is actually made to the one it references. Reference variables are sometimes used as function parameters
+
+ #include <iostream> 
+using namespace std; 
+
+int main() 
+ {   int value = 4; 
+ cout << "In main, value is " << value << endl; 
+ cout << "Now calling doubleNum..." << endl; 
+doubleNum(value); 
+cout << "Now back in main, value is " << value << endl; 
+return 0;  } 
+
+
+void doubleNum (int &refVar) 
+ {   refVar *= 2; }
+
+
+
+
+
+Program Output In main, value is 4 Now calling doubleNum... Now back in main, value is 8
+
+
+
+3. When to Pass Arguments by Reference and When to Pass Arguments by Value
+ 
+New programmers often have a problem determining when an argument should be passed to a function by reference and when it should be passed by value. The problem is further compounded by the fact that if a value must be “sent back” to the calling function there are two ways to do it: by using a reference parameter or by using a return statement. Here are some general guidelines. 
+• When an argument is a constant, it must be passed by value. Only variables can be passed by reference. 
+• When a variable passed as an argument should not have its value changed, it should be passed by value. This protects it from being altered. 
+• When exactly one value needs to be “sent back” from a function to the calling routine, it should generally be returned with a return statement rather than through a reference parameter. 
+• When two or more variables passed as arguments to a function need to have their values changed by that function, they should be passed by reference. 
+• When a copy of an argument cannot reasonably or correctly be made, such as when the argument is a file stream object, it must be passed by reference.
+
+4.
+Here are three common instances when reference parameters are used. 
+• When data values being input in a function need to be known by the calling function. 
+• When a function must change existing values in the calling function. 
+• When a file stream object is passed to a function. 
+

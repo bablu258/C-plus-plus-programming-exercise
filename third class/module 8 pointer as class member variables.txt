@@ -1,0 +1,323 @@
+
+
+Contents:
+
+ 
+
+Introduction
+
+Person Class
+
+Destructors
+
+Shallow Copy Problem
+
+Deep Copy
+
+Copy Constructors and Passing By Reference
+
+Constant Member Functions
+
+Conclusion
+
+ 
+
+Introduction
+
+So far our class member variables have been value variables. However, a class member variable may be a pointer instead. This raises some new issues.
+
+ 
+
+Back to top
+
+ 
+
+Person Class
+
+ 
+
+This module will use a hypothetical Person class. This class has one member variable, a pointer to a C-string (a null terminated character array). Here is the declaration file:
+
+ 
+
+//person.h
+
+#ifndef PERSON_H
+
+#define PERSON_H
+
+#include <iostream>
+
+using namespace std;
+
+class Person
+
+{
+
+   private:
+
+      char* name;
+
+   public:
+
+      Person();
+
+      Person(char*);
+
+      ~Person();
+
+      void setName(char*);
+
+      void print(void);
+
+};
+
+#endif
+
+ 
+
+ 
+
+The implementation file uses this pointer to create a C-string using dynamic memory allocation:
+
+ 
+
+// person.cpp
+
+#include "person.h"
+
+#include <cstring>
+
+using namespace std;
+
+ 
+
+Person::Person()
+
+{
+
+   name = new char[80];
+
+   strcpy(name, "Godzilla");
+
+}
+
+Person::Person(char* n)
+
+{
+
+   name = new char[80];
+
+   strcpy(name, n);
+
+}
+
+ 
+
+Person::~Person()
+
+{ delete [] name; }
+
+ 
+
+void Person::setName(char* s)
+
+{ strcpy(name, s); }
+
+ 
+
+void Person::print(void)
+
+{ cout << "Name is " << name << endl; }
+
+ 
+
+Back to top
+
+ 
+
+Destructors
+
+Textbook resources: § 7.7 (Destructors)
+
+The Person class includes a member function preceded by a tilde (~):
+
+~Person();
+
+This is a destructor. A destructor is the converse of a constructor. A constructor automatically executes when a class instance is created.  Conversely, a destructor automatically executes when a class instance is destroyed.  A class instance usually is destroyed when it goes out of scope.
+
+Like a constructor, the name of a destructor is the name of the class, except the class name is preceded by a tilde. also like a constructor, a destructor does not have a return value, not even void.
+
+You can have several constructors, differing by the number of arguments. However, you can have only one destructor, and that destructor has no arguments.  Your only choice is between relying on the default destructor, or writing your own destructor with no arguments.
+
+As you already know, you do not have to explicitly write a constructor, and instead may rely on the default constructor.  Similarly, you do not have to explicitly write a destructor, and instead may rely on the default destructor.
+
+The default constructor may work adequately unless the class member variables include a pointer, which is used for dynamic memory allocation.  Therefore, the Person class does not rely on the default constructor. Instead, its constructors use the pointer to dynamically allocate memory for a C-string:
+
+name = new char[80];
+
+In this situation, the default destructor will only deallocate memory for the pointer, not for the object pointed to by the pointer. The result is a so-called memory leak, in which the dynamically created object stays in memory.
+
+In this situation, you would write your own destructor to avoid this memory leak.  In the Person class, the destructor uses the delete operator to delete the dynamically allocated memory pointed to by the class member variable:
+
+delete [] name;
+
+Deallocating dynamically created memory is a typical use of a destructor; however, it is not the only use of a destructor. Referring back to module number six, a destructor might be a good place to decrement the static member variable totalStus which is used to keep track of the class instances.
+
+Back to top
+
+Shallow Copy Problem
+
+ 
+
+Textbook resources: § 11.5 (Copy Constructors)
+
+ 
+
+Let's test the Person class code with the following driver file:
+
+ 
+
+//persontest.cpp
+
+ 
+
+#include "person.h"
+
+#include <iostream>
+
+using namespace std;
+
+ 
+
+int main(void)
+
+{
+
+   Person p1("Genghis");
+
+   Person p2 = p1;
+
+   cout << "After copy constructor\n";
+
+   cout << "pl name is ";
+
+   p1.print();
+
+   cout << "p2 name is ";
+
+   p2.print();
+
+   p2.setName("New Name");
+
+   cout << "After setName called\n";
+
+   cout << "pl name is ";
+
+   p1.print();
+
+   cout << "p2 name is ";
+
+   p2.print();
+
+}
+
+ 
+
+ 
+The output (followed by a crash of the program) is:
+
+ 
+
+After copy constructor
+pl name is Name is Genghis
+p2 name is Name is Genghis
+After setName called
+pl name is Name is New Name
+p2 name is Name is New Name
+
+Exception error
+ 
+
+As you can see, changing the name of p2 also had the unexpected side effect of changing the name of p1. The reason is that the default copy constructor made a so-called shallow copy of p1 to p2. This shallow copy copied the value of the pointer name in p1 to the value of the pointer name in p2. Since the value of a pointer is a memory address, the result of this shallow copy is that the pointer of instance p2 points to the same area of memory as the pointer of instance p1. Consequently, when we changed the value pointed to by the pointer of instance p2 by calling the setName function, we also changed the value pointed to by the pointer of instance p1, since both pointers point to the same area in memory.  (This effect is also demonstrated by Program 11-7 and illustrated by Figure 11-3 in the textbook.)
+
+ 
+
+That explains why changing the name of p2 also had the unexpected side effect of changing the name of p1. Let's now discuss the program crash.
+
+ 
+
+At the end of the program, the class instances p1 and p2 went out of scope, one at a time. It doesn't really matter which went out of scope first; let's assume it was p2.
+
+ 
+
+When p2 went out of scope, its destructor executed. The delete operator in the code inside the destructor deallocated the dynamically-created C-string, as it should.
+
+ 
+
+When p1 next went out of scope, its destructor executed. The delete operator in the code inside the destructor attempted to deallocate the dynamically-created C-string. But that C-string no longer existed, having been deallocated by p2's destructor. Since p1's pointer no longer pointed to an allocated memory area, the use of the delete operator in p1's destructor resulted in an exception.
+
+Back to top
+
+Deep Copy
+
+Textbook resources: § 11.5 (Copy Constructors)
+
+When the copy constructor is invoked, we want a deep copy, under which the copy is of the value pointed to by the pointer, not of the pointer itself. Thus, the pointer of instance p2 would continue to point to a different area of memory than the pointer of instance p1. Both areas of memory would happen to store the same values, but later changing the value pointed to by one pointer would not have the unwanted side effect of also changing the value pointed to by the other pointer. Similarly, deallocating the memory area pointed to by one pointer would not affect the separate memory areas pointed to by the other pointer.
+
+To accomplish a deep copy when a member variable is a pointer rather than a value variable, you cannot rely on the default copy constructor. Instead, you have to write your own copy constructor (which then overrides the default one). Program 11-8 in the textbook illustrates the use of a programmer-defined copy constructor. Here is another illustration using the Person class:
+
+Add the following line to the person.h file:
+
+Person(const Person&);
+
+Add the following implementation of the member function to the person.cpp file:
+
+Person::Person(const Person& p)
+
+{
+
+   name = new char[80];
+
+   strcpy(name, p.name);
+
+}
+
+Recompile and then run the project. The output is:
+
+After copy constructor
+pl name is Name is Genghis
+p2 name is Name is Genghis
+After setName called
+pl name is Name is Genghis
+p2 name is Name is New Name
+
+The output is correct, and there is no exception.
+
+NOTE: There is a similar shallow vs. deep copy issue with the assignment operator. That issue is discussed in Module #9.
+
+Back to top
+
+Copy Constructors and Passing By Reference
+
+The programmer-defined copy constructor has one parameter, the class instance whose values will be copied to the target class instance. The values in this parameter should not be changed, since it is the source, not the target, of the assignment.
+
+Since the values in this parameter should not be changed, you would think that the parameter should be passed by value, not by reference. However, the textbook explains, what would happen if the parameter were passed by value: "if it was passed by value when the constructor was called, then the constructor would immediately have to be called again to create a copy to be passed by value, leading to an endless chain of calls to the constructor."  After all, passing by value creates a copy which calls the copy constructor.
+
+Back to top
+
+Constant Member Functions
+
+Textbook resources: § 11.1 (The this Pointer and Constant Member Functions)
+
+Section 11.5 is concluded by an explanation of Using const Parameters. There the textbook explains: "because copy constructors are required to use reference parameters, they have access to their argument's data.  Since the purpose of a copy constructor is to make a copy of the argument, there is no reason to constructor should modify the argument's data."
+
+This seems to be a paradox.  You have learned that passing a parameter by reference enables the modification of parameter's data. This is true.  However, by placing the const keyword before the parameter, the program is prevented from modifying the parameter's data. an attempt at modification would result in a compiler error.
+
+Placing the const keyword before the parameter refers back to the conclusion of Section 11.1 of the textbook, which discusses Constant Member Functions.
+
+Back to top
+
+Conclusion
+
+When a member variable is a pointer rather than a value variable, the default copy constructor results in a shallow rather than deep copy, so you do need to write your own copy constructor, which overrides the default one. you also learned why the parameter and a copy constructor must be passed by reference even though you do not want to modify the data in that parameter.  You use the const keyword to avoid such a data modification.  Finally, you learned about the corollary to the constructor, that is, the destructor.

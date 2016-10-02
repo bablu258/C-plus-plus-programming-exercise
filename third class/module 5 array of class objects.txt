@@ -1,0 +1,227 @@
+
+
+Contents:
+
+Introduction
+
+Arrays of Class Objects
+
+Pointers to Class Objects
+
+The this Pointer
+
+Why Change to Dynamic Allocation?
+
+Conclusion
+
+ 
+
+Introduction
+
+So far we have been working with one instance of a class. However, you also may create an array of class objects. Indeed, you may create this array with dynamic memory allocation using a class pointer. You also will learn about how a "hidden" class pointer, the this pointer, works behind the scenes.
+
+Back to top
+
+Arrays of Class Objects
+
+Textbook resources: § 8.14 (Arrays of Class Objects)
+
+ 
+
+In CSIT 839 you covered arrays of structures. See Section 8.13 of the text book if you need a refresher. Arrays of class objects work the same. To illustrate, let's use the three-file project we used at the end of Module #4, except change your test.cpp file to read as follows:
+
+ 
+
+// test.cpp:
+
+#include "student.h"
+
+int main()
+
+{
+
+   Student s[3];
+
+   for (int i = 0; i< 3; i++)
+
+       s[i].setValues();
+
+   for (int i = 0; i< 3; i++)
+
+       s[i].getValues();
+
+   return 0;
+
+}
+
+ 
+
+Run the project. Sample input and output:
+
+Enter student's name: Fred First
+Enter GPA: 3.8
+Enter student's name: Stu Second
+Enter GPA: 2.6
+Enter student's name: Terry Third
+Enter GPA: 1.9
+Student's name is Fred First and GPA is 3.8
+Student's name is Stu Second and GPA is 2.6
+Student's name is Terry Third and GPA is 1.9
+
+This code first declares an array of Student instances:
+
+Student s[3];
+
+In other words, s is an array of Student instances or objects (3 in this example).  The code then uses two for loops to loop through this array, starting with 0, the index of the first element of the array, and ending at 2, the last element of the array. In the first for loop, each element of the Student array calls the member function setValues:
+
+s[i].setValues();
+
+Similarly, in the second for loop, each element of the Student array calls the member function getValues.
+
+s[i].getValues();
+
+Back to top
+
+Pointers to Class Objects
+
+Textbook resources: § 10.11 (Pointers to Structures and Class Objects)
+
+ 
+
+In CSIT 839 you covered pointers to structures. This subject is covered in Section 10.10 of the text book, which also covers pointers to class objects. Since pointers to class objects are covered in the same section as pointers to structure objects, it is not surprising the two work essentially the same.
+
+ 
+
+Pointers often are used because they enable dynamic memory allocation. To illustrate dynamic memory allocation with class objects, let's again use the three-file project we used at the end of Module #4, except change your test.cpp file again, so it appears as below. In the following, bolded italicized type indicates new lines of code you insert, and commented code indicates existing lines to comment out:
+
+ 
+
+// test.cpp:
+
+#include "student.h"
+
+int main()
+
+{
+
+   //Student s[3];
+
+   Student* s = new Student[3];
+
+   for (int i = 0; i< 3; i++)
+
+      s[i].setValues();
+
+   for (int i = 0; i< 3; i++)
+
+      s[i].getValues();
+
+   delete [] s;
+
+   return 0;
+
+}
+
+ 
+
+The first change was to replace the declaration of a student array with dynamic memory allocation of a student array:
+
+ 
+
+    //Student s[3];
+
+   Student* s = new Student[3];
+
+Recall that this first change could also be coded in two statements:
+
+   Student* s;
+
+   s = new Student[3];
+
+The second change was the use of  the delete operator to return or release the allocated memory. The [] operator precedes the pointer s because the pointer points to an array of class objects, not just one class object.
+
+    delete [] s;
+
+Back to top
+
+The this Pointer
+
+Textbook resources: § 11.1 (The this Pointer and Constant Member Functions)
+
+The setValues member function (defined in student.cpp) assigns values to the name and GPA of a student. In the following code, the first statement creates 3 students (Student instances or objects). Next, in the loop, the setValues function is called 3 times to assign a name and a GPA to each of the 3 students (Student instances or objects):
+
+   Student* s = new Student[3];
+
+   for (int i = 0; i< 3; i++)
+
+      s[i].setValues();
+
+How did the setValues member function "know" that, in the first iteration of the loop, the name and GPA would be assigned to the first student, in the second iteration, the name and GPA would be assigned to the second student, and in the third iteration, the name and GPA would be assigned to the third student? After all, the specific class instance to which the values were to be assigned, s[i], was not passed as an argument to the call to setValues. Yet, setValues assigned the name and GPA to the correct student. How did setValues "know" to which of the 3 students to assign the values?
+
+The answer is that in the statement made above:
+
+"After all, the specific class instance to which the values were to be assigned, s[i], was not passed as an argument to the call to setValues."
+
+isn't really true. Yes, the call to setValues in the loop has no arguments in the parentheses:
+
+    s[i].setValues();
+
+But when a class instance calls a member function, as in s[i].setValues(), a pointer to that class instance is passed as an hidden, or implicit  argument. This pointer is called the this pointer (pun intended). Read about it in Section 11.1 of the textbook. As that discussion reflects, the statements in setValues:
+
+getline(cin, name);
+cin >> GPA;
+
+instead could be written as:
+
+getline(cin, this->name);
+cin >> this->GPA;
+
+In this context you don't really need to use the this pointer in code. However, there will be examples later in the course where the this pointer will be useful.
+
+Note: Section 11.1 of the textbook also discusses constant member functions. We won't be covering that now, but will later.
+
+Back to top
+
+ 
+
+Why Change to Dynamic Allocation?
+
+ 
+
+One question that might come to mind is why would we change from from "statically" allocating an array of 3 student objects to dynamically allocating an array of 3 student objects?  That is, what is the advantage of changing the test driver from this statement:
+
+ 
+
+   Student s[3];
+
+ 
+
+to this:
+
+ 
+
+    Student* s = new Student[3];
+
+ 
+
+The answer, of course, is that there is no advantage if the number of student objects to be created is a fixed constant such as 3.  However, recall from your 839 course that the dynamic memory allocation demonstrated by the second method would also allow the program to be written such that the user inputs the number of student instances or objects to be created. 
+
+ 
+
+Back to top
+
+ 
+
+Conclusion
+
+ 
+
+You learned in this lesson how to create an array of class objects, including by dynamic memory allocation using a class pointer, and how to access this array. You also learned about the "hidden" this class pointer and how it works behind the scenes.
+
+ 
+
+Back to top
+
+ 
+
+ 
